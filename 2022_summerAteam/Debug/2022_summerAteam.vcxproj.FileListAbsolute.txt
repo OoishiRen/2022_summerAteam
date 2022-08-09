@@ -1,2 +1,3 @@
 D:\PackMan3-4a\2022_summerAteam\Debug\2022_summerAteam.exe
 D:\PackMan3-4a\2022_summerAteam\Debug\2022_summerAteam.pdb
+C:\Users\Owner\Documents\2022_summerAteam\2022_summerAteam\Debug\2022_summerAteam.exe
