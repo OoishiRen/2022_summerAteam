@@ -5,8 +5,7 @@
 
 struct AKABEI Akabei;
 int MonsterImage[ENEMY_IMAGE_MAX];
-int AkabeiImagecount;
-int EyeImage[4];
+int EyeImage[EYE_IMAGE_MAX];
 
 /* 仮プレイヤー */
 float PlayerX;
@@ -19,11 +18,12 @@ float dx, dy;
 
 void Enemy_Initialize() {
 	LoadDivGraph("enemy_images/monster.png", 20, 20, 1, 16, 16, MonsterImage); //アカベイの画像
-	LoadDivGraph("enemy_images / eyes.png", 4, 4, 1, 16, 16, EyeImage);
+	LoadDivGraph("enemy_images/eyes.png", 4, 4, 1, 16, 16, EyeImage);
 	Akabei.x = 1000.0f;
 	Akabei.y = 400.0f;
 	Akabei.ImageCount = 0;
-	Akabei.speed = 0.0f;
+	Akabei.eyeImageCount = 3;
+	Akabei.speed = 1.5f;
 
 	PlayerImage = MonsterImage[19];
 	PlayerX = 900.0f;
@@ -35,7 +35,7 @@ void Enemy_Finalize() {
 	for (int i = 0; i < ENEMY_IMAGE_MAX; i++) {
 		DeleteGraph(MonsterImage[i]);
 	}
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < EYE_IMAGE_MAX; i++) {
 		DeleteGraph(EyeImage[i]);
 	}
 	DeleteGraph(PlayerImage);
@@ -76,39 +76,46 @@ void Enemy_Update() {
 		PlayerY++;
 	}
 
-
-	// プレイヤーを追いかける処理
-	A = PlayerX - Akabei.x;
-
-	B = PlayerY - Akabei.y;
-
-	C = sqrtf(A * A + B * B);
-
-	dx = A / C;
-	dy = B / C;
-
-	if (Akabei.x < PlayerX - 16) {
-		Akabei.x += dx * Akabei.speed;
-	}
-	else if (Akabei.x > PlayerX + 16) {
-		Akabei.x -= dx * Akabei.speed;
-	}
-	Akabei.x += dx * Akabei.speed;
-	//Akabei.y += dy * Akabei.speed;
-
-	//if (Akabei.x < PlayerX - 16) {//アカベイから見て右側
-	//	Akabei.x++;
-	//}
-	//else if (Akabei.x > PlayerX + 16) {
-	//	Akabei.x--;
-	//}
+	//AkabeiChasePlayer();
 }
 
 void Enemy_Draw() {
 
-	DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], FALSE);
-	DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, EyeImage[0], TRUE);
+	DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], TRUE);
+	DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, EyeImage[Akabei.eyeImageCount], TRUE);
 
 	DrawRotaGraph(PlayerX, PlayerY, 1, 0, PlayerImage, TRUE);
 }
 
+
+// プレイヤー処理
+void AkabeiChasePlayer() {
+	// 三平方の定理を使う
+	A = PlayerX - Akabei.x;
+
+	B = PlayerY - Akabei.y;
+
+	C = sqrtf(A * A + B * B);	// A と B を２乗して足した値の平方根を求める
+
+	dx = A / C;		// C を1（正規化）とするには、A を C で割る
+	dy = B / C;		// C を1（正規化）とするには、B を C で割る
+
+
+	if (Akabei.x < PlayerX - 16) {	// アカベイから見てプレイヤーは右側
+		Akabei.x += dx * Akabei.speed;
+		Akabei.eyeImageCount = 1;
+	}
+	else if (Akabei.x > PlayerX + 16) {	// アカベイから見てプレイヤーは左側
+		Akabei.x += dx * Akabei.speed;
+		Akabei.eyeImageCount = 3;
+	}
+
+	if (Akabei.y < PlayerY - 16) {
+		Akabei.y += dy * Akabei.speed;
+		Akabei.eyeImageCount = 2;
+	}
+	else if (Akabei.y > PlayerY + 16) {
+		Akabei.y += dy * Akabei.speed;
+		Akabei.eyeImageCount = 0;
+	}
+}
