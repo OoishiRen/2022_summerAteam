@@ -6,7 +6,7 @@ const int ENEMY_IMAGE_MAX = 20;
 
 /* ç\ë¢ëÃ */
 struct AKABEI {
-	int x, y;
+	float x, y;
 	float speed;
 	int ImageCount;
 };
