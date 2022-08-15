@@ -1,1 +1,4 @@
-﻿  2022_summerAteam.vcxproj -> D:\PackMan3-4a\2022_summerAteam\Debug\2022_summerAteam.exe
+﻿  Player.cpp
+C:\Users\Owner\Documents\2022_summerAteam\2022_summerAteam\Player.cpp(68,27): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\Owner\Documents\2022_summerAteam\2022_summerAteam\Player.cpp(68,20): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+  2022_summerAteam.vcxproj -> C:\Users\Owner\Documents\2022_summerAteam\2022_summerAteam\Debug\2022_summerAteam.exe
