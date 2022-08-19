@@ -1,40 +1,57 @@
 #include "DxLib.h"
 #include "SceneMgr.h"
 #include "Enemy.h"
-
+#include "math.h"
 
 struct AKABEI Akabei;
 int MonsterImage[ENEMY_IMAGE_MAX];
-int AkabeiImagecount;
+int EyeImage[EYE_IMAGE_MAX];
 
 /* 仮プレイヤー */
-int PlayerX;
-int PlayerY;
+float PlayerX;
+float PlayerY;
 int PlayerImage;
 float PlayerSpeed;
 
+float A, B, C;
+float dx, dy;
+
 void Enemy_Initialize() {
 	LoadDivGraph("enemy_images/monster.png", 20, 20, 1, 16, 16, MonsterImage); //アカベイの画像
-
-	Akabei.x = 1000;
-	Akabei.y = 400;
+	LoadDivGraph("enemy_images/eyes.png", 4, 4, 1, 16, 16, EyeImage);
+	Akabei.x = 1000.0f;
+	Akabei.y = 400.0f;
 	Akabei.ImageCount = 0;
-	Akabei.speed = 0.0f;
+	Akabei.eyeImageCount = 3;
+	Akabei.speed = 1.5f;
 
 	PlayerImage = MonsterImage[19];
-	PlayerX = 900;
-	PlayerY = 400;
-	PlayerSpeed = 0.0f;
+	PlayerX = 900.0f;
+	PlayerY = 400.0f;
+	PlayerSpeed = 1.0f;
 }
 
 void Enemy_Finalize() {
 	for (int i = 0; i < ENEMY_IMAGE_MAX; i++) {
 		DeleteGraph(MonsterImage[i]);
 	}
+	for (int i = 0; i < EYE_IMAGE_MAX; i++) {
+		DeleteGraph(EyeImage[i]);
+	}
 	DeleteGraph(PlayerImage);
 }
 
 void Enemy_Update() {
+
+	DrawFormatString(10, 10, 255, "Akabei.x = %.1f", Akabei.x);
+	DrawFormatString(10, 30, 255, "A = %.1f", A);
+	DrawFormatString(10, 50, 255, "B = %.1f", B);
+	DrawFormatString(10, 70, 255, "C = %.1f", C);
+	DrawFormatString(10, 90, 255, "dx = %.1f", dx);
+	DrawFormatString(10, 110, 255, "dy = %.1f", dy);
+
+
+
 	// アニメーション
 	if (Akabei.ImageCount == 0) {
 		Akabei.ImageCount = 1;
@@ -46,29 +63,59 @@ void Enemy_Update() {
 
 	// 仮プレイヤーの横移動
 	if (CheckHitKey(KEY_INPUT_LEFT)) {
-		PlayerSpeed--;
+		PlayerX--;
 	}
 	else if (CheckHitKey(KEY_INPUT_RIGHT)) {
-		PlayerSpeed++;
+		PlayerX++;
 	}
 
-	// プレイヤーを追いかける処理
-	if (Akabei.x < PlayerX) {//アカベイから見て右側
-		if (Akabei.x > PlayerX) {
-			++Akabei.speed;
-		}
+	if (CheckHitKey(KEY_INPUT_UP)) {
+		PlayerY--;
 	}
-	if (Akabei.x > PlayerX) {
-		if (Akabei.x < PlayerX) {//アカベイから見て左側
-			--Akabei.speed;
-		}
+	else if (CheckHitKey(KEY_INPUT_DOWN)) {
+		PlayerY++;
 	}
 
+	//AkabeiChasePlayer();
 }
 
 void Enemy_Draw() {
 
-	DrawRotaGraph(Akabei.x + Akabei.speed, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], FALSE);
+	DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], TRUE);
+	DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, EyeImage[Akabei.eyeImageCount], TRUE);
 
-	DrawRotaGraph(PlayerX + PlayerSpeed, PlayerY, 1, 0, PlayerImage, TRUE);
+	DrawRotaGraph(PlayerX, PlayerY, 1, 0, PlayerImage, TRUE);
+}
+
+
+// プレイヤー処理
+void AkabeiChasePlayer() {
+	// 三平方の定理を使う
+	A = PlayerX - Akabei.x;
+
+	B = PlayerY - Akabei.y;
+
+	C = sqrtf(A * A + B * B);	// A と B を２乗して足した値の平方根を求める
+
+	dx = A / C;		// C を1（正規化）とするには、A を C で割る
+	dy = B / C;		// C を1（正規化）とするには、B を C で割る
+
+
+	if (Akabei.x < PlayerX - 16) {	// アカベイから見てプレイヤーは右側
+		Akabei.x += dx * Akabei.speed;
+		Akabei.eyeImageCount = 1;
+	}
+	else if (Akabei.x > PlayerX + 16) {	// アカベイから見てプレイヤーは左側
+		Akabei.x += dx * Akabei.speed;
+		Akabei.eyeImageCount = 3;
+	}
+
+	if (Akabei.y < PlayerY - 16) {
+		Akabei.y += dy * Akabei.speed;
+		Akabei.eyeImageCount = 2;
+	}
+	else if (Akabei.y > PlayerY + 16) {
+		Akabei.y += dy * Akabei.speed;
+		Akabei.eyeImageCount = 0;
+	}
 }
