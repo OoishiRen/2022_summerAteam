@@ -6,6 +6,8 @@
 struct AKABEI Akabei;
 int MonsterImage[ENEMY_IMAGE_MAX];
 int EyeImage[EYE_IMAGE_MAX];
+int ed;
+
 
 /* 仮プレイヤー */
 float PlayerX;
@@ -21,6 +23,7 @@ void Enemy_Initialize() {
 	LoadDivGraph("enemy_images/eyes.png", 4, 4, 1, 16, 16, EyeImage);
 	Akabei.x = 1000.0f;
 	Akabei.y = 400.0f;
+	Akabei.ed = 0;
 	Akabei.ImageCount = 0;
 	Akabei.eyeImageCount = 3;
 	Akabei.speed = 1.5f;
@@ -49,8 +52,8 @@ void Enemy_Update() {
 	DrawFormatString(10, 70, 255, "C = %.1f", C);
 	DrawFormatString(10, 90, 255, "dx = %.1f", dx);
 	DrawFormatString(10, 110, 255, "dy = %.1f", dy);
-
-
+	DrawFormatString(10, 130, 255, "md = %d", Akabei.md);
+	DrawFormatString(10, 150, 255, "nd = %d", Akabei.ed);
 
 	// アニメーション
 	if (Akabei.ImageCount == 0) {
@@ -77,6 +80,105 @@ void Enemy_Update() {
 	}
 
 	//AkabeiChasePlayer();
+
+	Akabei.mx = Akabei.x;
+	Akabei.my = Akabei.y;
+	Akabei.md = Akabei.ed;
+
+	while(1) {
+		switch (Akabei.ed) {
+		case 0:	// 左
+			Akabei.x--;
+			break;
+		case 1:	// 右
+			Akabei.x++;
+		case 2:	// 上
+			Akabei.y--;
+		case 3:	// 下
+			Akabei.y++;
+		}
+
+		if (Akabei.x > (1280 - 16) || Akabei.x < 900 || Akabei.y < 16 || Akabei.y > (720 - 160)) {
+			Akabei.x = Akabei.mx;
+			Akabei.y = Akabei.my;
+			// 進む方向を決める
+			switch (Akabei.md) {
+			case 0:
+				if (Akabei.ed == 0) {
+					// 左に進んでいたら
+					if (Akabei.y > PlayerY) {
+						Akabei.ed = 2;
+					}
+					else {
+						Akabei.ed = 3;
+					}
+				}
+				else if (Akabei.ed == 2) {
+					Akabei.ed = 3;
+				}
+				else if (Akabei.ed == 3) {
+					Akabei.ed = 2;
+				}
+				break;
+
+			case 1:
+				if (Akabei.ed == 1) {
+					// 右に進んでいた
+					if (Akabei.y > PlayerY) {
+						Akabei.ed = 2;
+					}
+					else {
+						Akabei.ed = 3;
+					}
+				}
+				//else if (Akabei.ed == 2) {
+				//	Akabei.ed = 3;
+				//}
+				//else if (Akabei.ed == 3) {
+				//	Akabei.ed = 2;
+				//}
+				break;
+
+			case 2:
+				if (Akabei.ed == 2) {
+					// 上に進んでいた
+					if (Akabei.x > PlayerX) {	// プレイヤーから見て、アカベイが右側にいたら
+						Akabei.ed = 0;
+					}
+					else {
+						Akabei.ed = 1;
+					}
+				}
+				//else if (Akabei.ed == 2) {
+				//	Akabei.ed = 3;
+				//}
+				//else if (Akabei.ed == 3) {
+				//	Akabei.ed = 2;
+				//}
+				break;
+			case 3:
+				if (Akabei.ed == 3) {
+					// 上に進んでいた
+					if (Akabei.x > PlayerX) {	// プレイヤーから見て、アカベイが右側にいたら
+						Akabei.ed = 0;
+					}
+					else {
+						Akabei.ed = 1;
+					}
+				}
+				//else if (Akabei.ed == 2) {
+				//	Akabei.ed = 3;
+				//}
+				//else if (Akabei.ed == 3) {
+				//	Akabei.ed = 2;
+				//}
+				break;
+			}
+		}
+		else {
+			break;
+		}
+	}
 }
 
 void Enemy_Draw() {
