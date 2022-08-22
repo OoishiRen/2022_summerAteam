@@ -8,9 +8,18 @@
 #define DOT_IMAGE_MAX 2
 #define CNT_SPEED 15
 
+
+extern int Score;
+
+extern bool PowerUpFlg;
+
 void Item_Initialize();
 void Item_Finalize();
 void Item_Update();
 void Item_Draw();
 
 void PowerdotAnim();
+
+extern int HitCheck(float, float, float, float, float, float, float, float);
+void HitItem();
+void PowerUp();
