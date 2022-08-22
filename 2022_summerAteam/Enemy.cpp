@@ -2,6 +2,8 @@
 #include "SceneMgr.h"
 #include "Enemy.h"
 #include "math.h"
+#include "Game.h"
+#include "Item.h"
 
 struct AKABEI Akabei;
 int MonsterImage[ENEMY_IMAGE_MAX];
@@ -46,14 +48,15 @@ void Enemy_Finalize() {
 
 void Enemy_Update() {
 
-	DrawFormatString(10, 10, 255, "Akabei.x = %.1f", Akabei.x);
-	DrawFormatString(10, 30, 255, "A = %.1f", A);
-	DrawFormatString(10, 50, 255, "B = %.1f", B);
-	DrawFormatString(10, 70, 255, "C = %.1f", C);
-	DrawFormatString(10, 90, 255, "dx = %.1f", dx);
-	DrawFormatString(10, 110, 255, "dy = %.1f", dy);
-	DrawFormatString(10, 130, 255, "md = %d", Akabei.md);
-	DrawFormatString(10, 150, 255, "nd = %d", Akabei.ed);
+	DrawFormatString(1000, 170, 255, "Akabei.x = %.1f", Akabei.x);
+	DrawFormatString(1000, 190, 255, "Akabei.y = %.1f", Akabei.y);
+	DrawFormatString(1000, 30, 255, "A = %.1f", A);
+	DrawFormatString(1000, 50, 255, "B = %.1f", B);
+	DrawFormatString(1000, 70, 255, "C = %.1f", C);
+	DrawFormatString(1000, 90, 255, "dx = %.1f", dx);
+	DrawFormatString(1000, 110, 255, "dy = %.1f", dy);
+	DrawFormatString(1000, 130, 255, "md = %d", Akabei.md);
+	DrawFormatString(1000, 150, 255, "nd = %d", Akabei.ed);
 
 	// アニメーション
 	if (Akabei.ImageCount == 0) {
@@ -89,16 +92,23 @@ void Enemy_Update() {
 		switch (Akabei.ed) {
 		case 0:	// 左
 			Akabei.x--;
+			Akabei.eyeImageCount = 3;
 			break;
 		case 1:	// 右
 			Akabei.x++;
+			Akabei.eyeImageCount = 1;
+			break;
 		case 2:	// 上
 			Akabei.y--;
+			Akabei.eyeImageCount = 0;
+			break;
 		case 3:	// 下
 			Akabei.y++;
+			Akabei.eyeImageCount = 2;
+			break;
 		}
 
-		if (Akabei.x > (1280 - 16) || Akabei.x < 900 || Akabei.y < 16 || Akabei.y > (720 - 160)) {
+		if (Akabei.x > (1280 - 16*3) || Akabei.x < 900 || Akabei.y < 16 || Akabei.y > (720 - 16*10)) {
 			Akabei.x = Akabei.mx;
 			Akabei.y = Akabei.my;
 			// 進む方向を決める
@@ -106,6 +116,24 @@ void Enemy_Update() {
 			case 0:
 				if (Akabei.ed == 0) {
 					// 左に進んでいたら
+					if (Akabei.y > PlayerY) {	// アカベイの位置がプレイヤーより下なら
+						Akabei.ed = 2;	// 上に移動
+					}
+					else {
+						Akabei.ed = 3;	// 下に移動
+					}
+				}
+				else if (Akabei.ed == 2) {	// 上に移動していたら
+					Akabei.ed = 3;
+				}
+				else if (Akabei.ed == 3) {	// 下に移動していたら
+					Akabei.ed = 2;
+				}
+				break;
+
+			case 1:
+				if (Akabei.ed == 1) {
+					// 右に進んでいたら
 					if (Akabei.y > PlayerY) {
 						Akabei.ed = 2;
 					}
@@ -121,57 +149,40 @@ void Enemy_Update() {
 				}
 				break;
 
-			case 1:
-				if (Akabei.ed == 1) {
-					// 右に進んでいた
-					if (Akabei.y > PlayerY) {
-						Akabei.ed = 2;
-					}
-					else {
-						Akabei.ed = 3;
-					}
-				}
-				//else if (Akabei.ed == 2) {
-				//	Akabei.ed = 3;
-				//}
-				//else if (Akabei.ed == 3) {
-				//	Akabei.ed = 2;
-				//}
-				break;
-
 			case 2:
 				if (Akabei.ed == 2) {
-					// 上に進んでいた
-					if (Akabei.x > PlayerX) {	// プレイヤーから見て、アカベイが右側にいたら
+					// 上に進んでいたら
+					if (Akabei.x > PlayerX) {	// アカベイの位置がプレイヤーより右なら
 						Akabei.ed = 0;
 					}
 					else {
 						Akabei.ed = 1;
 					}
 				}
-				//else if (Akabei.ed == 2) {
-				//	Akabei.ed = 3;
-				//}
-				//else if (Akabei.ed == 3) {
-				//	Akabei.ed = 2;
-				//}
+				else if (Akabei.ed == 0) {
+					Akabei.ed = 1;
+				}
+				else if (Akabei.ed == 1) {
+					Akabei.ed = 0;
+				}
 				break;
+
 			case 3:
 				if (Akabei.ed == 3) {
-					// 上に進んでいた
-					if (Akabei.x > PlayerX) {	// プレイヤーから見て、アカベイが右側にいたら
+					// 下に進んでいたら
+					if (Akabei.x > PlayerX) {	// アカベイの位置がプレイヤーより右なら
 						Akabei.ed = 0;
 					}
 					else {
 						Akabei.ed = 1;
 					}
 				}
-				//else if (Akabei.ed == 2) {
-				//	Akabei.ed = 3;
-				//}
-				//else if (Akabei.ed == 3) {
-				//	Akabei.ed = 2;
-				//}
+				else if (Akabei.ed == 0) {
+					Akabei.ed = 1;
+				}
+				else if (Akabei.ed == 1) {
+					Akabei.ed = 0;
+				}
 				break;
 			}
 		}
