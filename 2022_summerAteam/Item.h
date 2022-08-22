@@ -5,11 +5,15 @@
 #define MAP_WIDTH 30 // マップの横幅をMAP_WIDTHと定義				//アイテム用
 #define MAP_HEIGHT 33 // マップの縦幅をMAP_HEIGHTと定義				//アイテム用
 
+#define FRUIT_SIZE 16
+
 #define DOT_IMAGE_MAX 2
+#define FRUIT_IMAGE_MAX 13
 #define CNT_SPEED 15
 
 
 extern int Score;
+extern int DotCnt;
 
 extern bool PowerUpFlg;
 
@@ -23,3 +27,4 @@ void PowerdotAnim();
 extern int HitCheck(float, float, float, float, float, float, float, float);
 void HitItem();
 void PowerUp();
+void FruitAppear();
