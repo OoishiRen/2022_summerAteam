@@ -26,7 +26,7 @@ void Player_Initialize() {
 	mPac.y = 360.0f;
 	mPac.w = 16.0f;
 	mPac.h = 16.0f;
-	mPac.speed = 1.0f;
+	mPac.speed = 4.0f;
 	mPac.cnt = 0;
 
 	count = 0;
@@ -42,19 +42,19 @@ void Player_Finalize() {
 //çXêV
 void Player_Update() {
 
-	if (g_NowKey & PAD_INPUT_UP) {
+	if (g_NowKey & PAD_INPUT_UP && mPac.type != 0) {
 		mPac.type = 0;
 		mPac.img = (3 * mPac.type);
 	}
-	else if (g_NowKey & PAD_INPUT_RIGHT) {
+	else if (g_NowKey & PAD_INPUT_RIGHT && mPac.type != 1) {
 		mPac.type = 1;
 		mPac.img = (3 * mPac.type);
 	}
-	else if (g_NowKey & PAD_INPUT_DOWN) {
+	else if (g_NowKey & PAD_INPUT_DOWN && mPac.type != 2) {
 		mPac.type = 2;
 		mPac.img = (3 * mPac.type);
 	}
-	else if (g_NowKey & PAD_INPUT_LEFT) {
+	else if (g_NowKey & PAD_INPUT_LEFT && mPac.type != 3) {
 		mPac.type = 3;
 		mPac.img = (3 * mPac.type);
 	}
@@ -65,12 +65,12 @@ void Player_Update() {
 
 //ï`âÊ
 void Player_Draw() {
-	DrawRotaGraph(mPac.x,mPac.y,1.0f,0,pac_image[mPac.img],TRUE,FALSE);
+	DrawRotaGraph(mPac.x,mPac.y,2.0f,0,pac_image[mPac.img],TRUE,FALSE);
 }
 
 void Pac_Anim(float val) {
 	count += 1.0f;
-	if (count / val == 3.0f) {
+	if (count / val ==  0.75f) {
 		count = 0;
 		if (mPac.img <	(3*(mPac.type + 1)) - 1 ) {
 			mPac.img++;
