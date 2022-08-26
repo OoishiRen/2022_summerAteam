@@ -65,7 +65,7 @@ void Player_Update() {
 
 //•`‰æ
 void Player_Draw() {
-	DrawRotaGraph(mPac.x,mPac.y,2.0f,0,pac_image[mPac.img],TRUE,FALSE);
+	DrawRotaGraph(mPac.x,mPac.y,1.0f,0,pac_image[mPac.img],TRUE,FALSE);
 }
 
 void Pac_Anim(float val) {

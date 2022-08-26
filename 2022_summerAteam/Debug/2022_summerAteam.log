@@ -1,13 +1,4 @@
-﻿  Game.cpp
-  Item.cpp
-C:\2022_summerAteam\2022_summerAteam\Item.cpp(162,80): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Item.cpp(162,77): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Item.cpp(162,65): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Item.cpp(162,51): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Item.cpp(175,92): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Item.cpp(175,87): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Item.cpp(175,73): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Item.cpp(175,52): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
-  コードを生成中...
-C:\2022_summerAteam\2022_summerAteam\Item.cpp(87): warning C4715: 'HitCheck': 値を返さないコントロール パスがあります。
-  2022_summerAteam.vcxproj -> C:\2022_summerAteam\2022_summerAteam\Debug\2022_summerAteam.exe
+﻿  Player.cpp
+C:\Users\Owner\Documents\2022_summerAteam\2022_summerAteam\Player.cpp(68,27): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\Owner\Documents\2022_summerAteam\2022_summerAteam\Player.cpp(68,20): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+  2022_summerAteam.vcxproj -> C:\Users\Owner\Documents\2022_summerAteam\2022_summerAteam\Debug\2022_summerAteam.exe
