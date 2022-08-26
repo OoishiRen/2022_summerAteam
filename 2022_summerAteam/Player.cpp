@@ -22,8 +22,8 @@ void Player_Initialize() {
 	mPac.flg = true;
 	mPac.type = 0;
 	mPac.img = 3;
-	mPac.x = 640.0f;
-	mPac.y = 360.0f;
+	mPac.x = 240.0f;
+	mPac.y = 392.0f;
 	mPac.w = 16.0f;
 	mPac.h = 16.0f;
 	mPac.speed = 4.0f;
