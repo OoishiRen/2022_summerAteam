@@ -28,7 +28,7 @@ void Menu_Update() {
 			DxLib_End();
 	}
 
-	if (CheckHitKey(PAD_INPUT_1) != 0) {
+	if ((g_NowKey & PAD_INPUT_7) != 0) {
 		DxLib_End();
 	}
 
