@@ -79,13 +79,17 @@ void Game_Finalize() {
 
 //更新
 void Game_Update() {
-	if (CheckHitKey(KEY_INPUT_ESCAPE) != 0) {//Escキーが押されていたら
+	if (g_KeyFlg ==PAD_INPUT_8||(CheckHitKey(KEY_INPUT_ESCAPE) != 0)) {//Escキーが押されていたら
 		SceneMgr_ChangeScene(eScene_Menu);//シーンをメニューに変更
 	}
-	Player_Update();
-	Enemy_Update();
-	DrawMap();
-	Item_Update();//アイテム用
+	if ((g_NowKey & PAD_INPUT_7) != 0) {
+		DxLib_End();
+	}
+		Player_Update();
+		Enemy_Update();
+		DrawMap();
+		Item_Update();//アイテム用
+	
 
 }
 
