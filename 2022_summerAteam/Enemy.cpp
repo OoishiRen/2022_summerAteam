@@ -4,6 +4,7 @@
 #include "math.h"
 #include "Game.h"
 #include "Item.h"
+#include "Player.h"
 
 struct AKABEI Akabei;					// アカベイの構造体の宣言
 int MonsterImage[ENEMY_IMAGE_MAX];		// モンスターの画像格納用変数
@@ -55,8 +56,6 @@ void Enemy_Finalize() {
 void Enemy_Update() {
 
 	// デバッグ用の変数の表示
-	DrawFormatString(1000, 170, 255, "Akabei.x = %.1f", Akabei.x);
-	DrawFormatString(1000, 190, 255, "Akabei.y = %.1f", Akabei.y);
 	DrawFormatString(1000, 30, 255, "A = %.1f", A);
 	DrawFormatString(1000, 50, 255, "B = %.1f", B);
 	DrawFormatString(1000, 70, 255, "C = %.1f", C);
@@ -64,6 +63,11 @@ void Enemy_Update() {
 	DrawFormatString(1000, 110, 255, "dy = %.1f", dy);
 	DrawFormatString(1000, 130, 255, "md = %d", Akabei.md);
 	DrawFormatString(1000, 150, 255, "nd = %d", Akabei.ed);
+	DrawFormatString(1000, 170, 255, "Akabei.x = %.1f", Akabei.x);
+	DrawFormatString(1000, 190, 255, "Akabei.y = %.1f", Akabei.y);
+	DrawFormatString(1000, 210, 255, "mPac.x = %.1f", mPac.x);
+	DrawFormatString(1000, 230, 255, "mPac.y = %.1f", mPac.y);
+
 
 	// アニメーション
 	if (Akabei.ImageCount == 0) {
@@ -92,12 +96,58 @@ void Enemy_Update() {
 
 	//AkabeiChasePlayer();		// アカベイが仮プレイヤーを追いかける処理
 
+}
+
+
+// 描画
+void Enemy_Draw() {
+
+	DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], TRUE);
+	DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, EyeImage[Akabei.eyeImageCount], TRUE);
+
+	DrawRotaGraph(PlayerX, PlayerY, 1, 0, PlayerImage, TRUE);
+}
+
+
+// 仮プレイヤーを追いかける処理
+void AkabeiChasePlayer() {
+	// 三平方の定理を使う
+	A = PlayerX - Akabei.x;
+
+	B = PlayerY - Akabei.y;
+
+	C = sqrtf(A * A + B * B);	// A と B を２乗して足した値の平方根を求める
+
+	dx = A / C;		// C を1（正規化）とするには、A を C で割る
+	dy = B / C;		// C を1（正規化）とするには、B を C で割る
+
+
+	if (Akabei.x < PlayerX - 16) {	// アカベイから見てプレイヤーは右側
+		Akabei.x += dx * Akabei.speed;
+		Akabei.eyeImageCount = 1;
+	}
+	else if (Akabei.x > PlayerX + 16) {	// アカベイから見てプレイヤーは左側
+		Akabei.x += dx * Akabei.speed;
+		Akabei.eyeImageCount = 3;
+	}
+
+	if (Akabei.y < PlayerY - 16) {	// アカベイから見てプレイヤーは下側
+		Akabei.y += dy * Akabei.speed;
+		Akabei.eyeImageCount = 2;
+	}
+	else if (Akabei.y > PlayerY + 16) {		// アカベイから見てプレイヤーは上側
+		Akabei.y += dy * Akabei.speed;
+		Akabei.eyeImageCount = 0;
+	}
+}
+
+void AkabeiMove() {
 	Akabei.mx = Akabei.x;		// アカベイのx座標を保存
 	Akabei.my = Akabei.y;		// アカベイのy座標を保存
 	Akabei.md = Akabei.ed;		// 敵の動く方向を保存
 
 	// アカベイが壁を避けながら移動する処理
-	while(1) {
+	while (1) {
 		switch (Akabei.ed) {
 		case 0:	// 左へ移動
 			Akabei.x--;
@@ -118,7 +168,7 @@ void Enemy_Update() {
 		}
 
 		// 壁（画面端くらいに設定してる）に当たったら
-		if (Akabei.x > (1280 - 16*3) || Akabei.x < 900 || Akabei.y < 16 || Akabei.y > (720 - 16*10)) {
+		if (Akabei.x > (1280 - 16 * 3) || Akabei.x < 900 || Akabei.y < 16 || Akabei.y >(720 - 16 * 10)) {
 			// 元の場所に戻す
 			Akabei.x = Akabei.mx;
 			Akabei.y = Akabei.my;
@@ -202,47 +252,5 @@ void Enemy_Update() {
 			break;		// 移動先が壁じゃない場合は方向を変えるループから抜ける
 		}
 	}
-}
 
-
-// 描画
-void Enemy_Draw() {
-
-	DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], TRUE);
-	DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, EyeImage[Akabei.eyeImageCount], TRUE);
-
-	DrawRotaGraph(PlayerX, PlayerY, 1, 0, PlayerImage, TRUE);
-}
-
-
-// 仮プレイヤーを追いかける処理
-void AkabeiChasePlayer() {
-	// 三平方の定理を使う
-	A = PlayerX - Akabei.x;
-
-	B = PlayerY - Akabei.y;
-
-	C = sqrtf(A * A + B * B);	// A と B を２乗して足した値の平方根を求める
-
-	dx = A / C;		// C を1（正規化）とするには、A を C で割る
-	dy = B / C;		// C を1（正規化）とするには、B を C で割る
-
-
-	if (Akabei.x < PlayerX - 16) {	// アカベイから見てプレイヤーは右側
-		Akabei.x += dx * Akabei.speed;
-		Akabei.eyeImageCount = 1;
-	}
-	else if (Akabei.x > PlayerX + 16) {	// アカベイから見てプレイヤーは左側
-		Akabei.x += dx * Akabei.speed;
-		Akabei.eyeImageCount = 3;
-	}
-
-	if (Akabei.y < PlayerY - 16) {	// アカベイから見てプレイヤーは下側
-		Akabei.y += dy * Akabei.speed;
-		Akabei.eyeImageCount = 2;
-	}
-	else if (Akabei.y > PlayerY + 16) {		// アカベイから見てプレイヤーは上側
-		Akabei.y += dy * Akabei.speed;
-		Akabei.eyeImageCount = 0;
-	}
 }

@@ -7,7 +7,7 @@
 #include "Item.h"
 
 static int mImageHandle; //画像ハンドル格納用変数
-
+float mx = 0, my = 0;
 
 /**********仮のマップチップ（消してもいい）**********/
 int MapData[MAP_HEIGHT][MAP_WIDTH] = //マップデータ 1は壁がある 0は壁がない　
@@ -48,12 +48,21 @@ int MapData[MAP_HEIGHT][MAP_WIDTH] = //マップデータ 1は壁がある 0は壁がない　
  { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 };
+
+
 void DrawMap() {
 	for (int i = 0; i < MAP_HEIGHT; i++) {
 		for (int j = 0; j < MAP_WIDTH; j++) {
 			if (MapData[i][j] == 1) {
 				DrawBox(j * MAP_SIZE, i * MAP_SIZE, j *
 					MAP_SIZE + MAP_SIZE, i * MAP_SIZE + MAP_SIZE, GetColor(0, 0, 255), TRUE);
+
+			}
+			if (HitCheck(mPac.x, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+				if (MapData[i][j] == 1) {
+					mPac.x = mx;
+					mPac.y = my;
+				}
 			}
 		}
 	}
@@ -79,6 +88,9 @@ void Game_Finalize() {
 
 //更新
 void Game_Update() {
+	mx = mPac.x;
+	my = mPac.y;
+
 	if (CheckHitKey(KEY_INPUT_ESCAPE) != 0) {//Escキーが押されていたら
 		SceneMgr_ChangeScene(eScene_Menu);//シーンをメニューに変更
 	}
@@ -86,6 +98,8 @@ void Game_Update() {
 	Enemy_Update();
 	DrawMap();
 	Item_Update();//アイテム用
+
+
 
 }
 
