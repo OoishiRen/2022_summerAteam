@@ -27,4 +27,4 @@ void PowerdotAnim();
 extern int HitCheck(float, float, float, float, float, float, float, float);
 void HitItem();
 void PowerUp();
-void FruitAppear();
+void FruitTerget();
