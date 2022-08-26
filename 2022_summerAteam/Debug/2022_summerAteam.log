@@ -1,4 +1,13 @@
-﻿  Game.cpp
+﻿  Config.cpp
+  Enemy.cpp
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(197,32): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(197,22): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(198,32): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(198,22): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(200,25): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(200,16): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+  Game.cpp
+  Input.cpp
   Item.cpp
 C:\2022_summerAteam\2022_summerAteam\Item.cpp(162,80): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
 C:\2022_summerAteam\2022_summerAteam\Item.cpp(162,77): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
@@ -8,6 +17,13 @@ C:\2022_summerAteam\2022_summerAteam\Item.cpp(175,92): warning C4244: '引数': 
 C:\2022_summerAteam\2022_summerAteam\Item.cpp(175,87): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
 C:\2022_summerAteam\2022_summerAteam\Item.cpp(175,73): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
 C:\2022_summerAteam\2022_summerAteam\Item.cpp(175,52): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+  main.cpp
+  Menu.cpp
+  Player.cpp
+C:\2022_summerAteam\2022_summerAteam\Player.cpp(68,27): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Player.cpp(68,20): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+  SceneMgr.cpp
   コードを生成中...
 C:\2022_summerAteam\2022_summerAteam\Item.cpp(87): warning C4715: 'HitCheck': 値を返さないコントロール パスがあります。
+  LINK : 前回のインクリメンタル リンクで C:\2022_summerAteam\2022_summerAteam\Debug\2022_summerAteam.exe が見つからなかったか、ビルドされませんでした。フル リンクを行います。
   2022_summerAteam.vcxproj -> C:\2022_summerAteam\2022_summerAteam\Debug\2022_summerAteam.exe
