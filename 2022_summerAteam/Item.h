@@ -16,6 +16,7 @@ extern int Score;
 extern int DotCnt;
 
 extern bool PowerUpFlg;
+extern int PowerUpTime;
 
 void Item_Initialize();
 void Item_Finalize();
