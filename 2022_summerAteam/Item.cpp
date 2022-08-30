@@ -123,7 +123,7 @@ void Item_Draw() {
 			}
 			if (Item_Mapdata[i][j] == 3) {//マップデータが３だったら
 				//フルーツを描画
-				DrawRotaGraph(j * FRUIT_SIZE /*+16*/, i * FRUIT_SIZE - 8, 2.0f, 0, Fruits_Handle[0], TRUE, FALSE);
+				DrawRotaGraph(j * FRUIT_SIZE, i * FRUIT_SIZE - 8, 1.0f, 0, Fruits_Handle[0], TRUE, FALSE);
 			}
 		}
 	}
@@ -158,7 +158,7 @@ void HitItem() {
 	for (int i = 0; i < MAP_HEIGHT; i++) {
 		for (int j = 0; j < MAP_WIDTH; j++) {
 			//ヒットチェック
-			if (HitCheck(mPac.x-4, mPac.y-4, mPac.w-8, mPac.h-8, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+			if (HitCheck(mPac.x - 4, mPac.y - 4, mPac.w - 8, mPac.h - 8, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
 				if (Item_Mapdata[i][j] == 1) {//食べたのがエサだったの場合
 					Item_Mapdata[i][j] = 0;//エサを消す
 					Score += 10;//スコア＋１０
@@ -170,15 +170,15 @@ void HitItem() {
 					DotCnt++;	//食べた個数＋１
 					PowerUpFlg = true;//パワーアップフラグをtrueにする
 				}
-				//フルーツ用のヒットチェック
-				if (HitCheck(mPac.x, mPac.y, mPac.w, mPac.h, j * MAP_SIZE/*+16*/, i * MAP_SIZE, j - 8, i)) {
-				//if (HitCheck(mPac.x, mPac.y, mPac.w, mPac.h, j * MAP_SIZE, i * MAP_SIZE-8, MAP_SIZE, MAP_SIZE)) {
-					if (Item_Mapdata[i][j] == 3) {//食べたのがフルーツだった場合
-						Item_Mapdata[i][j] = 0;//フルーツを消す
-						Score += 100;//スコア＋１００
-						FruitCnt++;
-						FruitTime = 660;
-					}
+			}
+			//フルーツ用のヒットチェック
+			if (HitCheck(mPac.x - 4, mPac.y - 4, mPac.w - 8, mPac.h - 8, j * MAP_SIZE - 8, i * MAP_SIZE - 8, MAP_SIZE, MAP_SIZE))
+			{
+				if (Item_Mapdata[i][j] == 3) {//食べたのがフルーツだった場合
+					Item_Mapdata[i][j] = 0;//フルーツを消す
+					Score += 100;//スコア＋１００
+					FruitCnt++;
+					FruitTime = 660;
 				}
 			}
 		}

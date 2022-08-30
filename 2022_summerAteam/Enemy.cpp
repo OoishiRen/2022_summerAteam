@@ -70,15 +70,37 @@ void Enemy_Update() {
 
 
 	// アニメーション
-	if (Akabei.ImageCount == 0) {
-		Akabei.ImageCount = 1;
+	if (!PowerUpFlg) {
+		if (Akabei.ImageCount == 0) {
+			Akabei.ImageCount = 1;
 
+		}
+		else {
+			Akabei.ImageCount = 0;
+		}
 	}
 	else {
-		Akabei.ImageCount = 0;
+		if (PowerUpTime > 150) {
+			if (Akabei.ImageCount == 16) {
+				Akabei.ImageCount = 17;
+
+			}
+			else {
+				Akabei.ImageCount = 16;
+			}
+		}
+		else {
+			if (Akabei.ImageCount < 19) {
+				if (PowerUpTime % 5 == 0) {
+					Akabei.ImageCount++;
+				}
+			}
+			else
+			{
+				Akabei.ImageCount = 16;
+			}
+		}
 	}
-
-
 	// 仮プレイヤーの横移動
 	if (CheckHitKey(KEY_INPUT_LEFT)) {
 		PlayerX--;
@@ -102,9 +124,13 @@ void Enemy_Update() {
 // 描画
 void Enemy_Draw() {
 
-	DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], TRUE);
-	DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, EyeImage[Akabei.eyeImageCount], TRUE);
-
+	if (!PowerUpFlg) {
+		DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], TRUE);
+		DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, EyeImage[Akabei.eyeImageCount], TRUE);
+	}
+	else {
+		DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], TRUE);
+	}
 	DrawRotaGraph(PlayerX, PlayerY, 1, 0, PlayerImage, TRUE);
 }
 
