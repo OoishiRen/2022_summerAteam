@@ -9,6 +9,7 @@ const int EYE_IMAGE_MAX = 4;		// 目玉の最大画像数
 // アカベイの構造体
 struct AKABEI {
 	float x, y;			// x座標、y座標用変数
+	float w, h;
 	float mx, my;		// x座標、y座標保存用変数
 	int ed;				// 方向を管理する用の変数
 	int md;				// 方向を保存する用の変数

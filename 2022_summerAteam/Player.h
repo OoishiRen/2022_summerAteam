@@ -5,6 +5,11 @@
 *************************/
 
 #define PAC_IMAGE_MAX	12	//パックマン画像格納用
+#define DYING_IMAGE_MAX	11	//ミス時の画像格納用
+#define PAC_WIDTH	16.0f	//パックマンの画像幅
+#define PAC_HEIGHT	16.0f	//パックマンの画像高さ
+#define PAC_SPEED	4.0f	//パックマンの速さ
+#define PAC_LIFE	3		//パックマンの残機
 
 /*********************************
 **     構造体     **
@@ -17,7 +22,7 @@ struct PAC {
 	int img;		//画像識別用
 	float x, y, w, h;	//座標
 	float speed;		//移動量
-	int cnt;		//タイム
+	int cnt;		//残機
 };
 
 extern struct PAC mPac;		//パックマン構造体
