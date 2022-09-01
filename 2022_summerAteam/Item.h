@@ -12,11 +12,26 @@
 #define CNT_SPEED 15
 
 
+struct FRUITS {
+	int kind = 0;
+	int fScore;
+	int Cherry = 100;
+	int Strowberry = 300;
+	int Orenge = 500;
+	int Apple = 700;
+	int Melon = 1000;
+	int Garraxy = 2000;
+	int Bell = 3000;
+	int Key = 5000;
+};
+
+extern struct FRUITS Fruits;		//フルーツ構造体
+
 extern int Score;
 extern int DotCnt;
 
 extern bool PowerUpFlg;
-extern int PowerUpTime;
+extern int Round;
 
 void Item_Initialize();
 void Item_Finalize();
@@ -29,3 +44,4 @@ extern int HitCheck(float, float, float, float, float, float, float, float);
 void HitItem();
 void PowerUp();
 void FruitTerget();
+void RoundChange();
