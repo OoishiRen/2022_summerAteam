@@ -58,13 +58,41 @@ void DrawMap() {
 				DrawBox(j * MAP_SIZE, i * MAP_SIZE, j *
 					MAP_SIZE + MAP_SIZE, i * MAP_SIZE + MAP_SIZE, GetColor(0, 0, 255), TRUE);
 
-			}
-			if (HitCheck(mPac.x, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-				if (MapData[i][j] == 1) {
+				if (HitCheck(mPac.x, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
 					mPac.x = mx;
 					mPac.y = my;
+
+					WarpTunnel();
 				}
-				WarpTunnel();
+
+				if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+					Akabei.WallHit = true;
+					//Akabei.x = Akabei.mx;
+					//Akabei.y = Akabei.my;
+
+				}
+
+
+				// アカベイの左側の判定
+				if (HitCheck(Akabei.x - 1, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+					Akabei.left = true;
+				}
+
+				// アカベイの右側の判定
+				if (HitCheck(Akabei.x + 1, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+					Akabei.right = true;
+				}
+
+				// アカベイの上側の判定
+				if (HitCheck(Akabei.x, Akabei.y - 1, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+					Akabei.up = true;
+				}
+
+				// アカベイの下側の判定
+				if (HitCheck(Akabei.x, Akabei.y + 1, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+					Akabei.bottom = true;
+				}
+
 			}
 		}
 	}

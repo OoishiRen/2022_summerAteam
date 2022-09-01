@@ -16,6 +16,8 @@ struct AKABEI {
 	float speed;		// 移動速度
 	int ImageCount;		// アニメーション用変数
 	int eyeImageCount;	// 目玉のアニメーション用変数
+	bool WallHit;
+	bool left, right, up, bottom;
 };
 extern struct AKABEI Akabei;
 

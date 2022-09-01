@@ -11,10 +11,6 @@ int MonsterImage[ENEMY_IMAGE_MAX];		// モンスターの画像格納用変数
 int EyeImage[EYE_IMAGE_MAX];			// 目玉の画像格納用変数
 
 
-/* 仮プレイヤー（イジケ） */
-float PlayerX;		// 仮プレイヤーのx座標
-float PlayerY;		// 仮プレイヤーのy座標
-int PlayerImage;	// 仮プレイヤーの画像格納用変数
 
 float A, B, C;		// 三平方の定理用の変数
 float dx, dy;		// 正規化用変数
@@ -26,17 +22,20 @@ void Enemy_Initialize() {
 	LoadDivGraph("enemy_images/eyes.png", 4, 4, 1, 16, 16, EyeImage);		   // 目玉の画像を読み込む
 
 	// アカベイの初期化
-	Akabei.x = 1000.0f;
-	Akabei.y = 400.0f;
+	Akabei.x = 440.0f;
+	Akabei.y = 40.0f;
+	Akabei.w = 16.0f;
+	Akabei.h = 16.0f;
 	Akabei.ed = 0;
 	Akabei.ImageCount = 0;
 	Akabei.eyeImageCount = 3;
 	Akabei.speed = 1.5f;
+	Akabei.WallHit = false;
+	Akabei.left = false;
+	Akabei.right = false;
+	Akabei.up = false;
+	Akabei.bottom = false;
 
-	// 仮プレイヤーの初期化
-	PlayerImage = MonsterImage[19];
-	PlayerX = 900.0f;
-	PlayerY = 400.0f;
 }
 
 
@@ -48,7 +47,6 @@ void Enemy_Finalize() {
 	for (int i = 0; i < EYE_IMAGE_MAX; i++) {
 		DeleteGraph(EyeImage[i]);		// 目玉の画像の解放
 	}
-	DeleteGraph(PlayerImage);		// 仮プレイヤーの画像の解放
 }
 
 
@@ -62,11 +60,17 @@ void Enemy_Update() {
 	DrawFormatString(1000, 90, 255, "dx = %.1f", dx);
 	DrawFormatString(1000, 110, 255, "dy = %.1f", dy);
 	DrawFormatString(1000, 130, 255, "md = %d", Akabei.md);
-	DrawFormatString(1000, 150, 255, "nd = %d", Akabei.ed);
+	DrawFormatString(1000, 150, 255, "ed = %d", Akabei.ed);
 	DrawFormatString(1000, 170, 255, "Akabei.x = %.1f", Akabei.x);
 	DrawFormatString(1000, 190, 255, "Akabei.y = %.1f", Akabei.y);
 	DrawFormatString(1000, 210, 255, "mPac.x = %.1f", mPac.x);
 	DrawFormatString(1000, 230, 255, "mPac.y = %.1f", mPac.y);
+	DrawFormatString(1000, 250, 255, "Akabei.WallHit = %d", Akabei.WallHit);
+	DrawFormatString(1000, 270, 255, "Akabei.left = %d", Akabei.left);
+	DrawFormatString(1000, 290, 255, "Akabei.right = %d", Akabei.right);
+	DrawFormatString(1000, 310, 255, "Akabei.up = %d", Akabei.up);
+	DrawFormatString(1000, 330, 255, "Akabei.bottom = %d", Akabei.bottom);
+
 
 
 	// アニメーション
@@ -101,23 +105,11 @@ void Enemy_Update() {
 			}
 		}
 	}
-	// 仮プレイヤーの横移動
-	if (CheckHitKey(KEY_INPUT_LEFT)) {
-		PlayerX--;
-	}
-	else if (CheckHitKey(KEY_INPUT_RIGHT)) {
-		PlayerX++;
-	}
-
-	if (CheckHitKey(KEY_INPUT_UP)) {
-		PlayerY--;
-	}
-	else if (CheckHitKey(KEY_INPUT_DOWN)) {
-		PlayerY++;
-	}
+	//Akabei.mx = Akabei.x;		// アカベイのx座標を保存
+	//Akabei.my = Akabei.y;		// アカベイのy座標を保存
 
 	//AkabeiChasePlayer();		// アカベイが仮プレイヤーを追いかける処理
-
+	AkabeiMove();
 }
 
 
@@ -131,16 +123,15 @@ void Enemy_Draw() {
 	else {
 		DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], TRUE);
 	}
-	DrawRotaGraph(PlayerX, PlayerY, 1, 0, PlayerImage, TRUE);
 }
 
 
 // 仮プレイヤーを追いかける処理
 void AkabeiChasePlayer() {
 	// 三平方の定理を使う
-	A = PlayerX - Akabei.x;
+	A = mPac.x - Akabei.x;
 
-	B = PlayerY - Akabei.y;
+	B = mPac.y - Akabei.y;
 
 	C = sqrtf(A * A + B * B);	// A と B を２乗して足した値の平方根を求める
 
@@ -148,20 +139,20 @@ void AkabeiChasePlayer() {
 	dy = B / C;		// C を1（正規化）とするには、B を C で割る
 
 
-	if (Akabei.x < PlayerX - 16) {	// アカベイから見てプレイヤーは右側
+	if (Akabei.x < mPac.x - 16) {	// アカベイから見てプレイヤーは右側
 		Akabei.x += dx * Akabei.speed;
 		Akabei.eyeImageCount = 1;
 	}
-	else if (Akabei.x > PlayerX + 16) {	// アカベイから見てプレイヤーは左側
+	else if (Akabei.x > mPac.x + 16) {	// アカベイから見てプレイヤーは左側
 		Akabei.x += dx * Akabei.speed;
 		Akabei.eyeImageCount = 3;
 	}
 
-	if (Akabei.y < PlayerY - 16) {	// アカベイから見てプレイヤーは下側
+	if (Akabei.y < mPac.y - 16) {	// アカベイから見てプレイヤーは下側
 		Akabei.y += dy * Akabei.speed;
 		Akabei.eyeImageCount = 2;
 	}
-	else if (Akabei.y > PlayerY + 16) {		// アカベイから見てプレイヤーは上側
+	else if (Akabei.y > mPac.y + 16) {		// アカベイから見てプレイヤーは上側
 		Akabei.y += dy * Akabei.speed;
 		Akabei.eyeImageCount = 0;
 	}
@@ -194,7 +185,7 @@ void AkabeiMove() {
 		}
 
 		// 壁（画面端くらいに設定してる）に当たったら
-		if (Akabei.x > (1280 - 16 * 3) || Akabei.x < 900 || Akabei.y < 16 || Akabei.y >(720 - 16 * 10)) {
+		if (Akabei.WallHit == true) {
 			// 元の場所に戻す
 			Akabei.x = Akabei.mx;
 			Akabei.y = Akabei.my;
@@ -202,9 +193,15 @@ void AkabeiMove() {
 			// 進む方向を決める
 			switch (Akabei.md) {
 			case 0:
+				//if (Akabei.ed == 0 && Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
+				//	Akabei.left = false;
+				//	Akabei.ed = 3;
+				//	Akabei.WallHit = false;
+				//}
+
 				// 左に進んでいる時に壁に当たった場合、進める方向は上か下になる
 				if (Akabei.ed == 0) {
-					if (Akabei.y > PlayerY) {	// アカベイの位置が仮プレイヤーより下なら
+					if (Akabei.y > mPac.y) {	// アカベイの位置が仮プレイヤーより下なら
 						Akabei.ed = 2;	// 上に方向を変える
 					}
 					else {
@@ -220,9 +217,15 @@ void AkabeiMove() {
 				break;
 
 			case 1:
+				//if (Akabei.ed == 1 && Akabei.right == true && Akabei.left == false && Akabei.up == false && Akabei.bottom == false) {
+				//	Akabei.right = false;
+				//	Akabei.ed = 2;
+				//	Akabei.WallHit = false;
+				//}
+
 				// 右に進んでいる時に壁に当たった場合、進める方向は上か下になる
 				if (Akabei.ed == 1) {
-					if (Akabei.y > PlayerY) {	// アカベイの位置が仮プレイヤーより下なら
+					if (Akabei.y > mPac.y) {	// アカベイの位置が仮プレイヤーより下なら
 						Akabei.ed = 2;		// 上に方向を変える
 					}
 					else {
@@ -238,9 +241,15 @@ void AkabeiMove() {
 				break;
 
 			case 2:
+				//if (Akabei.ed == 2 && Akabei.up == true && Akabei.left == false && Akabei.right == false && Akabei.bottom == false) {
+				//	Akabei.up = false;
+				//	Akabei.ed = 0;
+				//	Akabei.WallHit = false;
+				//}
+
 				// 上に進んでいる時に壁に当たった場合、進める方向は右か左になる
 				if (Akabei.ed == 2) {
-					if (Akabei.x > PlayerX) {	// アカベイの位置が仮プレイヤーより右なら
+					if (Akabei.x > mPac.x) {	// アカベイの位置が仮プレイヤーより右なら
 						Akabei.ed = 0;		// 左に方向を変える
 					}
 					else {
@@ -256,9 +265,15 @@ void AkabeiMove() {
 				break;
 
 			case 3:
+				//if (Akabei.ed == 3 && Akabei.bottom == true && Akabei.left == false && Akabei.right == false && Akabei.up == false) {
+				//	Akabei.bottom = false;
+				//	Akabei.ed = 1;
+				//	Akabei.WallHit = false;
+				//}
+
 				// 下に進んでいる時に壁に当たった場合、進める方向は右か左になる
 				if (Akabei.ed == 3) {
-					if (Akabei.x > PlayerX) {	// アカベイの位置が仮プレイヤーより右なら
+					if (Akabei.x > mPac.x) {	// アカベイの位置が仮プレイヤーより右なら
 						Akabei.ed = 0;		// 左に方向を変える
 					}
 					else {
@@ -273,10 +288,10 @@ void AkabeiMove() {
 				}
 				break;
 			}
+			Akabei.WallHit = false;
 		}
 		else {
 			break;		// 移動先が壁じゃない場合は方向を変えるループから抜ける
 		}
 	}
-
 }
