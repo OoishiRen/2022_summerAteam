@@ -105,12 +105,6 @@ void Game_Initialize() {
 	Enemy_Initialize();
 	Item_Initialize();//アイテム用
 	//mImageHandle = LoadGraph("images/Scene_GameMain.png"); //画像のロード
-
-
-
-	/*mPac.x = 15 * MAP_SIZE + 8;
-	mPac.y = 25 * MAP_SIZE + 8;
-	MapData[25][15];*/
 }
 
 //終了処理
@@ -151,7 +145,7 @@ void WarpTunnel() {
 
 	for (int i = 0; i < MAP_HEIGHT; i++) {
 		for (int j = 0; j < MAP_WIDTH; j++) {
-			if (HitCheck(mPac.x, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+			if (HitCheck(mPac.x + 16, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
 				if (MapData[i][j] == 2) {//
 					for (int i = 0; i < MAP_HEIGHT; i++) {
 						for (int j = 0; j < MAP_WIDTH; j++) {
@@ -163,6 +157,10 @@ void WarpTunnel() {
 					}
 
 				}
+
+			}
+			if (HitCheck(mPac.x - 16, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+
 				if (MapData[i][j] == 3) {
 					for (int i = 0; i < MAP_HEIGHT; i++) {
 						for (int j = 0; j < MAP_WIDTH; j++) {
