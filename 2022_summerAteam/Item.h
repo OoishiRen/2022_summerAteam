@@ -30,6 +30,8 @@ extern struct FRUITS Fruits;		//フルーツ構造体
 extern int Score;
 extern int DotCnt;
 
+extern int PowerUpTime;
+
 extern bool PowerUpFlg;
 extern int Round;
 
@@ -45,3 +47,5 @@ void HitItem();
 void PowerUp();
 void FruitTerget();
 void RoundChange();
+
+void ScoreUIEnabled();

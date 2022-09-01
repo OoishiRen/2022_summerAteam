@@ -21,6 +21,8 @@ bool PowerUpFlg;
 int PowerUpTime;
 int FruitTime;
 struct FRUITS Fruits;		//フルーツ構造体
+int CntTime;
+bool FruiScoreUI;
 
 int Item_Mapdata[MAP_HEIGHT][MAP_WIDTH]//０=エサなし １=エサ ２=パワーエサ ３=フルーツ
 {
@@ -104,6 +106,8 @@ void Item_Initialize() {
 	DotsLeft = 244;
 	Round = 1;
 	Fruits.fScore = Fruits.Cherry;
+	CntTime = 120;
+	FruiScoreUI = false;
 }
 void Item_Finalize() {
 	DeleteGraph(Dot_Handle);
@@ -117,6 +121,9 @@ void Item_Update() {
 
 	if (DotsLeft == 0) {
 		RoundChange();
+	}
+	if (FruiScoreUI == true) {
+		ScoreUIEnabled();
 	}
 }
 void Item_Draw() {
@@ -144,8 +151,8 @@ void Item_Draw() {
 	DrawFormatString(0, 50, GetColor(255, 255, 255), "PowerUpTime:%d", PowerUpTime);//でバッグ
 	DrawFormatString(0, 70, GetColor(255, 255, 255), "Dots Left:%d/244", DotsLeft);//でバッグ
 	DrawFormatString(0, 90, GetColor(255, 255, 255), "Fruits Target:%d", FruitTime);//でバッグ
-	DrawFormatString(0, 110, GetColor(255, 255, 255), "Fruits Score:%d",Fruits.fScore);//でバッグ
-	DrawFormatString(0, 130, GetColor(255, 255, 255), "ROUND:%d",Round);//でバッグ
+	DrawFormatString(0, 110, GetColor(255, 255, 255), "ROUND:%d", Round);//でバッグ
+	DrawFormatString(0, 130, GetColor(255, 255, 255), "CntTime:%d", CntTime);//でバッグ
 }
 void PowerdotAnim() {
 
@@ -192,6 +199,7 @@ void HitItem() {
 					Score += Fruits.fScore;//スコア＋１００
 					FruitCnt++;
 					FruitTime = 660;
+					FruiScoreUI = true;
 				}
 			}
 		}
@@ -254,7 +262,7 @@ void RoundChange() {
 	mPac.x = 240.0f;
 	mPac.y = 392.0f;
 
-	if (Fruits.kind < 13) {
+	if (Fruits.kind < 12) {
 		Fruits.kind++;
 	}
 	if (Round == 1) {
@@ -290,5 +298,17 @@ void RoundChange() {
 				Item_Mapdata[i][j] = 2;
 			}
 		}
+	}
+}
+
+void ScoreUIEnabled() {
+	if (CntTime > 0) {
+		CntTime--;
+		DrawFormatString(15 * MAP_SIZE - 16, 19 * MAP_SIZE - 16, GetColor(255, 255, 255), "%d", Fruits.fScore);//でバッグ
+
+	}
+	else if (CntTime == 0) {
+		FruiScoreUI = false;
+		CntTime = 120;
 	}
 }
