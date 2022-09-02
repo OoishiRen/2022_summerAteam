@@ -67,8 +67,9 @@ void DrawMap() {
 
 				if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
 					Akabei.WallHit = true;
-					//Akabei.x = Akabei.mx;
-					//Akabei.y = Akabei.my;
+					// Œ³‚ÌêŠ‚É–ß‚·
+					Akabei.x = Akabei.mx;
+					Akabei.y = Akabei.my;
 
 				}
 
