@@ -2,200 +2,139 @@
 #include "SceneMgr.h"
 #include "Enemy.h"
 #include "math.h"
+#include "Game.h"
+#include "Item.h"
+#include "Player.h"
 
-struct AKABEI Akabei;
-int MonsterImage[ENEMY_IMAGE_MAX];
-int EyeImage[EYE_IMAGE_MAX];
-int ed;
+struct AKABEI Akabei;					// アカベイの構造体の宣言
+int MonsterImage[ENEMY_IMAGE_MAX];		// モンスターの画像格納用変数
+int EyeImage[EYE_IMAGE_MAX];			// 目玉の画像格納用変数
 
 
-/* 仮プレイヤー */
-float PlayerX;
-float PlayerY;
-int PlayerImage;
-float PlayerSpeed;
 
-float A, B, C;
-float dx, dy;
+float A, B, C;		// 三平方の定理用の変数
+float dx, dy;		// 正規化用変数
 
+
+// 初期化
 void Enemy_Initialize() {
-	LoadDivGraph("enemy_images/monster.png", 20, 20, 1, 16, 16, MonsterImage); //アカベイの画像
-	LoadDivGraph("enemy_images/eyes.png", 4, 4, 1, 16, 16, EyeImage);
-	Akabei.x = 1000.0f;
-	Akabei.y = 400.0f;
+	LoadDivGraph("enemy_images/monster.png", 20, 20, 1, 16, 16, MonsterImage); // モンスターの画像を読み込む
+	LoadDivGraph("enemy_images/eyes.png", 4, 4, 1, 16, 16, EyeImage);		   // 目玉の画像を読み込む
+
+	// アカベイの初期化
+	Akabei.x = 440.0f;
+	Akabei.y = 40.0f;
+	Akabei.w = 16.0f;
+	Akabei.h = 16.0f;
 	Akabei.ed = 0;
 	Akabei.ImageCount = 0;
 	Akabei.eyeImageCount = 3;
 	Akabei.speed = 1.5f;
+	Akabei.WallHit = false;
+	Akabei.left = false;
+	Akabei.right = false;
+	Akabei.up = false;
+	Akabei.bottom = false;
 
-	PlayerImage = MonsterImage[19];
-	PlayerX = 900.0f;
-	PlayerY = 400.0f;
-	PlayerSpeed = 1.0f;
 }
 
+
+// 終了処理
 void Enemy_Finalize() {
 	for (int i = 0; i < ENEMY_IMAGE_MAX; i++) {
-		DeleteGraph(MonsterImage[i]);
+		DeleteGraph(MonsterImage[i]);	// モンスターの画像の解放
 	}
 	for (int i = 0; i < EYE_IMAGE_MAX; i++) {
-		DeleteGraph(EyeImage[i]);
+		DeleteGraph(EyeImage[i]);		// 目玉の画像の解放
 	}
-	DeleteGraph(PlayerImage);
 }
 
+
+//更新
 void Enemy_Update() {
 
-	DrawFormatString(10, 10, 255, "Akabei.x = %.1f", Akabei.x);
-	DrawFormatString(10, 30, 255, "A = %.1f", A);
-	DrawFormatString(10, 50, 255, "B = %.1f", B);
-	DrawFormatString(10, 70, 255, "C = %.1f", C);
-	DrawFormatString(10, 90, 255, "dx = %.1f", dx);
-	DrawFormatString(10, 110, 255, "dy = %.1f", dy);
-	DrawFormatString(10, 130, 255, "md = %d", Akabei.md);
-	DrawFormatString(10, 150, 255, "nd = %d", Akabei.ed);
+	// デバッグ用の変数の表示
+	DrawFormatString(1000, 30, 255, "A = %.1f", A);
+	DrawFormatString(1000, 50, 255, "B = %.1f", B);
+	DrawFormatString(1000, 70, 255, "C = %.1f", C);
+	DrawFormatString(1000, 90, 255, "dx = %.1f", dx);
+	DrawFormatString(1000, 110, 255, "dy = %.1f", dy);
+	DrawFormatString(1000, 130, 255, "md = %d", Akabei.md);
+	DrawFormatString(1000, 150, 255, "ed = %d", Akabei.ed);
+	DrawFormatString(1000, 170, 255, "Akabei.x = %.1f", Akabei.x);
+	DrawFormatString(1000, 190, 255, "Akabei.y = %.1f", Akabei.y);
+	DrawFormatString(1000, 210, 255, "mPac.x = %.1f", mPac.x);
+	DrawFormatString(1000, 230, 255, "mPac.y = %.1f", mPac.y);
+	DrawFormatString(1000, 250, 255, "Akabei.WallHit = %d", Akabei.WallHit);
+	DrawFormatString(1000, 270, 255, "Akabei.left = %d", Akabei.left);
+	DrawFormatString(1000, 290, 255, "Akabei.right = %d", Akabei.right);
+	DrawFormatString(1000, 310, 255, "Akabei.up = %d", Akabei.up);
+	DrawFormatString(1000, 330, 255, "Akabei.bottom = %d", Akabei.bottom);
+
+
 
 	// アニメーション
-	if (Akabei.ImageCount == 0) {
-		Akabei.ImageCount = 1;
+	if (!PowerUpFlg) {
+		if (Akabei.ImageCount == 0) {
+			Akabei.ImageCount = 1;
 
+		}
+		else {
+			Akabei.ImageCount = 0;
+		}
 	}
 	else {
-		Akabei.ImageCount = 0;
-	}
+		if (PowerUpTime > 150) {
+			if (Akabei.ImageCount == 16) {
+				Akabei.ImageCount = 17;
 
-	// 仮プレイヤーの横移動
-	if (CheckHitKey(KEY_INPUT_LEFT)) {
-		PlayerX--;
-	}
-	else if (CheckHitKey(KEY_INPUT_RIGHT)) {
-		PlayerX++;
-	}
-
-	if (CheckHitKey(KEY_INPUT_UP)) {
-		PlayerY--;
-	}
-	else if (CheckHitKey(KEY_INPUT_DOWN)) {
-		PlayerY++;
-	}
-
-	//AkabeiChasePlayer();
-
-	Akabei.mx = Akabei.x;
-	Akabei.my = Akabei.y;
-	Akabei.md = Akabei.ed;
-
-	while(1) {
-		switch (Akabei.ed) {
-		case 0:	// 左
-			Akabei.x--;
-			break;
-		case 1:	// 右
-			Akabei.x++;
-		case 2:	// 上
-			Akabei.y--;
-		case 3:	// 下
-			Akabei.y++;
-		}
-
-		if (Akabei.x > (1280 - 16) || Akabei.x < 900 || Akabei.y < 16 || Akabei.y > (720 - 160)) {
-			Akabei.x = Akabei.mx;
-			Akabei.y = Akabei.my;
-			// 進む方向を決める
-			switch (Akabei.md) {
-			case 0:
-				if (Akabei.ed == 0) {
-					// 左に進んでいたら
-					if (Akabei.y > PlayerY) {
-						Akabei.ed = 2;
-					}
-					else {
-						Akabei.ed = 3;
-					}
-				}
-				else if (Akabei.ed == 2) {
-					Akabei.ed = 3;
-				}
-				else if (Akabei.ed == 3) {
-					Akabei.ed = 2;
-				}
-				break;
-
-			case 1:
-				if (Akabei.ed == 1) {
-					// 右に進んでいた
-					if (Akabei.y > PlayerY) {
-						Akabei.ed = 2;
-					}
-					else {
-						Akabei.ed = 3;
-					}
-				}
-				//else if (Akabei.ed == 2) {
-				//	Akabei.ed = 3;
-				//}
-				//else if (Akabei.ed == 3) {
-				//	Akabei.ed = 2;
-				//}
-				break;
-
-			case 2:
-				if (Akabei.ed == 2) {
-					// 上に進んでいた
-					if (Akabei.x > PlayerX) {	// プレイヤーから見て、アカベイが右側にいたら
-						Akabei.ed = 0;
-					}
-					else {
-						Akabei.ed = 1;
-					}
-				}
-				//else if (Akabei.ed == 2) {
-				//	Akabei.ed = 3;
-				//}
-				//else if (Akabei.ed == 3) {
-				//	Akabei.ed = 2;
-				//}
-				break;
-			case 3:
-				if (Akabei.ed == 3) {
-					// 上に進んでいた
-					if (Akabei.x > PlayerX) {	// プレイヤーから見て、アカベイが右側にいたら
-						Akabei.ed = 0;
-					}
-					else {
-						Akabei.ed = 1;
-					}
-				}
-				//else if (Akabei.ed == 2) {
-				//	Akabei.ed = 3;
-				//}
-				//else if (Akabei.ed == 3) {
-				//	Akabei.ed = 2;
-				//}
-				break;
+			}
+			else {
+				Akabei.ImageCount = 16;
 			}
 		}
 		else {
-			break;
+			if (Akabei.ImageCount < 19) {
+				if (PowerUpTime % 5 == 0) {
+					Akabei.ImageCount++;
+				}
+			}
+			else
+			{
+				Akabei.ImageCount = 16;
+			}
 		}
+	}
+	//Akabei.mx = Akabei.x;		// アカベイのx座標を保存
+	//Akabei.my = Akabei.y;		// アカベイのy座標を保存
+
+	AkabeiChasePlayer();		// アカベイが仮プレイヤーを追いかける処理
+	//AkabeiMove();
+}
+
+
+// 描画
+void Enemy_Draw() {
+
+	if (!PowerUpFlg) {
+		DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], TRUE);
+		DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, EyeImage[Akabei.eyeImageCount], TRUE);
+	}
+	else {
+		DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], TRUE);
 	}
 }
 
-void Enemy_Draw() {
 
-	DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], TRUE);
-	DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, EyeImage[Akabei.eyeImageCount], TRUE);
-
-	DrawRotaGraph(PlayerX, PlayerY, 1, 0, PlayerImage, TRUE);
-}
-
-
-// プレイヤー処理
+// 仮プレイヤーを追いかける処理
 void AkabeiChasePlayer() {
-	// 三平方の定理を使う
-	A = PlayerX - Akabei.x;
+	Akabei.mx = Akabei.x;		// アカベイのx座標を保存
+	Akabei.my = Akabei.y;		// アカベイのy座標を保存
 
-	B = PlayerY - Akabei.y;
+	// 三平方の定理を使う
+	A = mPac.x - Akabei.x;
+
+	B = mPac.y - Akabei.y;
 
 	C = sqrtf(A * A + B * B);	// A と B を２乗して足した値の平方根を求める
 
@@ -203,21 +142,71 @@ void AkabeiChasePlayer() {
 	dy = B / C;		// C を1（正規化）とするには、B を C で割る
 
 
-	if (Akabei.x < PlayerX - 16) {	// アカベイから見てプレイヤーは右側
-		Akabei.x += dx * Akabei.speed;
-		Akabei.eyeImageCount = 1;
+	if (Akabei.x < mPac.x - 16) {	// アカベイから見てプレイヤーは右側
+		if (Akabei.WallHit == false) {
+			Akabei.x += dx * Akabei.speed;
+			Akabei.eyeImageCount = 1;
+		}
+		else {
+			Akabei.WallHit = false;
+		}
 	}
-	else if (Akabei.x > PlayerX + 16) {	// アカベイから見てプレイヤーは左側
-		Akabei.x += dx * Akabei.speed;
-		Akabei.eyeImageCount = 3;
+	else if (Akabei.x > mPac.x + 16) {	// アカベイから見てプレイヤーは左側
+		if (Akabei.WallHit == false) {
+			Akabei.x += dx * Akabei.speed;
+			Akabei.eyeImageCount = 3;
+		}
+		else {
+			Akabei.WallHit = false;
+		}
 	}
+	else if (Akabei.y < mPac.y - 16) {	// アカベイから見てプレイヤーは下側
+		if (Akabei.WallHit == false) {
+			Akabei.y += dy * Akabei.speed;
+			Akabei.eyeImageCount = 2;
+		}
+		else {
+			Akabei.WallHit = false;
+		}
+	}
+	else if (Akabei.y > mPac.y + 16) {		// アカベイから見てプレイヤーは上側
+		if (Akabei.WallHit == false) {
+			Akabei.y += dy * Akabei.speed;
+			Akabei.eyeImageCount = 0;
+		}
+		else {
+			Akabei.WallHit = false;
+		}
+	}
+}
 
-	if (Akabei.y < PlayerY - 16) {
-		Akabei.y += dy * Akabei.speed;
-		Akabei.eyeImageCount = 2;
-	}
-	else if (Akabei.y > PlayerY + 16) {
-		Akabei.y += dy * Akabei.speed;
-		Akabei.eyeImageCount = 0;
+void AkabeiMove() {
+	Akabei.mx = Akabei.x;		// アカベイのx座標を保存
+	Akabei.my = Akabei.y;		// アカベイのy座標を保存
+	Akabei.md = Akabei.ed;		// 敵の動く方向を保存
+
+	// アカベイが壁を避けながら移動する処理
+	if (Akabei.WallHit == false) {
+		switch (Akabei.ed) {
+		case 0:	// 左へ移動
+			Akabei.x--;
+			Akabei.eyeImageCount = 3;
+			if (Akabei.left == true) {
+				Akabei.ed = 3;
+			}
+			break;
+		case 1:	// 右へ移動
+			Akabei.x++;
+			Akabei.eyeImageCount = 1;
+			break;
+		case 2:	// 上へ移動
+			Akabei.y--;
+			Akabei.eyeImageCount = 0;
+			break;
+		case 3:	// 下へ移動
+			Akabei.y++;
+			Akabei.eyeImageCount = 2;
+			break;
+		}
 	}
 }

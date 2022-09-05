@@ -23,6 +23,15 @@ void Menu_Update() {
 	if (CheckHitKey(KEY_INPUT_G) != 0) {//Escキーが押されていたらorBボタンが押されていたら
 		SceneMgr_ChangeScene(eScene_Game);//シーンをメニューに変更
 	}
+
+	if (CheckHitKey(KEY_INPUT_ESCAPE) != 0) {// ESCAPEキーが押されているかを調べる
+			DxLib_End();
+	}
+
+	if ((g_NowKey & PAD_INPUT_7) != 0) {
+		DxLib_End();
+	}
+
 	if (CheckHitKey(KEY_INPUT_C) != 0) {//Escキーが押されていたらorBボタンが押されていたら
 		SceneMgr_ChangeScene(eScene_Config);//シーンをメニューに変更
 	}
