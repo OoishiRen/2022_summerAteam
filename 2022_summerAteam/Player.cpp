@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "Player.h"
 #include "Enemy.h"
 #include "SceneMgr.h"
@@ -32,6 +34,7 @@ void Player_Initialize() {
 	mPac.y = 392.0f;
 	mPac.w = PAC_WIDTH;
 	mPac.h = PAC_HEIGHT;
+	mPac.r = PAC_WIDTH / 2;
 	mPac.speed = PAC_SPEED;
 	mPac.cnt = PAC_LIFE;
 
