@@ -5,6 +5,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "Item.h"
+#include "UI.h"
 
 static int mImageHandle; //画像ハンドル格納用変数
 float mx = 0, my = 0;
@@ -76,6 +77,7 @@ void Game_Initialize() {
 	Enemy_Initialize();
 	Item_Initialize();//アイテム用
 	//mImageHandle = LoadGraph("images/Scene_GameMain.png"); //画像のロード
+	UI_Initialize();
 }
 
 //終了処理
@@ -84,6 +86,7 @@ void Game_Finalize() {
 	Enemy_Finalize();
 	Item_Finalize();//アイテム用
 	//DeleteGraph(mImageHandle); //画像の解放
+	UI_Finalize();
 }
 
 //更新
@@ -98,6 +101,7 @@ void Game_Update() {
 	Enemy_Update();
 	DrawMap();
 	Item_Update();//アイテム用
+	//UI_Update();
 
 
 
@@ -111,4 +115,5 @@ void Game_Draw() {
 	Player_Draw();
 	Enemy_Draw();
 	Item_Draw();
+	UI_Draw();
 }
