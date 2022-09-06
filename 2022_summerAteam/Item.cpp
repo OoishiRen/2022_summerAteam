@@ -2,6 +2,7 @@
 #include "Dxlib.h"
 #include "Game.h"
 #include "Player.h"
+#include "UI.h"
 
 int Dot_Handle;
 int Powerdot_Handle[DOT_IMAGE_MAX];
@@ -182,6 +183,7 @@ void HitItem() {
 					Score += 10;//スコア＋１０
 					DotCnt++;	//食べた個数＋１
 					DotsLeft--;	//残りの個数ー１
+					esa = 1;
 				}
 				if (Item_Mapdata[i][j] == 2) {//食べたのがパワーエサだった場合
 					Item_Mapdata[i][j] = 5;//パワーエサを消す
@@ -189,6 +191,7 @@ void HitItem() {
 					DotCnt++;	//食べた個数＋１
 					DotsLeft--;	//残りの個数ー１
 					PowerUpFlg = true;//パワーアップフラグをtrueにする
+					esa = 2;
 				}
 			}
 			//フルーツ用のヒットチェック

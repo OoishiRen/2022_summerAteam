@@ -5,6 +5,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "Item.h"
+#include "UI.h"
 
 static int mImageHandle; //画像ハンドル格納用変数
 float mx = 0, my = 0;
@@ -99,12 +100,13 @@ void DrawMap() {
 	}
 }
 
+
 //初期化
 void Game_Initialize() {
 	Player_Initialize();
 	Enemy_Initialize();
 	Item_Initialize();//アイテム用
-	 mImageHandle=LoadGraph("Item_images/stage_pacman5.png"); //画像のロード
+	UI_Initialize();
 	//mImageHandle = LoadGraph("images/Scene_GameMain.png"); //画像のロード
 }
 
@@ -113,7 +115,7 @@ void Game_Finalize() {
 	Player_Finalize();
 	Enemy_Finalize();
 	Item_Finalize();//アイテム用
-	DeleteGraph(mImageHandle); //画像の解放
+	//DeleteGraph(mImageHandle); //画像の解放
 }
 
 //更新
@@ -127,7 +129,6 @@ void Game_Update() {
 	Player_Update();
 	Enemy_Update();
 	DrawMap();
-	DrawGraph(0, 0, mImageHandle, TRUE);
 	Item_Update();//アイテム用
 
 
@@ -135,11 +136,13 @@ void Game_Update() {
 
 //描画
 void Game_Draw() {
+
 	//DrawGraph(0, 0, mImageHandle, FALSE);
 	DrawFormatString(10, 700, 0xffffff, "ESCキーを押してメニュー画面へ");
 	Player_Draw();
 	Enemy_Draw();
 	Item_Draw();
+	UI_Draw();
 }
 
 void WarpTunnel() {
