@@ -5,6 +5,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "Item.h"
+#include "UI.h"
 
 static int mImageHandle; //画像ハンドル格納用変数
 float mx = 0, my = 0;
@@ -105,6 +106,7 @@ void Game_Initialize() {
 	Player_Initialize();
 	Enemy_Initialize();
 	Item_Initialize();//アイテム用
+	UI_Initialize();
 	//mImageHandle = LoadGraph("images/Scene_GameMain.png"); //画像のロード
 }
 
@@ -140,6 +142,7 @@ void Game_Draw() {
 	Player_Draw();
 	Enemy_Draw();
 	Item_Draw();
+	UI_Draw();
 }
 
 void WarpTunnel() {
