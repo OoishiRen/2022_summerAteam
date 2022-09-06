@@ -265,37 +265,37 @@ void RoundChange() {
 	if (Fruits.kind < 12) {
 		Fruits.kind++;
 	}
-	if (Round == 1) {
-		Fruits.fScore = Fruits.Cherry;
+	if (Round == 1) {//ラウンド１
+		Fruits.fScore = Fruits.Cherry;//チェリー
 	}
-	else if (Round == 2) {
-		Fruits.fScore = Fruits.Strowberry;
+	else if (Round == 2) {//ラウンド２
+		Fruits.fScore = Fruits.Strowberry;//ストロベリー
 	}
-	else if (Round == 3) {
-		Fruits.fScore = Fruits.Orenge;
+	else if (Round == 3) {//ラウンド３～
+		Fruits.fScore = Fruits.Orenge;//オレンジ
 	}
-	else if (Round == 5) {
-		Fruits.fScore = Fruits.Apple;
+	else if (Round == 5) {//ラウンド５～
+		Fruits.fScore = Fruits.Apple;//アップル
 	}
-	else if (Round == 7) {
-		Fruits.fScore = Fruits.Melon;
+	else if (Round == 7) {//ラウンド７～
+		Fruits.fScore = Fruits.Melon;//メロン
 	}
-	else if (Round == 9) {
-		Fruits.fScore = Fruits.Garraxy;
+	else if (Round == 9) {//ラウンド９～
+		Fruits.fScore = Fruits.Garraxy;//ボス・ギャラクシアン
 	}
-	else if (Round == 11) {
-		Fruits.fScore = Fruits.Bell;
+	else if (Round == 11) {//ラウンド１１～
+		Fruits.fScore = Fruits.Bell;//ベル
 	}
-	else if (Round == 13) {
-		Fruits.fScore = Fruits.Key;
+	else if (Round == 13) {//ラウンド１３以降
+		Fruits.fScore = Fruits.Key;//鍵
 	}
 
 	for (int i = 0; i < MAP_HEIGHT; i++) {
 		for (int j = 0; j < MAP_WIDTH; j++) {
 			if (Item_Mapdata[i][j] == 4) {
-				Item_Mapdata[i][j] = 1;
+				Item_Mapdata[i][j] = 1;//エサ再配置
 			}if (Item_Mapdata[i][j] == 5) {
-				Item_Mapdata[i][j] = 2;
+				Item_Mapdata[i][j] = 2;//パワーエサ再配置
 			}
 		}
 	}
@@ -303,7 +303,8 @@ void RoundChange() {
 
 void ScoreUIEnabled() {
 	if (CntTime > 0) {
-		CntTime--;
+		CntTime--;//２秒間の間
+		//スコアUI表示
 		DrawFormatString(15 * MAP_SIZE - 16, 19 * MAP_SIZE - 16, GetColor(255, 255, 255), "%d", Fruits.fScore);//でバッグ
 
 	}
