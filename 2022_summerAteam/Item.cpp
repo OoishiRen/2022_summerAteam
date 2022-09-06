@@ -2,6 +2,7 @@
 #include "Dxlib.h"
 #include "Game.h"
 #include "Player.h"
+#include "UI.h"
 
 int Dot_Handle;
 int Powerdot_Handle[DOT_IMAGE_MAX];
@@ -144,6 +145,7 @@ void Item_Draw() {
 			}
 		}
 	}
+	FruitsUI();
 
 
 	DrawFormatString(0, 10, GetColor(255, 255, 255), "Score:%d", Score);//でバッグ
@@ -182,6 +184,7 @@ void HitItem() {
 					Score += 10;//スコア＋１０
 					DotCnt++;	//食べた個数＋１
 					DotsLeft--;	//残りの個数ー１
+					esa = 1;
 				}
 				if (Item_Mapdata[i][j] == 2) {//食べたのがパワーエサだった場合
 					Item_Mapdata[i][j] = 5;//パワーエサを消す
@@ -189,6 +192,7 @@ void HitItem() {
 					DotCnt++;	//食べた個数＋１
 					DotsLeft--;	//残りの個数ー１
 					PowerUpFlg = true;//パワーアップフラグをtrueにする
+					esa = 2;
 				}
 			}
 			//フルーツ用のヒットチェック
@@ -311,5 +315,12 @@ void ScoreUIEnabled() {
 	else if (CntTime == 0) {
 		FruiScoreUI = false;
 		CntTime = 120;
+	}
+}
+
+void FruitsUI() {
+
+	for (int i = 1; i <= Round;i++) {
+		DrawRotaGraph(454 + FRUIT_SIZE * i, 316, 1.0f, 0, Fruits_Handle[i-1], TRUE, FALSE);
 	}
 }
