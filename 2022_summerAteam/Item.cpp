@@ -144,6 +144,7 @@ void Item_Draw() {
 			}
 		}
 	}
+	FruitsUI();
 
 
 	DrawFormatString(0, 10, GetColor(255, 255, 255), "Score:%d", Score);//‚ÅƒoƒbƒO
@@ -311,5 +312,12 @@ void ScoreUIEnabled() {
 	else if (CntTime == 0) {
 		FruiScoreUI = false;
 		CntTime = 120;
+	}
+}
+
+void FruitsUI() {
+
+	for (int i = 1; i <= Round;i++) {
+		DrawRotaGraph(454 + FRUIT_SIZE * i, 316, 1.0f, 0, Fruits_Handle[i-1], TRUE, FALSE);
 	}
 }

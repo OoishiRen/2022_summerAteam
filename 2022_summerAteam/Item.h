@@ -49,3 +49,4 @@ void FruitTerget();
 void RoundChange();
 
 void ScoreUIEnabled();
+void FruitsUI();
