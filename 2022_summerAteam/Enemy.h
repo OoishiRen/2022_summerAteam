@@ -29,3 +29,4 @@ extern void Enemy_Draw();			// 描画
 
 extern void AkabeiChasePlayer();		// アカベイがプレイヤーを追いかける処理（簡易版）
 extern void AkabeiMove();
+extern void AkabeiMove2();

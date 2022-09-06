@@ -67,13 +67,6 @@ void DrawMap() {
 
 				WarpTunnel();
 			}
-
-			if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-				Akabei.WallHit = true;
-				//Akabei.x = Akabei.mx;
-				//Akabei.y = Akabei.my;
-
-			}
 		}
 	}
 }
@@ -103,16 +96,51 @@ void Game_Update() {
 	if (CheckHitKey(KEY_INPUT_ESCAPE) != 0) {//Escキーが押されていたら
 		SceneMgr_ChangeScene(eScene_Menu);//シーンをメニューに変更
 	}
+
+	//if (MapData[(int)Akabei.y / 16][(int)Akabei.x / 16] == 1) {
+	//	Akabei.WallHit = true;
+	//}
+	//else if (MapData[(int)Akabei.y / 16][(int)Akabei.x / 16] == 0) {
+	//	Akabei.WallHit = false;
+	//}
+
+		// 上に壁があるときにフラグをtrueにする
+	if (MapData[((int)Akabei.y / 16) - 1][(int)Akabei.x / 16] == 1) {
+		Akabei.up = true;
+	}
+	else if (MapData[((int)Akabei.y / 16) - 1][(int)Akabei.x / 16] == 0) {
+		Akabei.up = false;
+	}
+
+	// 下に壁があるときにフラグをtrueにする
+	if (MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 1) {
+		Akabei.bottom = true;
+	}
+	else if (MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 0) {
+		Akabei.bottom = false;
+	}
+
+	// 左に壁があるときにフラグをtrueにする
+	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 1) {
+		Akabei.left = true;
+	}
+	else if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 0) {
+		Akabei.left = false;
+	}
+
+	// 右に壁があるときにフラグをtrueにする
+	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 1) {
+		Akabei.right = true;
+	}
+	else if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 0) {
+		Akabei.right = false;
+	}
+
 	Player_Update();
 	Enemy_Update();
 	DrawMap();
 	Item_Update();//アイテム用
-	if (MapData[(int)Akabei.y / 16][(int)Akabei.x / 16] == 1) {
-		Akabei.WallHit = true;
-	}
-	else {
-		Akabei.WallHit = false;
-	}
+
 }
 
 //描画
@@ -159,58 +187,3 @@ void WarpTunnel() {
 		}
 	}
 }
-
-//// 仮プレイヤーを追いかける処理
-//void AkabeiChasePlayer() {
-//	Akabei.mx = Akabei.x;		// アカベイのx座標を保存
-//	Akabei.my = Akabei.y;		// アカベイのy座標を保存
-//
-//	// 三平方の定理を使う
-//	A = mPac.x - Akabei.x;
-//
-//	B = mPac.y - Akabei.y;
-//
-//	C = sqrtf(A * A + B * B);	// A と B を２乗して足した値の平方根を求める
-//
-//	dx = A / C;		// C を1（正規化）とするには、A を C で割る
-//	dy = B / C;		// C を1（正規化）とするには、B を C で割る
-//
-//
-//
-//	if (Akabei.x < mPac.x - 16) {	// アカベイから見てプレイヤーは右側
-//		if (Akabei.WallHit == false) {
-//			Akabei.x += dx * Akabei.speed;
-//			Akabei.eyeImageCount = 1;
-//		}
-//		else {
-//			Akabei.WallHit = false;
-//		}
-//	}
-//	else if (Akabei.x > mPac.x + 16) {	// アカベイから見てプレイヤーは左側
-//		if (Akabei.WallHit == false) {
-//			Akabei.x += dx * Akabei.speed;
-//			Akabei.eyeImageCount = 3;
-//		}
-//		else {
-//			Akabei.WallHit = false;
-//		}
-//	}
-//	else if (Akabei.y < mPac.y - 16) {	// アカベイから見てプレイヤーは下側
-//		if (Akabei.WallHit == false) {
-//			Akabei.y += dy * Akabei.speed;
-//			Akabei.eyeImageCount = 2;
-//		}
-//		else {
-//			Akabei.WallHit = false;
-//		}
-//	}
-//	else if (Akabei.y > mPac.y + 16) {		// アカベイから見てプレイヤーは上側
-//		if (Akabei.WallHit == false) {
-//			Akabei.y += dy * Akabei.speed;
-//			Akabei.eyeImageCount = 0;
-//		}
-//		else {
-//			Akabei.WallHit = false;
-//		}
-//	}
-//}
