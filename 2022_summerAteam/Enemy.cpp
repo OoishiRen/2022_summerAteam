@@ -114,9 +114,8 @@ void Enemy_Update() {
 			}
 		}
 	}
-	AkabeiMove2();
-	//AkabeiChasePlayer();		// アカベイが仮プレイヤーを追いかける処理
 
+	AkabeiMove2();
 }
 
 // 描画
@@ -166,13 +165,16 @@ void AkabeiChasePlayer() {
 	}
 }
 
+// 左右上下の当たり判定を取りながら進む処理
 void AkabeiMove() {
-	Akabei.mx = Akabei.x;		// アカベイのx座標を保存
-	Akabei.my = Akabei.y;		// アカベイのy座標を保存
-	Akabei.md = Akabei.ed;		// 敵の動く方向を保存
+	{
+		Akabei.mx = Akabei.x;		// アカベイのx座標を保存
+		Akabei.my = Akabei.y;		// アカベイのy座標を保存
+		Akabei.md = Akabei.ed;		// 敵の動く方向を保存
 
-	// アカベイが壁を避けながら移動する処理
-	while (1) {
+
+
+		// アカベイが壁を避けながら移動する処理
 		switch (Akabei.ed) {
 		case 0:	// 左へ移動
 			Akabei.x--;
@@ -192,98 +194,127 @@ void AkabeiMove() {
 			break;
 		}
 
-		// 壁（画面端くらいに設定してる）に当たったら
-		if (Akabei.WallHit == true) {
-			// 元の場所に戻す
-			Akabei.x = Akabei.mx;
-			Akabei.y = Akabei.my;
-
-			// 進む方向を決める
-			switch (Akabei.md) {
-			case 0:
-
-				// 左に進んでいる時に壁に当たった場合、進める方向は上か下になる
-				if (Akabei.ed == 0) {
-					if (Akabei.y > mPac.y) {	// アカベイの位置が仮プレイヤーより下なら
-						Akabei.ed = 2;	// 上に方向を変える
-					}
-					else {
-						Akabei.ed = 3;	// 下に方向を変える
-					}
-				}
-				else if (Akabei.ed == 2) {	// 現在の位置の上が壁だったので下に方向を変える
-					Akabei.ed = 3;
-
-				}
-				else if (Akabei.ed == 3) {	// 現在の位置の下が壁だったので上に方向を変える
-					Akabei.ed = 2;
-				}
-				break;
-
-			case 1:
-
-				// 右に進んでいる時に壁に当たった場合、進める方向は上か下になる
-				if (Akabei.ed == 1) {
-					if (Akabei.y > mPac.y) {	// アカベイの位置が仮プレイヤーより下なら
-						Akabei.ed = 2;		// 上に方向を変える
-					}
-					else {
-						Akabei.ed = 3;		// 下に方向を変える
-					}
-				}
-				else if (Akabei.ed == 2) {		// 現在の位置の上が壁だったので下に方向を変える
-					Akabei.ed = 3;
-				}
-				else if (Akabei.ed == 3) {		// 現在の位置の下が壁だったので上に方向を変える
-					Akabei.ed = 2;
-				}
-				break;
-
-			case 2:
-
-				// 上に進んでいる時に壁に当たった場合、進める方向は右か左になる
-				if (Akabei.ed == 2) {
-					if (Akabei.x > mPac.x) {	// アカベイの位置が仮プレイヤーより右なら
-						Akabei.ed = 0;		// 左に方向を変える
-					}
-					else {
-						Akabei.ed = 1;		// 右に方向を変える
-					}
-				}
-				else if (Akabei.ed == 0) {		// 現在の位置の左が壁だったので右に方向を変える
+		// アカベイが左に進んでいたら
+		if (Akabei.ed == 0) {
+			// 左側と上側が当たっていた時
+			if (Akabei.left == true && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
+				// プレイヤーの位置がアカベイより右なら
+				if (mPac.x > Akabei.x) {
 					Akabei.ed = 1;
+					Akabei.WallHit = false;
 				}
-				else if (Akabei.ed == 1) {		// 現在の位置の右が壁だったので左に方向を変える
-					Akabei.ed = 0;
+				// プレイヤーの位置がアカベイより下なら
+				else if (mPac.y > Akabei.y) {
+					Akabei.ed = 3;
+					Akabei.WallHit = false;
 				}
-				break;
-
-			case 3:
-
-				// 下に進んでいる時に壁に当たった場合、進める方向は右か左になる
-				if (Akabei.ed == 3) {
-					if (Akabei.x > mPac.x) {	// アカベイの位置が仮プレイヤーより右なら
-						Akabei.ed = 0;		// 左に方向を変える						Akabei.WallHit = false;
-					}
-					else {
-						Akabei.ed = 1;		// 右に方向を変える
-					}
-				}
-				else if (Akabei.ed == 0) {		// 現在の位置の左が壁だったので右に方向を変える
+			}
+			// 左側だけが当たっていた時
+			else if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
+				// プレイヤーの位置がアカベイより右なら
+				if(mPac.x > Akabei.x){
 					Akabei.ed = 1;
+					Akabei.WallHit = false;
 				}
-				else if (Akabei.ed == 1) {		// 現在の位置の右が壁だったので左に方向を変える
-					Akabei.ed = 0;
+				// プレイヤーの位置がアカベイより下なら
+				else if (mPac.y > Akabei.y) {
+					Akabei.ed = 3;
+					Akabei.WallHit = false;
 				}
-				break;
+				// プレイヤーの位置がアカベイより上なら
+				else if(mPac.y < Akabei.y){
+					Akabei.ed = 2;
+					Akabei.WallHit = false;
+				}
+			}
+			// 左側と下側が当たっていた時
+			else if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
+				// プレイヤーの位置がアカベイより右なら
+				if (mPac.x > Akabei.x) {
+					Akabei.ed = 1;
+					Akabei.WallHit = false;
+				}
+				else if (mPac.y < Akabei.y) {
+					Akabei.ed = 2;
+					Akabei.WallHit = false;
+				}
 			}
 		}
-		else {
-			break;		// 移動先が壁じゃない場合は方向を変えるループから抜ける
+		// アカベイが右に進んでいたら
+		else if (Akabei.ed == 1) {
+			if (Akabei.left == false && Akabei.right == true && Akabei.up == true && Akabei.bottom == false) {
+				if (mPac.x < Akabei.x) {
+					Akabei.ed = 0;
+					Akabei.WallHit = false;
+				}
+				else if(mPac.y > Akabei.y){
+					Akabei.ed = 3;
+					Akabei.WallHit = false;
+				}
+			}
+			else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
+				// プレイヤーの位置がアカベイより下なら
+				if (mPac.y > Akabei.y) {
+					Akabei.ed = 3;
+					Akabei.WallHit = false;
+				}
+				else {
+					Akabei.ed = 2;
+					Akabei.WallHit = false;
+				}
+			}
+			else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == true) {
+				if (mPac.x < Akabei.x) {
+					Akabei.ed = 0;
+					Akabei.WallHit = false;
+				}
+				else if (mPac.y < Akabei.y) {
+					Akabei.ed = 2;
+					Akabei.WallHit = false;
+				}
+			}
+		}
+		// アカベイが上に進んでいたら
+		else if (Akabei.ed == 2) {
+			if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
+				// プレイヤーの位置がアカベイより右なら
+				if (mPac.x > Akabei.x) {
+					if (Akabei.ed == 2) {
+						Akabei.ed = 1;
+						Akabei.WallHit = false;
+					}
+				}
+				else {
+					if (Akabei.ed == 2) {
+						Akabei.ed = 0;
+						Akabei.WallHit = false;
+					}
+				}
+			}
+		}
+		// アカベイが下に進んでいたら
+		else if (Akabei.ed == 3) {
+			if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
+				// プレイヤーの位置がアカベイより右なら
+				if (mPac.x > Akabei.x) {
+					if (Akabei.ed == 3) {
+						Akabei.ed = 1;
+						Akabei.WallHit = false;
+					}
+				}
+				else {
+					if (Akabei.ed == 3) {
+						Akabei.ed = 0;
+						Akabei.WallHit = false;
+					}
+				}
+			}
 		}
 	}
 }
 
+// 左右上下の当たり判定を壁が当たった時だけ判断して進む方向を決める処理
+// 途中の通路には入らずに壁に当たる進む
 void AkabeiMove2() {
 	Akabei.mx = Akabei.x;		// アカベイのx座標を保存
 	Akabei.my = Akabei.y;		// アカベイのy座標を保存
@@ -317,14 +348,21 @@ void AkabeiMove2() {
 			Akabei.ed = 3;
 			Akabei.WallHit = false;
 		}
-		else if(Akabei.ed == 2){
+		else if (Akabei.ed == 2) {
 			Akabei.ed = 1;
 			Akabei.WallHit = false;
 		}
 	}
 	else if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
-		Akabei.ed = 3;
-		Akabei.WallHit = false;
+		// プレイヤーの位置がアカベイより下なら
+		if (mPac.y > Akabei.y) {
+			Akabei.ed = 3;
+			Akabei.WallHit = false;
+		}
+		else {
+			Akabei.ed = 2;
+			Akabei.WallHit = false;
+		}
 	}
 	else if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
 		if (Akabei.ed == 0) {
@@ -349,9 +387,14 @@ void AkabeiMove2() {
 		}
 	}
 	else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
-		Akabei.ed = 2;
-		Akabei.WallHit = false;
-
+		if (mPac.y > Akabei.y) {
+			Akabei.ed = 3;
+			Akabei.WallHit = false;
+		}
+		else {
+			Akabei.ed = 2;
+			Akabei.WallHit = false;
+		}
 	}
 	else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == true) {
 		if (Akabei.ed == 1) {
@@ -365,29 +408,30 @@ void AkabeiMove2() {
 
 	}
 	else if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
-		if (Akabei.ed == 2) {
-			if (upNum == 0) {
-				upNum = 1;
-				Akabei.ed = 3;
+		// プレイヤーの位置がアカベイより右なら
+		if (mPac.x >= Akabei.x) {
+			if (Akabei.ed == 2) {
+				Akabei.ed = 1;
 				Akabei.WallHit = false;
 			}
-			else if (upNum == 1) {
-				upNum = 0;
+		}
+		else {
+			if (Akabei.ed == 2) {
 				Akabei.ed = 0;
 				Akabei.WallHit = false;
 			}
 		}
-		
 	}
 	else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
-		if (Akabei.ed == 3) {
-			if (bottomNum == 0) {
-				bottomNum = 1;
-				Akabei.ed = 2;
+		// プレイヤーの位置がアカベイより右なら
+		if (mPac.x >= Akabei.x) {
+			if (Akabei.ed == 3) {
+				Akabei.ed = 1;
 				Akabei.WallHit = false;
 			}
-			else if (bottomNum == 1) {
-				bottomNum = 0;
+		}
+		else {
+			if (Akabei.ed == 3) {
 				Akabei.ed = 0;
 				Akabei.WallHit = false;
 			}

@@ -67,15 +67,15 @@ void DrawMap() {
 						Akabei.WallHit = true;
 					}
 				}
-			}
 
-			if (HitCheck(mPac.x, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-				if (MapData[i][j] == 1) {
-					mPac.x = mx;
-					mPac.y = my;
+				if (HitCheck(mPac.x, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+					if (MapData[i][j] == 1) {
+						mPac.x = mx;
+						mPac.y = my;
+					}
+
+					WarpTunnel();
 				}
-
-				WarpTunnel();
 			}
 		}
 	}
@@ -114,33 +114,45 @@ void Game_Update() {
 	//	Akabei.WallHit = true;
 	//}
 
-	if (Akabei.WallHit == true) {
-		// 上に壁があるときにフラグをtrueにする
-		if (MapData[((int)Akabei.y / 16) - 1][(int)Akabei.x / 16] == 1) {
-			Akabei.up = true;
-		}
-
-		// 下に壁があるときにフラグをtrueにする
-		if (MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 1) {
-			Akabei.bottom = true;
-		}
-
+	//if (Akabei.WallHit == true) {
 		// 左に壁があるときにフラグをtrueにする
 		if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 1) {
 			Akabei.left = true;
+		}
+		else {
+			Akabei.left = false;
 		}
 
 		// 右に壁があるときにフラグをtrueにする
 		if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 1) {
 			Akabei.right = true;
 		}
-	}
-	else{
-		Akabei.left = false;
-		Akabei.right = false;
-		Akabei.up = false;
-		Akabei.bottom = false;
-	}
+		else {
+			Akabei.right = false;
+		}
+
+		// 上に壁があるときにフラグをtrueにする
+		if (MapData[((int)Akabei.y / 16) - 1][(int)Akabei.x / 16] == 1) {
+			Akabei.up = true;
+		}
+		else {
+			Akabei.up = false;
+		}
+
+		// 下に壁があるときにフラグをtrueにする
+		if (MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 1) {
+			Akabei.bottom = true;
+		}
+		else {
+			Akabei.bottom = false;
+		}
+	//}
+	//else {
+	//	Akabei.left = false;
+	//	Akabei.right = false;
+	//	Akabei.up = false;
+	//	Akabei.bottom = false;
+	//}
 
 	Player_Update();
 	Enemy_Update();
