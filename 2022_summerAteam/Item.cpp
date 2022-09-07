@@ -71,13 +71,13 @@ int HitCheck(float x1, float y1, float w1, float h1, float x2, float y2, float w
 	float CharaR = x1 + w1;	//１のx軸 + 幅
 	float ItemL = x2;		//２のx軸
 	float ItemR = x2 + w2;	//２のx軸 + 幅
-
+	
 	//縦の当たり判定
 	float CharaU = y1;		//１のy軸
 	float CharaD = y1 + h1;	//１のy軸 + 高さ
 	float ItemU = y2;		//２のy軸
 	float ItemD = y2 + h2;	//２のy軸 + 高さ
-
+	
 	if (CharaL >= ItemR) {	//キャラの左端がアイテムの右端よりが右にあるとき
 		return 0;			//当たってない
 	}
@@ -320,7 +320,7 @@ void ScoreUIEnabled() {
 
 void FruitsUI() {
 
-	for (int i = 1; i <= Round;i++) {
-		DrawRotaGraph(454 + FRUIT_SIZE * i, 316, 1.0f, 0, Fruits_Handle[i-1], TRUE, FALSE);
+	for (int i = 1; i <= Round; i++) {
+		DrawRotaGraph(454 + FRUIT_SIZE * i, 316, 1.0f, 0, Fruits_Handle[i - 1], TRUE, FALSE);
 	}
 }
