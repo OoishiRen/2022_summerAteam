@@ -58,6 +58,13 @@ void DrawMap() {
 			if (MapData[i][j] == 1) {
 				DrawBox(j * MAP_SIZE, i * MAP_SIZE, j *
 					MAP_SIZE + MAP_SIZE, i * MAP_SIZE + MAP_SIZE, GetColor(0, 0, 255), TRUE);
+
+
+				if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+					Akabei.x = Akabei.mx;
+					Akabei.y = Akabei.my;
+					Akabei.WallHit = true;
+				}
 			}
 
 			if (HitCheck(mPac.x, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
@@ -100,42 +107,37 @@ void Game_Update() {
 	}
 
 	//if (MapData[(int)Akabei.y / 16][(int)Akabei.x / 16] == 1) {
+	//	Akabei.x = Akabei.mx;
+	//	Akabei.y = Akabei.my;
 	//	Akabei.WallHit = true;
 	//}
-	//else if (MapData[(int)Akabei.y / 16][(int)Akabei.x / 16] == 0) {
-	//	Akabei.WallHit = false;
-	//}
 
+	if (Akabei.WallHit == true) {
 		// 上に壁があるときにフラグをtrueにする
-	if (MapData[((int)Akabei.y / 16) - 1][(int)Akabei.x / 16] == 1) {
-		Akabei.up = true;
-	}
-	else if (MapData[((int)Akabei.y / 16) - 1][(int)Akabei.x / 16] == 0) {
-		Akabei.up = false;
-	}
+		if (MapData[((int)Akabei.y / 16) - 1][(int)Akabei.x / 16] == 1) {
+			Akabei.up = true;
+		}
 
-	// 下に壁があるときにフラグをtrueにする
-	if (MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 1) {
-		Akabei.bottom = true;
-	}
-	else if (MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 0) {
-		Akabei.bottom = false;
-	}
+		// 下に壁があるときにフラグをtrueにする
+		if (MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 1) {
+			Akabei.bottom = true;
+		}
 
-	// 左に壁があるときにフラグをtrueにする
-	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 1) {
-		Akabei.left = true;
+		// 左に壁があるときにフラグをtrueにする
+		if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 1) {
+			Akabei.left = true;
+		}
+
+		// 右に壁があるときにフラグをtrueにする
+		if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 1) {
+			Akabei.right = true;
+		}
 	}
-	else if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 0) {
+	else{
 		Akabei.left = false;
-	}
-
-	// 右に壁があるときにフラグをtrueにする
-	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 1) {
-		Akabei.right = true;
-	}
-	else if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 0) {
 		Akabei.right = false;
+		Akabei.up = false;
+		Akabei.bottom = false;
 	}
 
 	Player_Update();
