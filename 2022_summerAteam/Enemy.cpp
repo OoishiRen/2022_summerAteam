@@ -14,12 +14,16 @@ int EyeImage[EYE_IMAGE_MAX];			// 目玉の画像格納用変数
 
 float A, B, C;		// 三平方の定理用の変数
 float dx, dy;		// 正規化用変数
-
+int upNum;
+int bottomNum;
 
 // 初期化
 void Enemy_Initialize() {
 	LoadDivGraph("enemy_images/monster.png", 20, 20, 1, 16, 16, MonsterImage); // モンスターの画像を読み込む
 	LoadDivGraph("enemy_images/eyes.png", 4, 4, 1, 16, 16, EyeImage);		   // 目玉の画像を読み込む
+
+	upNum = 0;
+	bottomNum = 0;
 
 	// アカベイの初期化
 	Akabei.x = 440.0f;
@@ -72,6 +76,9 @@ void Enemy_Update() {
 	DrawFormatString(1000, 330, 255, "Akabei.bottom = %d", Akabei.bottom);
 	DrawFormatString(1000, 350, 255, "Akabei.ex = %d", (int)Akabei.x / 16);
 	DrawFormatString(1000, 370, 255, "Akabei.ey = %d", (int)Akabei.y / 16);
+	DrawFormatString(1000, 390, 255, "upNnum = %d", upNum);
+	DrawFormatString(1000, 410, 255, "bottomNum = %d", bottomNum);
+
 
 
 
@@ -282,6 +289,8 @@ void AkabeiMove2() {
 	Akabei.my = Akabei.y;		// アカベイのy座標を保存
 	Akabei.md = Akabei.ed;		// 敵の動く方向を保存
 
+
+
 	// アカベイが壁を避けながら移動する処理
 	switch (Akabei.ed) {
 	case 0:	// 左へ移動
@@ -302,24 +311,42 @@ void AkabeiMove2() {
 		break;
 	}
 
+	// アカベイが左に進んでいる場合
 	if (Akabei.left == true && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
-		Akabei.ed = 3;
-		Akabei.WallHit = false;
+		if (Akabei.ed == 0) {
+			Akabei.ed = 3;
+			Akabei.WallHit = false;
+		}
+		else if(Akabei.ed == 2){
+			Akabei.ed = 1;
+			Akabei.WallHit = false;
+		}
 	}
 	else if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
 		Akabei.ed = 3;
 		Akabei.WallHit = false;
 	}
 	else if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
-		Akabei.ed = 2;
-		Akabei.WallHit = false;
+		if (Akabei.ed == 0) {
+			Akabei.ed = 2;
+			Akabei.WallHit = false;
+		}
+		else if (Akabei.ed == 3) {
+			Akabei.ed = 1;
+			Akabei.WallHit = false;
+		}
 	}
 
-
-	if (Akabei.left == false && Akabei.right == true && Akabei.up == true && Akabei.bottom == false) {
-		Akabei.ed = 3;
-		Akabei.WallHit = false;
-
+	// アカベイが右に進んでいる場合
+	else if (Akabei.left == false && Akabei.right == true && Akabei.up == true && Akabei.bottom == false) {
+		if (Akabei.ed == 1) {
+			Akabei.ed = 3;
+			Akabei.WallHit = false;
+		}
+		else if (Akabei.ed == 2) {
+			Akabei.ed = 0;
+			Akabei.WallHit = false;
+		}
 	}
 	else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
 		Akabei.ed = 2;
@@ -337,43 +364,33 @@ void AkabeiMove2() {
 		}
 
 	}
-
-	if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
-		Akabei.ed = 1;
-		Akabei.WallHit = false;
+	else if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
+		if (Akabei.ed == 2) {
+			if (upNum == 0) {
+				upNum = 1;
+				Akabei.ed = 3;
+				Akabei.WallHit = false;
+			}
+			else if (upNum == 1) {
+				upNum = 0;
+				Akabei.ed = 0;
+				Akabei.WallHit = false;
+			}
+		}
+		
 	}
-
-	if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
-		Akabei.ed = 0;
-		Akabei.WallHit = false;
+	else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
+		if (Akabei.ed == 3) {
+			if (bottomNum == 0) {
+				bottomNum = 1;
+				Akabei.ed = 2;
+				Akabei.WallHit = false;
+			}
+			else if (bottomNum == 1) {
+				bottomNum = 0;
+				Akabei.ed = 0;
+				Akabei.WallHit = false;
+			}
+		}
 	}
-
-	//// 左に壁
-	//if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
-	//	Akabei.ed = 3;
-	//}
-	//if (Akabei.left == true && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
-	//	Akabei.ed = 3;
-	//}
-	//if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
-	//	Akabei.ed = 2;
-	//}
-	//// 右に壁
-	//if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
-	//	Akabei.ed = 2;
-	//}
-	//if (Akabei.left == false && Akabei.right == true && Akabei.up == true && Akabei.bottom == false) {
-	//	Akabei.ed = 0;
-	//}
-	//if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == true) {
-	//	Akabei.ed = 2;
-	//}
-	//// 上に壁
-	//if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
-	//	Akabei.ed = 0;
-	//}
-	//// 左に壁
-	//if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
-	//	Akabei.ed = 3;
-	//}
 }
