@@ -9,6 +9,8 @@
 
 static int mImageHandle; //画像ハンドル格納用変数
 float mx = 0, my = 0;
+int MapData2[MAP_HEIGHT][MAP_WIDTH];
+int pacman;
 
 /**********仮のマップチップ（消してもいい）**********/
 int MapData[MAP_HEIGHT][MAP_WIDTH] = //マップデータ 1は壁がある 0は壁がない　
@@ -104,6 +106,7 @@ void Game_Update() {
 	mx = mPac.x;
 	my = mPac.y;
 
+
 	if (CheckHitKey(KEY_INPUT_ESCAPE) != 0) {//Escキーが押されていたら
 		SceneMgr_ChangeScene(eScene_Menu);//シーンをメニューに変更
 	}
@@ -114,46 +117,38 @@ void Game_Update() {
 	//	Akabei.WallHit = true;
 	//}
 
-	//if (Akabei.WallHit == true) {
 		// 左に壁があるときにフラグをtrueにする
-		if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 1) {
-			Akabei.left = true;
-		}
-		else {
-			Akabei.left = false;
-		}
+	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 1) {
+		Akabei.left = true;
+	}
+	else {
+		Akabei.left = false;
+	}
 
-		// 右に壁があるときにフラグをtrueにする
-		if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 1) {
-			Akabei.right = true;
-		}
-		else {
-			Akabei.right = false;
-		}
+	// 右に壁があるときにフラグをtrueにする
+	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 1) {
+		//DrawBox(Akabei.x / 16, Akabei.y / 16, 1, 1, GetColor(0, 255, 0), TRUE);
+		Akabei.right = true;
+	}
+	else {
+		Akabei.right = false;
+	}
 
-		// 上に壁があるときにフラグをtrueにする
-		if (MapData[((int)Akabei.y / 16) - 1][(int)Akabei.x / 16] == 1) {
-			Akabei.up = true;
-		}
-		else {
-			Akabei.up = false;
-		}
+	// 上に壁があるときにフラグをtrueにする
+	if (MapData[((int)Akabei.y / 16) - 1][(int)Akabei.x / 16] == 1) {
+		Akabei.up = true;
+	}
+	else {
+		Akabei.up = false;
+	}
 
-		// 下に壁があるときにフラグをtrueにする
-		if (MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 1) {
-			Akabei.bottom = true;
-		}
-		else {
-			Akabei.bottom = false;
-		}
-	//}
-	//else {
-	//	Akabei.left = false;
-	//	Akabei.right = false;
-	//	Akabei.up = false;
-	//	Akabei.bottom = false;
-	//}
-
+	// 下に壁があるときにフラグをtrueにする
+	if (MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 1) {
+		Akabei.bottom = true;
+	}
+	else {
+		Akabei.bottom = false;
+	}
 	Player_Update();
 	Enemy_Update();
 	DrawMap();
