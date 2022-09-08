@@ -5,6 +5,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "Item.h"
+#include "UI.h"
 
 static int mImageHandle; //画像ハンドル格納用変数
 float mx = 0, my = 0;
@@ -105,6 +106,7 @@ void Game_Initialize() {
 	Player_Initialize();
 	Enemy_Initialize();
 	Item_Initialize();//アイテム用
+	UI_Initialize();
 	//mImageHandle = LoadGraph("images/Scene_GameMain.png"); //画像のロード
 }
 
@@ -140,18 +142,20 @@ void Game_Draw() {
 	Player_Draw();
 	Enemy_Draw();
 	Item_Draw();
+	UI_Draw();
 }
 
 void WarpTunnel() {
 
 	for (int i = 0; i < MAP_HEIGHT; i++) {
 		for (int j = 0; j < MAP_WIDTH; j++) {
-			if (HitCheck(mPac.x + 16, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-				if (MapData[i][j] == 2) {////左のトンネルに入ったら
+			if (HitCheck(mPac.x + 8, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+				if (MapData[i][j] == 2) {//左のトンネルに入ったら
 					for (int i = 0; i < MAP_HEIGHT; i++) {
 						for (int j = 0; j < MAP_WIDTH; j++) {
 							if (MapData[i][j] == 3 && mPac.type == 3) {//右のトンネルに
-								mPac.x = j * MAP_SIZE + 8;//ワープ
+								//mPac.x = j * MAP_SIZE - 8;//ワープ
+								mPac.x = j * MAP_SIZE + 4;//ワープ
 								mPac.y = i * MAP_SIZE + 8;//ワープ
 							}
 						}
@@ -160,13 +164,13 @@ void WarpTunnel() {
 				}
 
 			}
-			if (HitCheck(mPac.x - 16, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-
+			if (HitCheck(mPac.x - 8, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
 				if (MapData[i][j] == 3) {//右のトンネルに入ったら
 					for (int i = 0; i < MAP_HEIGHT; i++) {
 						for (int j = 0; j < MAP_WIDTH; j++) {
 							if (MapData[i][j] == 2 && mPac.type == 1) {//左のトンネルに
-								mPac.x = j * MAP_SIZE + 8;//ワープ
+								//mPac.x = j * MAP_SIZE + 16;//ワープ
+								mPac.x = j * MAP_SIZE + 12;//ワープ
 								mPac.y = i * MAP_SIZE + 8;//ワープ
 							}
 						}
