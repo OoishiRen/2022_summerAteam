@@ -3,6 +3,7 @@
 #include "SceneMgr.h"
 #include "Input.h"
 #include "DxLib.h"
+#include "UI.h"
 
 extern float HitCheckEnemy(PAC* p, AKABEI* e);
 
