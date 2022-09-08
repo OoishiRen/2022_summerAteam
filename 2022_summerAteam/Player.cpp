@@ -1,7 +1,11 @@
+#include <math.h>
+
 #include "Player.h"
 #include "Enemy.h"
-#include "SceneMgr.h"
+#include "Item.h"
+#include "Game.h"
 #include "Input.h"
+#include "SceneMgr.h"
 #include "DxLib.h"
 #include "UI.h"
 
@@ -27,12 +31,13 @@ void Player_Initialize() {
 	LoadDivGraph("player_images/dying.png", 11, 11, 1, 16, 16, dying_image);
 
 	mPac.flg = true;
-	mPac.type = 0;
+	mPac.type = 3;
 	mPac.img = 3;
 	mPac.x = 240.0f;
 	mPac.y = 392.0f;
 	mPac.w = PAC_WIDTH;
 	mPac.h = PAC_HEIGHT;
+	mPac.r = PAC_WIDTH / 2;
 	mPac.speed = PAC_SPEED;
 	mPac.cnt = PAC_LIFE;
 
@@ -68,7 +73,6 @@ void Player_Update() {
 		mPac.type = 3;
 		mPac.img = (3 * mPac.type);
 	}
-
 	if (HitCheckEnemy(&mPac, &Akabei)) {
 		mPac.flg = false;
 	}
@@ -145,6 +149,11 @@ void Pac_Move(int Type) {
 	}
 }
 
+/*************************************
+** パックマンとアカベイの当たり判定 **
+* 引　数 :パックマンの値,アカベイの値
+* 戻り値 :無し
+**************************************/
 float HitCheckEnemy(PAC*p, AKABEI*e) {
 	int sx1 = p->x - (int)(p->w * 0.5f);
 	int sy1 = p->y - (int)(p->h * 0.5f);
@@ -158,7 +167,10 @@ float HitCheckEnemy(PAC*p, AKABEI*e) {
 
 	//矩形が重なっていれば当たり
 	if (sx1 < dx2 && dx1 < sx2 && sy1 < dy2 && dy1 < sy2) {
-		return TRUE;
+		//パワーアップ中はスルー（仮）
+		if (!PowerUpFlg) {
+			return TRUE;
+		}
 	}
 	return FALSE;
 }
