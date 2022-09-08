@@ -9,6 +9,7 @@
 
 static int mImageHandle; //画像ハンドル格納用変数
 float mx = 0, my = 0;
+int mimg = 0, mtype = 0;	//画像保存用
 
 /**********仮のマップチップ（消してもいい）**********/
 int MapData[MAP_HEIGHT][MAP_WIDTH] = //マップデータ 1は壁がある 0は壁がない　
@@ -64,8 +65,9 @@ void DrawMap() {
 				if (MapData[i][j] == 1) {
 					mPac.x = mx;
 					mPac.y = my;
+					mPac.img = mimg;
+					mPac.type = mtype;
 				}
-
 				WarpTunnel();
 			}
 
@@ -122,6 +124,8 @@ void Game_Finalize() {
 void Game_Update() {
 	mx = mPac.x;
 	my = mPac.y;
+	mimg = mPac.img;
+	mtype = mPac.type;
 
 	if (CheckHitKey(KEY_INPUT_ESCAPE) != 0) {//Escキーが押されていたら
 		SceneMgr_ChangeScene(eScene_Menu);//シーンをメニューに変更
