@@ -1,5 +1,8 @@
 #pragma once
 
+#define ENEMY_SIZE 16
+#define ENEMY_CNT_SPEED 15
+
 /* 定数 */
 const int ENEMY_IMAGE_MAX = 20;		// モンスターの最大画像数
 const int EYE_IMAGE_MAX = 4;		// 目玉の最大画像数
@@ -8,9 +11,9 @@ const int EYE_IMAGE_MAX = 4;		// 目玉の最大画像数
 
 // アカベイの構造体
 struct AKABEI {
-	double x, y;			// x座標、y座標用変数
-	double w, h;
-	double mx, my;		// x座標、y座標保存用変数
+	float x, y;			// x座標、y座標用変数
+	float w, h;
+	float mx, my;		// x座標、y座標保存用変数
 	int ed;				// 方向を管理する用の変数
 	int md;				// 方向を保存する用の変数
 	float speed;		// 移動速度
@@ -20,6 +23,7 @@ struct AKABEI {
 	bool left, right, up, bottom;
 };
 extern struct AKABEI Akabei;
+extern struct AKABEI Pinkey;
 
 
 extern void Enemy_Initialize();		// 初期化
@@ -29,4 +33,7 @@ extern void Enemy_Draw();			// 描画
 
 extern void AkabeiChasePlayer();		// アカベイがプレイヤーを追いかける処理（簡易版）
 extern void AkabeiMove();
-extern void AkabeiMove2();
+
+void ScatterMode();
+
+void ModeChange();
