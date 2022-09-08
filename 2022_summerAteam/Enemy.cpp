@@ -7,6 +7,7 @@
 #include "Player.h"
 
 struct AKABEI Akabei;					// アカベイの構造体の宣言
+struct AKABEI Pinkey;
 int MonsterImage[ENEMY_IMAGE_MAX];		// モンスターの画像格納用変数
 int EyeImage[EYE_IMAGE_MAX];			// 目玉の画像格納用変数
 
@@ -15,6 +16,11 @@ int EyeImage[EYE_IMAGE_MAX];			// 目玉の画像格納用変数
 float A, B, C;		// 三平方の定理用の変数
 float dx, dy;		// 正規化用変数
 
+int eCnt;
+
+int ScatterModeTime;//縄張りモードの時間（フレーム）
+int ChaseModeTime;//追跡モードの時間（フレーム）
+bool EnemyMode; // True = 縄張りモード、false = 追跡モード
 
 // 初期化
 void Enemy_Initialize() {
@@ -36,6 +42,25 @@ void Enemy_Initialize() {
 	Akabei.up = false;
 	Akabei.bottom = false;
 
+	// ピンキーの初期化
+	Pinkey.x = 140.0f;
+	Pinkey.y = 40.0f;
+	Pinkey.w = ENEMY_SIZE;
+	Pinkey.h = ENEMY_SIZE;
+	Pinkey.ed = 2;
+	Pinkey.ImageCount = 2;
+	Pinkey.eyeImageCount = 0;
+	Pinkey.speed = 1.5f;
+	Pinkey.WallHit = false;
+	Pinkey.left = false;
+	Pinkey.right = false;
+	Pinkey.up = false;
+	Pinkey.bottom = false;
+
+	eCnt = 0;
+	ScatterModeTime = 480;
+	ChaseModeTime = 1230;
+	EnemyMode = true;
 }
 
 
@@ -52,6 +77,9 @@ void Enemy_Finalize() {
 
 //更新
 void Enemy_Update() {
+
+	Pinkey.mx = Pinkey.x;
+	Pinkey.my = Pinkey.y;
 
 	// デバッグ用の変数の表示
 	DrawFormatString(1000, 30, 255, "A = %.1f", A);
@@ -71,10 +99,29 @@ void Enemy_Update() {
 	DrawFormatString(1000, 310, 255, "Akabei.up = %d", Akabei.up);
 	DrawFormatString(1000, 330, 255, "Akabei.bottom = %d", Akabei.bottom);
 
+	DrawFormatString(500, 30, GetColor(255, 255, 255),
+		EnemyMode ? "Scatter %d" : "Chase %d", EnemyMode ? ScatterModeTime : ChaseModeTime);
 
+
+
+	for (int i = 0; i < MAP_HEIGHT; i++) {
+		for (int j = 0; j < MAP_WIDTH; j++) {
+			if (HitCheck(Pinkey.x, Pinkey.y, Pinkey.w, Pinkey.h,
+				j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+
+				if (MapData[i][j] == 1) {
+					Pinkey.x = Pinkey.mx;
+					Pinkey.y = Pinkey.my;
+				}
+			}
+		}
+	}
+
+	ModeChange();
 
 	// アニメーション
 	if (!PowerUpFlg) {
+
 		if (Akabei.ImageCount == 0) {
 			Akabei.ImageCount = 1;
 
@@ -82,6 +129,20 @@ void Enemy_Update() {
 		else {
 			Akabei.ImageCount = 0;
 		}
+
+		if (eCnt < ENEMY_CNT_SPEED) {
+			eCnt++;
+		}
+		else if (eCnt == ENEMY_CNT_SPEED) {
+			eCnt = 0;
+		}
+		if (eCnt < ENEMY_CNT_SPEED / 2) {
+			Pinkey.ImageCount = 3;
+		}
+		else if (eCnt > ENEMY_CNT_SPEED / 2 && eCnt < ENEMY_CNT_SPEED) {
+			Pinkey.ImageCount = 2;
+		}
+
 	}
 	else {
 		if (PowerUpTime > 150) {
@@ -92,18 +153,37 @@ void Enemy_Update() {
 			else {
 				Akabei.ImageCount = 16;
 			}
+
+
+			if (eCnt < ENEMY_CNT_SPEED) {
+				eCnt++;
+			}
+			else if (eCnt == ENEMY_CNT_SPEED) {
+				eCnt = 0;
+			}
+			if (eCnt < ENEMY_CNT_SPEED / 2) {
+				Pinkey.ImageCount = 16;
+			}
+			else if (eCnt > ENEMY_CNT_SPEED / 2 && eCnt < ENEMY_CNT_SPEED) {
+				Pinkey.ImageCount = 17;
+			}
+
 		}
 		else {
 			if (Akabei.ImageCount < 19) {
 				if (PowerUpTime % 5 == 0) {
 					Akabei.ImageCount++;
+					Pinkey.ImageCount++;
 				}
 			}
 			else
 			{
 				Akabei.ImageCount = 16;
+				Pinkey.ImageCount = 16;
 			}
 		}
+
+
 	}
 	//Akabei.mx = Akabei.x;		// アカベイのx座標を保存
 	//Akabei.my = Akabei.y;		// アカベイのy座標を保存
@@ -119,9 +199,14 @@ void Enemy_Draw() {
 	if (!PowerUpFlg) {
 		DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], TRUE);
 		DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, EyeImage[Akabei.eyeImageCount], TRUE);
+
+		DrawRotaGraph(Pinkey.x, Pinkey.y, 1, 0, MonsterImage[Pinkey.ImageCount], TRUE);
+		DrawRotaGraph(Pinkey.x, Pinkey.y, 1, 0, EyeImage[Pinkey.eyeImageCount], TRUE);
 	}
 	else {
 		DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], TRUE);
+
+		DrawRotaGraph(Pinkey.x, Pinkey.y, 1, 0, MonsterImage[Pinkey.ImageCount], TRUE);
 	}
 }
 
@@ -130,6 +215,9 @@ void Enemy_Draw() {
 void AkabeiChasePlayer() {
 	Akabei.mx = Akabei.x;		// アカベイのx座標を保存
 	Akabei.my = Akabei.y;		// アカベイのy座標を保存
+
+	Pinkey.mx = Pinkey.x;		// Pinkeyのx座標を保存
+	Pinkey.my = Pinkey.y;		// Pinkeyのy座標を保存
 
 	// 三平方の定理を使う
 	A = mPac.x - Akabei.x;
@@ -207,6 +295,42 @@ void AkabeiMove() {
 			Akabei.y++;
 			Akabei.eyeImageCount = 2;
 			break;
+		}
+	}
+}
+
+void ModeChange() {
+	if (EnemyMode == true) {//縄張りモード
+		ChaseModeTime = 1230;
+		if (ScatterModeTime > 0 != PowerUpFlg) {
+			ScatterModeTime--;
+		}
+		else if (ScatterModeTime == 0) {
+			EnemyMode = false;
+		}
+	}
+	else if (EnemyMode == false) {//追跡モード
+		ScatterModeTime = 480;
+		if (ChaseModeTime > 0 != PowerUpFlg) {
+			ChaseModeTime--;
+		}
+		else if (ChaseModeTime == 0) {
+			EnemyMode = true;
+		}
+	}
+}
+
+void ScatterMode() {
+	for (int i = 0; i < MAP_HEIGHT; i++) {
+		for (int j = 0; j < MAP_WIDTH; j++) {
+			if (HitCheck(Pinkey.x, Pinkey.y, Pinkey.w, Pinkey.h,
+				j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+
+				if (MapData[i][j] == 1) {
+					Pinkey.x = Pinkey.mx;
+					Pinkey.y = Pinkey.my;
+				}
+			}
 		}
 	}
 }
