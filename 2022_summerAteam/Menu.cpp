@@ -10,7 +10,7 @@ static int mImageHandle; //画像ハンドル格納用変数
 
 //初期化
 void Menu_Initialize() {
-
+	
 	//mImageHandle = LoadGraph("images/Scene_Menu.png"); //画像のロード
 	mImageHandle = LoadGraph("images/Title.png"); //画像のロード
 }

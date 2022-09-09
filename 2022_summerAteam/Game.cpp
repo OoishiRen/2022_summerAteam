@@ -9,6 +9,7 @@
 
 static int mImageHandle; //画像ハンドル格納用変数
 float mx = 0, my = 0;
+int mimg = 0, mtype = 0;	//画像保存用
 
 /**********仮のマップチップ（消してもいい）**********/
 int MapData[MAP_HEIGHT][MAP_WIDTH] = //マップデータ 1は壁がある 0は壁がない　
@@ -26,7 +27,7 @@ int MapData[MAP_HEIGHT][MAP_WIDTH] = //マップデータ 1は壁がある 0は壁がない　
  { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
- { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
+ { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0,   0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
  { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
 
  { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3 },
@@ -58,43 +59,24 @@ void DrawMap() {
 			if (MapData[i][j] == 1) {
 				DrawBox(j * MAP_SIZE, i * MAP_SIZE, j *
 					MAP_SIZE + MAP_SIZE, i * MAP_SIZE + MAP_SIZE, GetColor(0, 0, 255), TRUE);
+
+				if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+					Akabei.x = Akabei.mx;
+					Akabei.y = Akabei.my;
+					if (Akabei.ed == Akabei.md) {
+						Akabei.WallHit = true;
+					}
+				}
 			}
 
 			if (HitCheck(mPac.x, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
 				if (MapData[i][j] == 1) {
 					mPac.x = mx;
 					mPac.y = my;
+					mPac.img = mimg;
+					mPac.type = mtype;
 				}
-
 				WarpTunnel();
-			}
-
-			if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-				Akabei.WallHit = true;
-				//Akabei.x = Akabei.mx;
-				//Akabei.y = Akabei.my;
-
-			}
-
-
-			// アカベイの左側の判定
-			if (HitCheck(Akabei.x - 1, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-				Akabei.left = true;
-			}
-
-			// アカベイの右側の判定
-			if (HitCheck(Akabei.x + 1, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-				Akabei.right = true;
-			}
-
-			// アカベイの上側の判定
-			if (HitCheck(Akabei.x, Akabei.y - 1, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-				Akabei.up = true;
-			}
-
-			// アカベイの下側の判定
-			if (HitCheck(Akabei.x, Akabei.y + 1, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-				Akabei.bottom = true;
 			}
 		}
 	}
@@ -122,6 +104,46 @@ void Game_Finalize() {
 void Game_Update() {
 	mx = mPac.x;
 	my = mPac.y;
+	mimg = mPac.img;
+	mtype = mPac.type;
+
+	Pinkey.mx = Pinkey.x;
+	Pinkey.my = Pinkey.y;
+
+
+	// 左に壁があるときにフラグをtrueにする
+	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 1) {
+		Akabei.left = true;
+	}
+	else {
+		Akabei.left = false;
+	}
+
+	// 右に壁があるときにフラグをtrueにする
+	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 1) {
+		//DrawBox(Akabei.x / 16, Akabei.y / 16, 1, 1, GetColor(0, 255, 0), TRUE);
+		Akabei.right = true;
+	}
+	else {
+		Akabei.right = false;
+	}
+
+	// 上に壁があるときにフラグをtrueにする
+	if (MapData[((int)Akabei.y / 16) - 1][(int)Akabei.x / 16] == 1) {
+		Akabei.up = true;
+	}
+	else {
+		Akabei.up = false;
+	}
+
+	// 下に壁があるときにフラグをtrueにする
+	if (MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 1) {
+		Akabei.bottom = true;
+	}
+	else {
+		Akabei.bottom = false;
+	}
+
 
 	if (CheckHitKey(KEY_INPUT_ESCAPE) != 0) {//Escキーが押されていたら
 		SceneMgr_ChangeScene(eScene_Menu);//シーンをメニューに変更

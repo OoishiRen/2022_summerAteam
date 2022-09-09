@@ -1,5 +1,8 @@
 #pragma once
 
+#define ENEMY_SIZE 16
+#define ENEMY_CNT_SPEED 15
+
 /* 定数 */
 const int ENEMY_IMAGE_MAX = 20;		// モンスターの最大画像数
 const int EYE_IMAGE_MAX = 4;		// 目玉の最大画像数
@@ -20,6 +23,7 @@ struct AKABEI {
 	bool left, right, up, bottom;
 };
 extern struct AKABEI Akabei;
+extern struct AKABEI Pinkey;
 
 
 extern void Enemy_Initialize();		// 初期化
@@ -29,3 +33,8 @@ extern void Enemy_Draw();			// 描画
 
 extern void AkabeiChasePlayer();		// アカベイがプレイヤーを追いかける処理（簡易版）
 extern void AkabeiMove();
+extern void AkabeiMove2();
+
+void ScatterMode();
+
+void ModeChange();
