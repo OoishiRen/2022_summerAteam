@@ -47,7 +47,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	SceneMgr_Initialize(); 
 
 	while (ProcessMessage() == 0 ) { //画面更新 &メッセージ処理& 画面消去
-
+		
 		double dNextTime = GetNowCount();
 
 		Update();	//更新
