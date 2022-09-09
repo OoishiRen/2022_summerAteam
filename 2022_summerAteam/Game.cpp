@@ -136,14 +136,13 @@ void Game_Update() {
 		Akabei.up = false;
 	}
 
-	// 下に壁があるときにフラグをtrueにする
+	 // 下に壁があるときにフラグをtrueにする
 	if (MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 1) {
 		Akabei.bottom = true;
 	}
 	else {
 		Akabei.bottom = false;
 	}
-
 
 	if (CheckHitKey(KEY_INPUT_ESCAPE) != 0) {//Escキーが押されていたら
 		SceneMgr_ChangeScene(eScene_Menu);//シーンをメニューに変更

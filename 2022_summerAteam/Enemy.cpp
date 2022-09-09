@@ -28,8 +28,8 @@ void Enemy_Initialize() {
 	LoadDivGraph("enemy_images/eyes.png", 4, 4, 1, 16, 16, EyeImage);		   // 目玉の画像を読み込む
 
 	// アカベイの初期化
-	Akabei.x = 440.0f;
-	Akabei.y = 40.0f;
+	Akabei.x = 240.0f;
+	Akabei.y = 200.0f;
 	Akabei.w = 16.0f;
 	Akabei.h = 16.0f;
 	Akabei.ed = 0;
@@ -426,27 +426,99 @@ void AkabeiMove2() {
 		}
 	}
 	//else {
-	//	if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
-	//		if (Akabei.ed == 0) {
-	//			if (mPac.y > Akabei.y) {
-	//				Akabei.ed = 3;
-	//				Akabei.WallHit = false;
-	//			}
-	//		}
-	//		else if (Akabei.ed == 2) {
+	//	if (Akabei.ed == 0) {
+	//		if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
 	//			if (mPac.x > Akabei.x) {
 	//				Akabei.ed = 1;
-	//				Akabei.WallHit = false;
 	//			}
-	//			else {
+	//		}
+	//		else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
+	//			if (mPac.x < Akabei.x) {
 	//				Akabei.ed = 0;
-	//				Akabei.WallHit = false;
+	//			}
+	//		}
+	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
+	//			if (mPac.y < Akabei.y) {
+	//				Akabei.ed = 3;
+	//			}
+	//		}
+	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
+	//			if (mPac.y > Akabei.y) {
+	//				Akabei.ed = 2;
+	//			}
+	//		}
+	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
+
+	//		}
+	//	}
+	//	else if (Akabei.ed == 1) {
+	//		if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
+	//			if (mPac.x > Akabei.x) {
+	//				Akabei.ed = 1;
+	//			}
+	//		}
+	//		else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
+	//			if (mPac.x < Akabei.x) {
+	//				Akabei.ed = 0;
+	//			}
+	//		}
+	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
+	//			if (mPac.y < Akabei.y) {
+	//				Akabei.ed = 3;
+	//			}
+	//		}
+	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
+	//			if (mPac.y > Akabei.y) {
+	//				Akabei.ed = 2;
+	//			}
+	//		}
+	//	}
+	//	else if (Akabei.ed == 2) {
+	//		if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
+	//			if (mPac.x > Akabei.x) {
+	//				Akabei.ed = 1;
+	//			}
+	//		}
+	//		else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
+	//			if (mPac.x < Akabei.x) {
+	//				Akabei.ed = 0;
+	//			}
+	//		}
+	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
+	//			if (mPac.y < Akabei.y) {
+	//				Akabei.ed = 3;
+	//			}
+	//		}
+	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
+	//			if (mPac.y > Akabei.y) {
+	//				Akabei.ed = 2;
+	//			}
+	//		}
+	//	}
+	//	else if (Akabei.ed == 3) {
+	//		if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
+	//			if (mPac.x > Akabei.x) {
+	//				Akabei.ed = 1;
+	//			}
+	//		}
+	//		else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
+	//			if (mPac.x < Akabei.x) {
+	//				Akabei.ed = 0;
+	//			}
+	//		}
+	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
+	//			if (mPac.y < Akabei.y) {
+	//				Akabei.ed = 3;
+	//			}
+	//		}
+	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
+	//			if (mPac.y > Akabei.y) {
+	//				Akabei.ed = 2;
 	//			}
 	//		}
 	//	}
 	//}
 }
-
 
 void ModeChange() {
 	if (EnemyMode == true) {//縄張りモード
