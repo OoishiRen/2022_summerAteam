@@ -67,6 +67,13 @@ void DrawMap() {
 						Akabei.WallHit = true;
 					}
 				}
+				if (HitCheck(Pinkey.x, Pinkey.y, Pinkey.w, Pinkey.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+					Pinkey.x = Pinkey.mx;
+					Pinkey.y = Pinkey.my;
+					if (Pinkey.ed == Pinkey.md) {
+						Pinkey.WallHit = true;
+					}
+				}
 			}
 
 			if (HitCheck(mPac.x, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
@@ -144,13 +151,46 @@ void Game_Update() {
 		Akabei.bottom = false;
 	}
 
+	// 左に壁があるときにフラグをtrueにする
+	if (MapData[(int)Pinkey.y / 16][((int)Pinkey.x / 16) - 1] == 1) {
+		Pinkey.left = true;
+	}
+	else {
+		Pinkey.left = false;
+	}
+
+	// 右に壁があるときにフラグをtrueにする
+	if (MapData[(int)Pinkey.y / 16][((int)Pinkey.x / 16) + 1] == 1) {
+		//DrawBox(Pinkey.x / 16, Pinkey.y / 16, 1, 1, GetColor(0, 255, 0), TRUE);
+		Pinkey.right = true;
+	}
+	else {
+		Pinkey.right = false;
+	}
+
+	// 上に壁があるときにフラグをtrueにする
+	if (MapData[((int)Pinkey.y / 16) - 1][(int)Pinkey.x / 16] == 1) {
+		Pinkey.up = true;
+	}
+	else {
+		Pinkey.up = false;
+	}
+
+	// 下に壁があるときにフラグをtrueにする
+	if (MapData[((int)Pinkey.y / 16) + 1][(int)Pinkey.x / 16] == 1) {
+		Pinkey.bottom = true;
+	}
+	else {
+		Pinkey.bottom = false;
+	}
+
 
 	if (CheckHitKey(KEY_INPUT_ESCAPE) != 0) {//Escキーが押されていたら
 		SceneMgr_ChangeScene(eScene_Menu);//シーンをメニューに変更
 	}
 	Player_Update();
-	Enemy_Update();
 	DrawMap();
+	Enemy_Update();
 	Item_Update();//アイテム用
 
 

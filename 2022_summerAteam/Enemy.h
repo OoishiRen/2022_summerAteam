@@ -36,5 +36,6 @@ extern void AkabeiMove();
 extern void AkabeiMove2();
 
 void ScatterMode();
+void ChaseMode();
 
 void ModeChange();
