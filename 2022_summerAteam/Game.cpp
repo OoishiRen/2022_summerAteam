@@ -104,7 +104,7 @@ void Game_Initialize() {
 	Player_Initialize();
 	Enemy_Initialize();
 	Item_Initialize();//アイテム用
-	 mImageHandle=LoadGraph("Item_images/stage_pacman5.png"); //画像のロード
+	 mImageHandle=LoadGraph("Item_images/stage_pacmanRP2.png"); //画像のロード
 	//mImageHandle = LoadGraph("images/Scene_GameMain.png"); //画像のロード
 }
 
@@ -127,7 +127,7 @@ void Game_Update() {
 	Player_Update();
 	Enemy_Update();
 	DrawMap();
-	DrawGraph(0, 0, mImageHandle, TRUE);
+	DrawGraph(15, 3, mImageHandle, TRUE);
 	Item_Update();//アイテム用
 
 
