@@ -44,5 +44,6 @@ extern void GuzutaMove();
 
 
 void ScatterMode();
+void ChaseMode();
 
 void ModeChange();
