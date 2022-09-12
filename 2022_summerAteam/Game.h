@@ -11,3 +11,8 @@ void Game_Draw();//•`‰æ
 void WarpTunnel();
 
 extern int MapData[MAP_HEIGHT][MAP_WIDTH];
+
+extern void AkabeiMapHitCheck();
+extern void PinkeyMapHitCheck();
+extern void AosukeMapHitCheck();
+extern void GuzutaMapHitCheck();
