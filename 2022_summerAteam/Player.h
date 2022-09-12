@@ -28,6 +28,8 @@ struct PAC {
 
 extern struct PAC mPac;		//パックマン構造体
 
+static bool pac_x0 = false, pac_x1 = false, pac_y0 = false, pac_y1 = false;
+
 void Player_Initialize();	//初期化
 void Player_Finalize();		//終了処理
 void Player_Update();		//更新

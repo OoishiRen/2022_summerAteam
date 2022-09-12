@@ -56,20 +56,19 @@ void Player_Finalize() {
 
 //çXêV
 void Player_Update() {
-
-	if (g_NowKey & PAD_INPUT_UP && mPac.type != 0) {
+	if (g_NowKey & PAD_INPUT_UP && mPac.type != 0 && !pac_y0) {
 		mPac.type = 0;
 		mPac.img = (3 * mPac.type);
 	}
-	else if (g_NowKey & PAD_INPUT_RIGHT && mPac.type != 1) {
+	else if (g_NowKey & PAD_INPUT_RIGHT && mPac.type != 1 && !pac_x1) {
 		mPac.type = 1;
 		mPac.img = (3 * mPac.type);
 	}
-	else if (g_NowKey & PAD_INPUT_DOWN && mPac.type != 2) {
+	else if (g_NowKey & PAD_INPUT_DOWN && mPac.type != 2 && !pac_y1) {
 		mPac.type = 2;
 		mPac.img = (3 * mPac.type);
 	}
-	else if (g_NowKey & PAD_INPUT_LEFT && mPac.type != 3) {
+	else if (g_NowKey & PAD_INPUT_LEFT && mPac.type != 3 && !pac_x0) {
 		mPac.type = 3;
 		mPac.img = (3 * mPac.type);
 	}

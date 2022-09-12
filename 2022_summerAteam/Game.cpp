@@ -69,6 +69,50 @@ void DrawMap() {
 				}
 			}
 
+			switch (mtype)
+			{
+			case 0:
+			case 2:
+				if (HitCheck(mPac.x - mPac.w, mPac.y, mPac.w, mPac.h, j * MAP_SIZE - 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+					if (MapData[i][j] == 1) {
+						pac_x0 = true;
+					}
+					else {
+						pac_x0 = false;
+					}
+				}
+
+				if (HitCheck(mPac.x + mPac.w, mPac.y, mPac.w, mPac.h, j * MAP_SIZE - 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+					if (MapData[i][j] == 1) {
+						pac_x1 = true;
+					}
+					else {
+						pac_x1 = false;
+					}
+				}
+				break;
+			case 1:
+			case 3:
+				if (HitCheck(mPac.x, mPac.y - mPac.h, mPac.w, mPac.h, j * MAP_SIZE - 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+					if (MapData[i][j] == 1) {
+						pac_y0 = true;
+					}
+					else {
+						pac_y0 = false;
+					}
+				}
+				if (HitCheck(mPac.x, mPac.y + mPac.h, mPac.w, mPac.h, j * MAP_SIZE - 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+					if (MapData[i][j] == 1) {
+						pac_y1 = true;
+					}
+					else {
+						pac_y1 = false;
+					}
+				}
+				break;
+			default:
+				break;
+			}
 			if (HitCheck(mPac.x, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
 				if (MapData[i][j] == 1) {
 					mPac.x = mx;
@@ -78,6 +122,7 @@ void DrawMap() {
 				}
 				WarpTunnel();
 			}
+			
 		}
 	}
 }
