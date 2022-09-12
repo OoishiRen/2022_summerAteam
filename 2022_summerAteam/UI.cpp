@@ -18,7 +18,13 @@ int num5 = 0;
 int num6 = 0;
 int num7 = 0;
 int num8 = 0;
+int num9 = 1;
+int num10 = 0;
+int num11 = 0;
+int num12 = 0;
+int num13 = 0;
 int esa;
+//int high_score;
 
 void UI_Initialize() {
 	LoadDivGraph("player_images/num.png", 15, 15, 1, 16, 16, score_image);
@@ -37,7 +43,6 @@ void UI_Updeta() {
 }
 //描画
 void UI_Draw() {
-	/*for (int i = 0; i < 9; i++)*/ 
 		if (esa == 1) {
 			num2 += 1;
 			if (num2 > 9) {
@@ -79,16 +84,27 @@ void UI_Draw() {
 				num5 = 9;
 			}
 			esa = 0;
+			//// ハイスコアより大きければ
+			//if (num10 > num5)
+			//{
+			//	// ハイスコアを新記録で更新
+			//	num10 = esa; 
+			//}
 		}
 
-		DrawRotaGraph(155, 20, 1.0f, 0, score_image[num1], TRUE, FALSE);
-		DrawRotaGraph(140, 20, 1.0f, 0, score_image[num2], TRUE, FALSE);
-		DrawRotaGraph(125, 20, 1.0f, 0, score_image[num3], TRUE, FALSE);
-		DrawRotaGraph(110, 20, 1.0f, 0, score_image[num4], TRUE, FALSE);
-		DrawRotaGraph(95, 20, 1.0f, 0, score_image[num5], TRUE, FALSE);
+		DrawRotaGraph(1000, 100, 2.0f, 0, score_image[num1], TRUE, FALSE);
+		DrawRotaGraph(975, 100, 2.0f, 0, score_image[num2], TRUE, FALSE);
+		DrawRotaGraph(950, 100, 2.0f, 0, score_image[num3], TRUE, FALSE);
+		DrawRotaGraph(925, 100, 2.0f, 0, score_image[num4], TRUE, FALSE);
+		DrawRotaGraph(900, 100, 2.0f, 0, score_image[num5], TRUE, FALSE);
 		DrawRotaGraph(1000, 500, 1.0f, 0, zanpakuto_image[num6], TRUE, FALSE);
 		DrawRotaGraph(950, 500, 1.0f, 0, zanpakuto_image[num7], TRUE, FALSE);
 		DrawRotaGraph(900, 500, 1.0f, 0, zanpakuto_image[num8], TRUE, FALSE);
+		DrawRotaGraph(900, 50, 2.0f, 0, score_image[num9], TRUE, FALSE);
+		DrawRotaGraph(925, 50, 2.0f, 0, score_image[num10], TRUE, FALSE);
+		DrawRotaGraph(950, 50, 2.0f, 0, score_image[num11], TRUE, FALSE);
+		DrawRotaGraph(975, 50, 2.0f, 0, score_image[num12], TRUE, FALSE);
+		DrawRotaGraph(1000, 50, 2.0f, 0, score_image[num13], TRUE, FALSE);
 }
 
 
