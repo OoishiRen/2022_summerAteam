@@ -44,6 +44,10 @@ void Enemy_Initialize() {
 	Akabei.right = false;
 	Akabei.up = false;
 	Akabei.bottom = false;
+	Akabei.dx = 0;
+	Akabei.dy = 0;
+	Akabei.dx2 = 0;
+	Akabei.dy2 = 0;
 
 	// ピンキーの初期化
 	Pinkey.x = 240.0f;
@@ -242,7 +246,7 @@ void Enemy_Draw() {
 
 	}
 }
-
+int pup, pbottom, pleft, pright;
 
 // 仮プレイヤーを追いかける処理
 void AkabeiChasePlayer() {
@@ -423,100 +427,239 @@ void AkabeiMove() {
 				}
 			}
 		}
-	}
-	//else {
-	//	if (Akabei.ed == 0) {
-	//		if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
-	//			if (mPac.x > Akabei.x) {
-	//				Akabei.ed = 1;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
-	//			if (mPac.x < Akabei.x) {
-	//				Akabei.ed = 0;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
-	//			if (mPac.y < Akabei.y) {
-	//				Akabei.ed = 3;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
-	//			if (mPac.y > Akabei.y) {
-	//				Akabei.ed = 2;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
+		else {
+			// 右に壁があって、左と上下に壁が無い時にどの方向に移動するか
+			if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
+				// 進んできた方向によって、処理を変える
+				switch (Akabei.ed) {
+				case 1:	// 右
+					if (mPac.y > Akabei.y) {
+						Akabei.ed = 3;
+						Akabei.WallHit = false;
+						break;
+					}
+					else {
+						Akabei.ed = 2;
+						Akabei.WallHit = false;
+						break;
+					}
+				case 2:
+					if (mPac.x < Akabei.x) {
+						Akabei.ed = 0;
+						Akabei.WallHit = false;
+						break;
+					}
+					else {
+						Akabei.ed = 1;
+						Akabei.WallHit = false;
+						break;
+					}
+				case 3:
+					if (mPac.x < Akabei.x) {
+						Akabei.ed = 0;
+						Akabei.WallHit = false;
+						break;
+					}
+				}
+			}
+			// 左に壁があって、右と上下に壁が無い時にどの方向に移動するか
+			else if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
+				switch (Akabei.ed) {
+				case 1:
+					if (mPac.y < Akabei.y) {
+						Akabei.ed = 2;
+						Akabei.WallHit = false;
+						break;
+					}
+					else {
+						Akabei.ed = 3;
+						Akabei.WallHit = false;
+					}
+				case 2:
+					if (mPac.x > Akabei.x) {
+						Akabei.ed = 1;
+						Akabei.WallHit = false;
+						break;
+					}
+				case 3:
+					if (mPac.x > Akabei.x) {
+						Akabei.ed = 1;
+						Akabei.WallHit = false;
+						break;
+					}
+				}
+			}
+			// 上に壁があって、下と左右に壁が無い時にどの方向に移動するか
+			else if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
+				switch (Akabei.ed) {
+				case 0:
+					if (mPac.y < Akabei.y) {
+						Akabei.ed = 2;
+						Akabei.WallHit = false;
+						break;
+					}
+					else {
+						Akabei.ed = 3;
+						Akabei.WallHit = false;
+						break;
+					}
+				case 1:
+					if (Akabei.y > Akabei.y) {
+						Akabei.ed = 3;
+						Akabei.WallHit = false;
+						break;
+					}
+				case 2:
+					if (mPac.x < Akabei.x) {
+						Akabei.ed = 0;
+						Akabei.WallHit = false;
+						break;
+					}
+					else {
+						Akabei.ed = 1;
+						Akabei.WallHit = false;
+						break;
+					}
+				}
+			}
+			// 下に壁があって、上と左右に壁が無い時にどの方向に移動するか
+			else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
+				switch (Akabei.ed) {
+				case 0:
+					if (mPac.y < Akabei.y) {
+						Akabei.ed = 2;
+						Akabei.WallHit = false;
+						break;
+					}
+				case 1:
+					if (mPac.y < Akabei.y) {
+						Akabei.ed = 2;
+						Akabei.WallHit = false;
+						break;
+					}
+				case 3:
+					if (mPac.x < Akabei.x) {
+						Akabei.ed = 0;
+						Akabei.WallHit = false;
+						break;
+					}
+					else {
+						Akabei.ed = 1;
+						Akabei.WallHit = false;
+						break;
+					}
+				}
 
-	//		}
-	//	}
-	//	else if (Akabei.ed == 1) {
-	//		if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
-	//			if (mPac.x > Akabei.x) {
-	//				Akabei.ed = 1;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
-	//			if (mPac.x < Akabei.x) {
-	//				Akabei.ed = 0;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
-	//			if (mPac.y < Akabei.y) {
-	//				Akabei.ed = 3;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
-	//			if (mPac.y > Akabei.y) {
-	//				Akabei.ed = 2;
-	//			}
-	//		}
-	//	}
-	//	else if (Akabei.ed == 2) {
-	//		if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
-	//			if (mPac.x > Akabei.x) {
-	//				Akabei.ed = 1;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
-	//			if (mPac.x < Akabei.x) {
-	//				Akabei.ed = 0;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
-	//			if (mPac.y < Akabei.y) {
-	//				Akabei.ed = 3;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
-	//			if (mPac.y > Akabei.y) {
-	//				Akabei.ed = 2;
-	//			}
-	//		}
-	//	}
-	//	else if (Akabei.ed == 3) {
-	//		if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
-	//			if (mPac.x > Akabei.x) {
-	//				Akabei.ed = 1;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
-	//			if (mPac.x < Akabei.x) {
-	//				Akabei.ed = 0;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
-	//			if (mPac.y < Akabei.y) {
-	//				Akabei.ed = 3;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
-	//			if (mPac.y > Akabei.y) {
-	//				Akabei.ed = 2;
-	//			}
-	//		}
-	//	}
-	//}
+			}
+		}
+	}
+		// 左右上下どこにも壁が無い時の移動方向
+	else {
+		if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
+			switch (Akabei.ed) {
+			case 0:
+				if (mPac.y < Akabei.y) {
+					Akabei.ed = 2;
+					Akabei.WallHit = false;
+					break;
+				}
+				else {
+					Akabei.ed = 3;
+					Akabei.WallHit = false;
+					break;
+				}
+			case 1:
+				if (mPac.y < Akabei.y) {
+					Akabei.ed = 2;
+					Akabei.WallHit = false;
+					break;
+				}
+				else {
+					Akabei.ed = 3;
+					Akabei.WallHit = false;
+					break;
+				}
+			case 2:
+				if (mPac.x > Akabei.x) {
+					Akabei.ed = 1;
+					Akabei.WallHit = false;
+					break;
+				}
+				else {
+					Akabei.ed = 0;
+					Akabei.WallHit = false;
+					break;
+				}
+			case 3:
+				if (mPac.x > Akabei.x) {
+					Akabei.ed = 1;
+					Akabei.WallHit = false;
+					break;
+				}
+				else {
+					Akabei.ed = 0;
+					Akabei.WallHit = false;
+					break;
+				}
+			}
+			//if (Akabei.ed == 0 || Akabei.ed == 1) {
+			//	if (mPac.y < Akabei.y) {
+			//		Akabei.ed = 2;
+			//	}
+			//	else {
+			//		Akabei.ed = 3;
+			//	}
+			//}
+			//else if (Akabei.ed == 2 || Akabei.ed == 3) {
+			//	if (mPac.x > Akabei.x) {
+			//		Akabei.ed = 1;
+			//	}
+			//	else {
+			//		Akabei.ed = 0;
+			//	}
+			//}
+		}
+
+
+	}
+}
+
+void AkabeiMove2() {
+	Akabei.mx = Akabei.x;		// アカベイのx座標を保存
+	Akabei.my = Akabei.y;		// アカベイのy座標を保存
+
+	Akabei.upnum = Akabei.y / 16 - 1;
+	Akabei.bottomnum = Akabei.y / 16 + 1;
+	Akabei.leftnum = Akabei.x / 16 - 1;
+	Akabei.rightnum = Akabei.x / 16 + 1;
+
+	pup = mPac.y / 16 - 1;
+	pbottom = mPac.y / 16 + 1;
+	pleft = mPac.x / 16 - 1;
+	pright = mPac.x / 16 + 1;
+
+	Akabei.dx2 = px - Akabei.dx;
+	Akabei.dy2 = py - Akabei.dy;
+
+	// アカベイが壁を避けながら移動する処理
+	switch (Akabei.ed) {
+	case 0:	// 左へ移動
+		Akabei.x--;
+		Akabei.eyeImageCount = 3;
+		break;
+	case 1:	// 右へ移動
+		Akabei.x++;
+		Akabei.eyeImageCount = 1;
+		break;
+	case 2:	// 上へ移動
+		Akabei.y--;
+		Akabei.eyeImageCount = 0;
+		break;
+	case 3:	// 下へ移動
+		Akabei.y++;
+		Akabei.eyeImageCount = 2;
+		break;
+	}
 }
 
 void PinkeyMove() {

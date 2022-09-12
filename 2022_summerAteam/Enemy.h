@@ -21,6 +21,10 @@ struct AKABEI {
 	int eyeImageCount;	// 目玉のアニメーション用変数
 	bool WallHit;
 	bool left, right, up, bottom;
+	int upnum, bottomnum;
+	int leftnum, rightnum;
+	int dx, dx2, dy, dy2;
+
 };
 extern struct AKABEI Akabei;
 extern struct AKABEI Pinkey;
@@ -35,6 +39,7 @@ extern void Enemy_Draw();			// 描画
 
 extern void AkabeiChasePlayer();		// アカベイがプレイヤーを追いかける処理（簡易版）
 extern void AkabeiMove();
+extern void AkabeiMove2();
 
 extern void PinkeyMove();
 

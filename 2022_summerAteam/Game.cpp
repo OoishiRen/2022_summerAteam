@@ -27,7 +27,7 @@ int MapData[MAP_HEIGHT][MAP_WIDTH] = //マップデータ 1は壁がある 0は壁がない　
  { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
- { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0,   0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
+ { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 2,   2, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
  { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
 
  { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3 },
@@ -229,35 +229,34 @@ void WarpTunnel() {
 
 void AkabeiMapHitCheck() {
 	// 左に壁があるときにフラグをtrueにする
-	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 1) {
+	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 1 || MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 2) {
 		Akabei.left = true;
 	}
-	else {
+	else if(MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 0){
 		Akabei.left = false;
 	}
 
 	// 右に壁があるときにフラグをtrueにする
-	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 1) {
-		//DrawBox(Akabei.x / 16, Akabei.y / 16, 1, 1, GetColor(0, 255, 0), TRUE);
+	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 1 || MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 2) {
 		Akabei.right = true;
 	}
-	else {
+	else if(MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 0){
 		Akabei.right = false;
 	}
 
 	// 上に壁があるときにフラグをtrueにする
-	if (MapData[((int)Akabei.y / 16) - 1][(int)Akabei.x / 16] == 1) {
+	if (MapData[((int)Akabei.y / 16) - 1][(int)Akabei.x / 16] == 1 || MapData[(int)Akabei.y / 16 - 1][((int)Akabei.x / 16)] == 2) {
 		Akabei.up = true;
 	}
-	else {
+	else if(MapData[(int)Akabei.y / 16 - 1][((int)Akabei.x / 16)] == 0){
 		Akabei.up = false;
 	}
 
 	// 下に壁があるときにフラグをtrueにする
-	if (MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 1) {
+	if (MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 1 || MapData[(int)Akabei.y / 16 + 1][((int)Akabei.x / 16) - 1] == 2) {
 		Akabei.bottom = true;
 	}
-	else {
+	else if(MapData[(int)Akabei.y / 16 + 1][((int)Akabei.x / 16)] == 0){
 		Akabei.bottom = false;
 	}
 }
