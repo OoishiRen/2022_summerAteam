@@ -163,7 +163,7 @@ float HitCheckEnemy(PAC*p, AKABEI*e) {
 	int dy1 = e->y - (int)(e->h * 0.5f);
 	int dx2 = e->x + (int)(e->w * 0.5f);
 	int dy2 = e->y + (int)(e->h * 0.5f);
-
+	
 	//矩形が重なっていれば当たり
 	if (sx1 < dx2 && dx1 < sx2 && sy1 < dy2 && dy1 < sy2) {
 		//パワーアップ中はスルー（仮）
