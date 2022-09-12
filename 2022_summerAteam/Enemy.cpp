@@ -8,9 +8,6 @@
 
 struct AKABEI Akabei;					// アカベイの構造体の宣言
 struct AKABEI Pinkey;
-struct AKABEI Aosuke;
-struct AKABEI Guzuta;
-
 int MonsterImage[ENEMY_IMAGE_MAX];		// モンスターの画像格納用変数
 int EyeImage[EYE_IMAGE_MAX];			// 目玉の画像格納用変数
 
@@ -31,10 +28,10 @@ void Enemy_Initialize() {
 	LoadDivGraph("enemy_images/eyes.png", 4, 4, 1, 16, 16, EyeImage);		   // 目玉の画像を読み込む
 
 	// アカベイの初期化
-	Akabei.x = 240.0f;
-	Akabei.y = 200.0f;
-	Akabei.w = ENEMY_SIZE;
-	Akabei.h = ENEMY_SIZE;
+	Akabei.x = 440.0f;
+	Akabei.y = 40.0f;
+	Akabei.w = 16.0f;
+	Akabei.h = 16.0f;
 	Akabei.ed = 0;
 	Akabei.ImageCount = 0;
 	Akabei.eyeImageCount = 3;
@@ -60,36 +57,6 @@ void Enemy_Initialize() {
 	Pinkey.up = false;
 	Pinkey.bottom = false;
 
-	// アオスケの初期化
-	Aosuke.x = 200.0f;
-	Aosuke.y = 260.0f;
-	Aosuke.w = ENEMY_SIZE;
-	Aosuke.h = ENEMY_SIZE;
-	Aosuke.ed = 2;
-	Aosuke.ImageCount = 4;
-	Aosuke.eyeImageCount = 0;
-	Aosuke.speed = 1.5f;
-	Aosuke.WallHit = false;
-	Aosuke.left = false;
-	Aosuke.right = false;
-	Aosuke.up = false;
-	Aosuke.bottom = false;
-
-	// グズタの初期化
-	Guzuta.x = 280.0f;
-	Guzuta.y = 260.0f;
-	Guzuta.w = ENEMY_SIZE;
-	Guzuta.h = ENEMY_SIZE;
-	Guzuta.ed = 2;
-	Guzuta.ImageCount = 6;
-	Guzuta.eyeImageCount = 0;
-	Guzuta.speed = 1.5f;
-	Guzuta.WallHit = false;
-	Guzuta.left = false;
-	Guzuta.right = false;
-	Guzuta.up = false;
-	Guzuta.bottom = false;
-
 	eCnt = 0;
 	ScatterModeTime = 480;
 	ChaseModeTime = 1230;
@@ -111,9 +78,6 @@ void Enemy_Finalize() {
 //更新
 void Enemy_Update() {
 
-	Pinkey.mx = Pinkey.x;
-	Pinkey.my = Pinkey.y;
-
 	// デバッグ用の変数の表示
 	DrawFormatString(1000, 30, 255, "A = %.1f", A);
 	DrawFormatString(1000, 50, 255, "B = %.1f", B);
@@ -122,24 +86,30 @@ void Enemy_Update() {
 	DrawFormatString(1000, 110, 255, "dy = %.1f", dy);
 	DrawFormatString(1000, 130, 255, "md = %d", Akabei.md);
 	DrawFormatString(1000, 150, 255, "ed = %d", Akabei.ed);
-	DrawFormatString(1000, 170, 255, "Aosuke.x = %.1f", Aosuke.x / 16);
-	DrawFormatString(1000, 190, 255, "Guzuta.x = %.1f", Guzuta.x / 16);
-	DrawFormatString(1000, 210, 255, "mPac.x = %.1f", mPac.x / 16);
-	DrawFormatString(1000, 230, 255, "mPac.y = %.1f", mPac.y / 16);
+	DrawFormatString(1000, 170, 255, "Akabei.x = %.1f", Akabei.x);
+	DrawFormatString(1000, 190, 255, "Akabei.y = %.1f", Akabei.y);
+	DrawFormatString(1000, 210, 255, "mPac.x = %.1f", mPac.x);
+	DrawFormatString(1000, 230, 255, "mPac.y = %.1f", mPac.y);
 	DrawFormatString(1000, 250, 255, "Akabei.WallHit = %d", Akabei.WallHit);
 	DrawFormatString(1000, 270, 255, "Akabei.left = %d", Akabei.left);
 	DrawFormatString(1000, 290, 255, "Akabei.right = %d", Akabei.right);
 	DrawFormatString(1000, 310, 255, "Akabei.up = %d", Akabei.up);
 	DrawFormatString(1000, 330, 255, "Akabei.bottom = %d", Akabei.bottom);
-	DrawFormatString(1000, 350, 255, "DotCnt = %d", DotCnt);
 
 	DrawFormatString(500, 30, GetColor(255, 255, 255),
 		EnemyMode ? "Scatter %d" : "Chase %d", EnemyMode ? ScatterModeTime : ChaseModeTime);
 
-	ModeChange();
 
 	// アニメーション
 	if (!PowerUpFlg) {
+
+		if (Akabei.ImageCount == 0) {
+			Akabei.ImageCount = 1;
+
+		}
+		else {
+			Akabei.ImageCount = 0;
+		}
 
 		if (eCnt < ENEMY_CNT_SPEED) {
 			eCnt++;
@@ -147,18 +117,11 @@ void Enemy_Update() {
 		else if (eCnt == ENEMY_CNT_SPEED) {
 			eCnt = 0;
 		}
-
 		if (eCnt < ENEMY_CNT_SPEED / 2) {
-			Akabei.ImageCount = 1;
 			Pinkey.ImageCount = 3;
-			Aosuke.ImageCount = 5;
-			Guzuta.ImageCount = 7;
 		}
 		else if (eCnt > ENEMY_CNT_SPEED / 2 && eCnt < ENEMY_CNT_SPEED) {
-			Akabei.ImageCount = 0;
 			Pinkey.ImageCount = 2;
-			Aosuke.ImageCount = 4;
-			Guzuta.ImageCount = 6;
 		}
 
 	}
@@ -207,9 +170,10 @@ void Enemy_Update() {
 	//Akabei.my = Akabei.y;		// アカベイのy座標を保存
 
 	//AkabeiChasePlayer();		// アカベイが仮プレイヤーを追いかける処理
-	AkabeiMove();
-	AosukeMove();
-	GuzutaMove();
+
+	ModeChange();
+
+	AkabeiMove2();
 }
 
 
@@ -222,24 +186,11 @@ void Enemy_Draw() {
 
 		DrawRotaGraph(Pinkey.x, Pinkey.y, 1, 0, MonsterImage[Pinkey.ImageCount], TRUE);
 		DrawRotaGraph(Pinkey.x, Pinkey.y, 1, 0, EyeImage[Pinkey.eyeImageCount], TRUE);
-
-
-		DrawRotaGraph(Aosuke.x, Aosuke.y, 1, 0, MonsterImage[Aosuke.ImageCount], TRUE);
-		DrawRotaGraph(Aosuke.x, Aosuke.y, 1, 0, EyeImage[Aosuke.eyeImageCount], TRUE);
-
-		DrawRotaGraph(Guzuta.x, Guzuta.y, 1, 0, MonsterImage[Guzuta.ImageCount], TRUE);
-		DrawRotaGraph(Guzuta.x, Guzuta.y, 1, 0, EyeImage[Guzuta.eyeImageCount], TRUE);
-
 	}
 	else {
 		DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], TRUE);
 
 		DrawRotaGraph(Pinkey.x, Pinkey.y, 1, 0, MonsterImage[Pinkey.ImageCount], TRUE);
-
-		DrawRotaGraph(Aosuke.x, Aosuke.y, 1, 0, MonsterImage[Aosuke.ImageCount], TRUE);
-
-		DrawRotaGraph(Guzuta.x, Guzuta.y, 1, 0, MonsterImage[Guzuta.ImageCount], TRUE);
-
 	}
 }
 
@@ -298,9 +249,40 @@ void AkabeiChasePlayer() {
 	}
 }
 
+void AkabeiMove() {
+	Akabei.mx = Akabei.x;		// アカベイのx座標を保存
+	Akabei.my = Akabei.y;		// アカベイのy座標を保存
+	Akabei.md = Akabei.ed;		// 敵の動く方向を保存
+
+	// アカベイが壁を避けながら移動する処理
+	if (Akabei.WallHit == false) {
+		switch (Akabei.ed) {
+		case 0:	// 左へ移動
+			Akabei.x--;
+			Akabei.eyeImageCount = 3;
+			if (Akabei.left == true) {
+				Akabei.ed = 3;
+			}
+			break;
+		case 1:	// 右へ移動
+			Akabei.x++;
+			Akabei.eyeImageCount = 1;
+			break;
+		case 2:	// 上へ移動
+			Akabei.y--;
+			Akabei.eyeImageCount = 0;
+			break;
+		case 3:	// 下へ移動
+			Akabei.y++;
+			Akabei.eyeImageCount = 2;
+			break;
+		}
+	}
+}
+
 // 左右上下の当たり判定を壁が当たった時だけ判断して進む方向を決める処理
 // 途中の通路には入らずに壁に当たり進む
-void AkabeiMove() {
+void AkabeiMove2() {
 	Akabei.mx = Akabei.x;		// アカベイのx座標を保存
 	Akabei.my = Akabei.y;		// アカベイのy座標を保存
 	Akabei.md = Akabei.ed;		// 敵の動く方向を保存
@@ -425,203 +407,27 @@ void AkabeiMove() {
 		}
 	}
 	//else {
-	//	if (Akabei.ed == 0) {
-	//		if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
+	//	if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
+	//		if (Akabei.ed == 0) {
+	//			if (mPac.y > Akabei.y) {
+	//				Akabei.ed = 3;
+	//				Akabei.WallHit = false;
+	//			}
+	//		}
+	//		else if (Akabei.ed == 2) {
 	//			if (mPac.x > Akabei.x) {
 	//				Akabei.ed = 1;
+	//				Akabei.WallHit = false;
 	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
-	//			if (mPac.x < Akabei.x) {
+	//			else {
 	//				Akabei.ed = 0;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
-	//			if (mPac.y < Akabei.y) {
-	//				Akabei.ed = 3;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
-	//			if (mPac.y > Akabei.y) {
-	//				Akabei.ed = 2;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
-
-	//		}
-	//	}
-	//	else if (Akabei.ed == 1) {
-	//		if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
-	//			if (mPac.x > Akabei.x) {
-	//				Akabei.ed = 1;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
-	//			if (mPac.x < Akabei.x) {
-	//				Akabei.ed = 0;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
-	//			if (mPac.y < Akabei.y) {
-	//				Akabei.ed = 3;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
-	//			if (mPac.y > Akabei.y) {
-	//				Akabei.ed = 2;
-	//			}
-	//		}
-	//	}
-	//	else if (Akabei.ed == 2) {
-	//		if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
-	//			if (mPac.x > Akabei.x) {
-	//				Akabei.ed = 1;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
-	//			if (mPac.x < Akabei.x) {
-	//				Akabei.ed = 0;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
-	//			if (mPac.y < Akabei.y) {
-	//				Akabei.ed = 3;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
-	//			if (mPac.y > Akabei.y) {
-	//				Akabei.ed = 2;
-	//			}
-	//		}
-	//	}
-	//	else if (Akabei.ed == 3) {
-	//		if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
-	//			if (mPac.x > Akabei.x) {
-	//				Akabei.ed = 1;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
-	//			if (mPac.x < Akabei.x) {
-	//				Akabei.ed = 0;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
-	//			if (mPac.y < Akabei.y) {
-	//				Akabei.ed = 3;
-	//			}
-	//		}
-	//		else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
-	//			if (mPac.y > Akabei.y) {
-	//				Akabei.ed = 2;
+	//				Akabei.WallHit = false;
 	//			}
 	//		}
 	//	}
 	//}
 }
 
-void PinkeyMove() {
-
-}
-
-void AosukeMove() {
-	Aosuke.mx = Aosuke.x;		// アオスケのx座標を保存
-	Aosuke.my = Aosuke.y;		// アオスケのy座標を保存
-	Aosuke.md = Aosuke.ed;		// アオスケの動く方向を保存
-
-
-
-	// アオスケが壁を避けながら移動する処理
-	switch (Aosuke.ed) {
-	case 0:	// 左へ移動
-		Aosuke.x--;
-		Aosuke.eyeImageCount = 3;
-		break;
-	case 1:	// 右へ移動
-		Aosuke.x++;
-		Aosuke.eyeImageCount = 1;
-		break;
-	case 2:	// 上へ移動
-		Aosuke.y--;
-		Aosuke.eyeImageCount = 0;
-		break;
-	case 3:	// 下へ移動
-		Aosuke.y++;
-		Aosuke.eyeImageCount = 2;
-		break;
-	}
-
-	if (DotCnt < 30) {
-		if (Aosuke.WallHit == true) {
-			if (Aosuke.ed == 2) {
-				Aosuke.ed = 3;
-				Aosuke.WallHit = false;
-			}
-			else if (Aosuke.ed == 3) {
-				Aosuke.ed = 2;
-				Aosuke.WallHit = false;
-			}
-		}
-	}
-	else {
-		// MapDtaa[15][15]を目指して、MapData[12][15]を目指す
-		if (Aosuke.x / 16 != 15.0f) {
-			Aosuke.ed = 1;
-		}
-		else {
-			Aosuke.ed = 2;
-		}
-	}
-}
-
-void GuzutaMove() {
-	Guzuta.mx = Guzuta.x;		// グズタのx座標を保存
-	Guzuta.my = Guzuta.y;		// グズタのy座標を保存
-	Guzuta.md = Guzuta.ed;		// グズタの動く方向を保存
-
-
-
-	// グズタが壁を避けながら移動する処理
-	switch (Guzuta.ed) {
-	case 0:	// 左へ移動
-		Guzuta.x--;
-		Guzuta.eyeImageCount = 3;
-		break;
-	case 1:	// 右へ移動
-		Guzuta.x++;
-		Guzuta.eyeImageCount = 1;
-		break;
-	case 2:	// 上へ移動
-		Guzuta.y--;
-		Guzuta.eyeImageCount = 0;
-		break;
-	case 3:	// 下へ移動
-		Guzuta.y++;
-		Guzuta.eyeImageCount = 2;
-		break;
-	}
-
-	if (DotCnt < 90) {
-		if (Guzuta.WallHit == true) {
-			if (Guzuta.ed == 2) {
-				Guzuta.ed = 3;
-				Guzuta.WallHit = false;
-			}
-			else if (Guzuta.ed == 3) {
-				Guzuta.ed = 2;
-				Guzuta.WallHit = false;
-			}
-		}
-	}
-	else {
-		// MapDtaa[15][15]を目指して、MapData[12][15]を目指す
-		if (Guzuta.x / 16 != 15.0f) {
-			Guzuta.ed = 0;
-		}
-		else {
-			Guzuta.ed = 2;
-		}
-	}
-}
 
 void ModeChange() {
 	if (EnemyMode == true) {//縄張りモード
@@ -656,32 +462,33 @@ void ScatterMode() {
 	bx = Pinkey.x;
 	by = Pinkey.y;
 
+	Pinkey.mx = Pinkey.x;		// アカベイのx座標を保存
+	Pinkey.my = Pinkey.y;		// アカベイのy座標を保存
+	Pinkey.md = Pinkey.ed;		// 敵の動く方向を保存
+
 	for (int i = 0; i < MAP_HEIGHT; i++) {
 		for (int j = 0; j < MAP_WIDTH; j++) {
-			if (HitCheck(Pinkey.x, Pinkey.y, Pinkey.w, Pinkey.h,
+			if (HitCheck(Pinkey.x, Pinkey.y, ENEMY_SIZE, ENEMY_SIZE,
 				j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
 				DrawLine(2* MAP_SIZE+4,2* MAP_SIZE+4,Pinkey.x,Pinkey.y,GetColor(246, 173, 198));
 
-				Pinkey.mx = Pinkey.x;		// アカベイのx座標を保存
-				Pinkey.my = Pinkey.y;		// アカベイのy座標を保存
-				Pinkey.md = Pinkey.ed;		// 敵の動く方向を保存
 
 				// アカベイが壁を避けながら移動する処理
 				switch (Pinkey.ed) {
 				case 0:	// 左へ移動
-					Pinkey.x--;
+					Pinkey.x-= 0.5f;
 					Pinkey.eyeImageCount = 3;
 					break;
 				case 1:	// 右へ移動
-					Pinkey.x++;
+					Pinkey.x += 0.5f;
 					Pinkey.eyeImageCount = 1;
 					break;
 				case 2:	// 上へ移動
-					Pinkey.y--;
+					Pinkey.y -= 0.5f;
 					Pinkey.eyeImageCount = 0;
 					break;
 				case 3:	// 下へ移動
-					Pinkey.y++;
+					Pinkey.y += 0.5f;
 					Pinkey.eyeImageCount = 2;
 					break;
 				}
@@ -828,32 +635,34 @@ void ChaseMode() {
 	bx = Pinkey.x;
 	by = Pinkey.y;
 
+
+	Pinkey.mx = Pinkey.x;		// アカベイのx座標を保存
+	Pinkey.my = Pinkey.y;		// アカベイのy座標を保存
+	Pinkey.md = Pinkey.ed;		// 敵の動く方向を保存
+
+
 	for (int i = 0; i < MAP_HEIGHT; i++) {
 		for (int j = 0; j < MAP_WIDTH; j++) {
-			if (HitCheck(Pinkey.x, Pinkey.y, Pinkey.w, Pinkey.h,
+			if (HitCheck(Pinkey.x, Pinkey.y, ENEMY_SIZE, ENEMY_SIZE,
 				j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
 				DrawLine(mPac.x, mPac.y, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
-
-				Pinkey.mx = Pinkey.x;		// アカベイのx座標を保存
-				Pinkey.my = Pinkey.y;		// アカベイのy座標を保存
-				Pinkey.md = Pinkey.ed;		// 敵の動く方向を保存
 
 				// アカベイが壁を避けながら移動する処理
 				switch (Pinkey.ed) {
 				case 0:	// 左へ移動
-					Pinkey.x--;
+					Pinkey.x -= 0.5f;
 					Pinkey.eyeImageCount = 3;
 					break;
 				case 1:	// 右へ移動
-					Pinkey.x++;
+					Pinkey.x += 0.5f;
 					Pinkey.eyeImageCount = 1;
 					break;
 				case 2:	// 上へ移動
-					Pinkey.y--;
+					Pinkey.y -= 0.5f;
 					Pinkey.eyeImageCount = 0;
 					break;
 				case 3:	// 下へ移動
-					Pinkey.y++;
+					Pinkey.y += 0.5f;
 					Pinkey.eyeImageCount = 2;
 					break;
 				}

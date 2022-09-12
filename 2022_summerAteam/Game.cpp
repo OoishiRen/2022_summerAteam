@@ -67,7 +67,7 @@ void DrawMap() {
 						Akabei.WallHit = true;
 					}
 				}
-				if (HitCheck(Pinkey.x, Pinkey.y, Pinkey.w, Pinkey.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+				if (HitCheck(Pinkey.x, Pinkey.y, ENEMY_SIZE, ENEMY_SIZE, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
 					Pinkey.x = Pinkey.mx;
 					Pinkey.y = Pinkey.my;
 					if (Pinkey.ed == Pinkey.md) {
