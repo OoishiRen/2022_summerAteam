@@ -78,9 +78,6 @@ void Enemy_Finalize() {
 //更新
 void Enemy_Update() {
 
-	Pinkey.mx = Pinkey.x;
-	Pinkey.my = Pinkey.y;
-
 	// デバッグ用の変数の表示
 	DrawFormatString(1000, 30, 255, "A = %.1f", A);
 	DrawFormatString(1000, 50, 255, "B = %.1f", B);
@@ -102,7 +99,6 @@ void Enemy_Update() {
 	DrawFormatString(500, 30, GetColor(255, 255, 255),
 		EnemyMode ? "Scatter %d" : "Chase %d", EnemyMode ? ScatterModeTime : ChaseModeTime);
 
-	ModeChange();
 
 	// アニメーション
 	if (!PowerUpFlg) {
@@ -174,6 +170,9 @@ void Enemy_Update() {
 	//Akabei.my = Akabei.y;		// アカベイのy座標を保存
 
 	//AkabeiChasePlayer();		// アカベイが仮プレイヤーを追いかける処理
+
+	ModeChange();
+
 	AkabeiMove2();
 }
 
@@ -463,32 +462,33 @@ void ScatterMode() {
 	bx = Pinkey.x;
 	by = Pinkey.y;
 
+	Pinkey.mx = Pinkey.x;		// アカベイのx座標を保存
+	Pinkey.my = Pinkey.y;		// アカベイのy座標を保存
+	Pinkey.md = Pinkey.ed;		// 敵の動く方向を保存
+
 	for (int i = 0; i < MAP_HEIGHT; i++) {
 		for (int j = 0; j < MAP_WIDTH; j++) {
-			if (HitCheck(Pinkey.x, Pinkey.y, Pinkey.w, Pinkey.h,
+			if (HitCheck(Pinkey.x, Pinkey.y, ENEMY_SIZE, ENEMY_SIZE,
 				j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
 				DrawLine(2* MAP_SIZE+4,2* MAP_SIZE+4,Pinkey.x,Pinkey.y,GetColor(246, 173, 198));
 
-				Pinkey.mx = Pinkey.x;		// アカベイのx座標を保存
-				Pinkey.my = Pinkey.y;		// アカベイのy座標を保存
-				Pinkey.md = Pinkey.ed;		// 敵の動く方向を保存
 
 				// アカベイが壁を避けながら移動する処理
 				switch (Pinkey.ed) {
 				case 0:	// 左へ移動
-					Pinkey.x--;
+					Pinkey.x-= 0.5f;
 					Pinkey.eyeImageCount = 3;
 					break;
 				case 1:	// 右へ移動
-					Pinkey.x++;
+					Pinkey.x += 0.5f;
 					Pinkey.eyeImageCount = 1;
 					break;
 				case 2:	// 上へ移動
-					Pinkey.y--;
+					Pinkey.y -= 0.5f;
 					Pinkey.eyeImageCount = 0;
 					break;
 				case 3:	// 下へ移動
-					Pinkey.y++;
+					Pinkey.y += 0.5f;
 					Pinkey.eyeImageCount = 2;
 					break;
 				}
@@ -635,32 +635,34 @@ void ChaseMode() {
 	bx = Pinkey.x;
 	by = Pinkey.y;
 
+
+	Pinkey.mx = Pinkey.x;		// アカベイのx座標を保存
+	Pinkey.my = Pinkey.y;		// アカベイのy座標を保存
+	Pinkey.md = Pinkey.ed;		// 敵の動く方向を保存
+
+
 	for (int i = 0; i < MAP_HEIGHT; i++) {
 		for (int j = 0; j < MAP_WIDTH; j++) {
-			if (HitCheck(Pinkey.x, Pinkey.y, Pinkey.w, Pinkey.h,
+			if (HitCheck(Pinkey.x, Pinkey.y, ENEMY_SIZE, ENEMY_SIZE,
 				j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
 				DrawLine(mPac.x, mPac.y, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
-
-				Pinkey.mx = Pinkey.x;		// アカベイのx座標を保存
-				Pinkey.my = Pinkey.y;		// アカベイのy座標を保存
-				Pinkey.md = Pinkey.ed;		// 敵の動く方向を保存
 
 				// アカベイが壁を避けながら移動する処理
 				switch (Pinkey.ed) {
 				case 0:	// 左へ移動
-					Pinkey.x--;
+					Pinkey.x -= 0.5f;
 					Pinkey.eyeImageCount = 3;
 					break;
 				case 1:	// 右へ移動
-					Pinkey.x++;
+					Pinkey.x += 0.5f;
 					Pinkey.eyeImageCount = 1;
 					break;
 				case 2:	// 上へ移動
-					Pinkey.y--;
+					Pinkey.y -= 0.5f;
 					Pinkey.eyeImageCount = 0;
 					break;
 				case 3:	// 下へ移動
-					Pinkey.y++;
+					Pinkey.y += 0.5f;
 					Pinkey.eyeImageCount = 2;
 					break;
 				}
