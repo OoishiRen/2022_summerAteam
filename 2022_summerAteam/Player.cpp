@@ -34,7 +34,7 @@ void Player_Initialize() {
 	mPac.type = 3;
 	mPac.img = 3;;
 	mPac.x = 240.0f;
-	mPac.y = 376.0f;
+	mPac.y = 394.0f;
 	mPac.w = PAC_WIDTH;
 	mPac.h = PAC_HEIGHT;
 	mPac.r = PAC_WIDTH / 2;
