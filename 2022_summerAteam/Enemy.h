@@ -23,7 +23,7 @@ struct AKABEI {
 	bool left, right, up, bottom;
 	int upnum, bottomnum;
 	int leftnum, rightnum;
-	int dx, dx2, dy, dy2;
+	int dup, dbottom, dleft, dright;
 
 };
 extern struct AKABEI Akabei;
