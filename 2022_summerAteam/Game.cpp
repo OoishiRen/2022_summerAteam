@@ -20,7 +20,7 @@ int MapData[MAP_HEIGHT][MAP_WIDTH] = //マップデータ 1は壁がある 0は壁がない　
  { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
  { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
  { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
- { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+ { 0, 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
  { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
  { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
  { 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1,   1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0 },
@@ -30,14 +30,14 @@ int MapData[MAP_HEIGHT][MAP_WIDTH] = //マップデータ 1は壁がある 0は壁がない　
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 2,   2, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
  { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
 
- { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3 },
+ { 2, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3 },
 
  { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
- { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
- { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,   1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+ { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 0 },
+ { 0, 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 1,   1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
  { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
  { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
  { 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0 },
@@ -87,6 +87,15 @@ void DrawMap() {
 					if (Guzuta.ed == Guzuta.md) {
 						Guzuta.WallHit = true;
 					}
+				}
+			}
+
+			if (MapData[i][j] == 4) {
+				if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+					Akabei.x = Akabei.mx;
+					Akabei.y = Akabei.my;
+					Akabei.juuji = true;
+					
 				}
 			}
 
@@ -229,35 +238,64 @@ void WarpTunnel() {
 
 void AkabeiMapHitCheck() {
 	// 左に壁があるときにフラグをtrueにする
-	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 1 || MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 2) {
+	if (MapData[Akabei.mapY][Akabei.mapX - 1] == 1 || MapData[Akabei.mapY][Akabei.mapX - 1] == 2) {
 		Akabei.left = true;
 	}
-	else if(MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 0){
+	else {
 		Akabei.left = false;
 	}
 
 	// 右に壁があるときにフラグをtrueにする
-	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 1 || MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 2) {
+	if (MapData[Akabei.mapY][Akabei.mapX + 1] == 1 || MapData[Akabei.mapY][Akabei.mapX + 1] == 2) {
 		Akabei.right = true;
 	}
-	else if(MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 0){
+	else {
 		Akabei.right = false;
 	}
 
 	// 上に壁があるときにフラグをtrueにする
-	if (MapData[((int)Akabei.y / 16) - 1][(int)Akabei.x / 16] == 1 || MapData[(int)Akabei.y / 16 - 1][((int)Akabei.x / 16)] == 2) {
+	if (MapData[Akabei.mapY - 1][Akabei.mapX] == 1 || MapData[Akabei.mapY - 1][Akabei.mapX] == 2) {
 		Akabei.up = true;
 	}
-	else if(MapData[(int)Akabei.y / 16 - 1][((int)Akabei.x / 16)] == 0){
+	else {
 		Akabei.up = false;
 	}
 
 	// 下に壁があるときにフラグをtrueにする
-	if (MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 1 || MapData[(int)Akabei.y / 16 + 1][((int)Akabei.x / 16) - 1] == 2) {
+	if (MapData[Akabei.mapY + 1][Akabei.mapX] == 1 || MapData[Akabei.mapY + 1][Akabei.mapX] == 2) {
 		Akabei.bottom = true;
 	}
-	else if(MapData[(int)Akabei.y / 16 + 1][((int)Akabei.x / 16)] == 0){
+	else {
 		Akabei.bottom = false;
+	}
+
+
+	if (MapData[Akabei.mapY - 1][Akabei.mapX - 1] == 0) {
+		Akabei.leftup = true;
+	}
+	else {
+		Akabei.leftup = false;
+	}
+
+	if (MapData[Akabei.mapY - 1][Akabei.mapX + 1] == 0) {
+		Akabei.rightup = true;
+	}
+	else {
+		Akabei.rightup = false;
+	}
+
+	if (MapData[Akabei.mapY + 1][Akabei.mapX - 1] == 0) {
+		Akabei.leftbottom = true;
+	}
+	else {
+		Akabei.leftbottom = false;
+	}
+
+	if (MapData[Akabei.mapY + 1][Akabei.mapX + 1] == 0) {
+		Akabei.rightbottom = true;
+	}
+	else {
+		Akabei.rightbottom = false;
 	}
 }
 

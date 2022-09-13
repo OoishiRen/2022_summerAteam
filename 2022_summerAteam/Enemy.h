@@ -20,10 +20,13 @@ struct AKABEI {
 	int ImageCount;		// アニメーション用変数
 	int eyeImageCount;	// 目玉のアニメーション用変数
 	bool WallHit;
+	bool juuji;
 	bool left, right, up, bottom;
+	bool rightup, leftup, rightbottom, leftbottom;
 	int upnum, bottomnum;
 	int leftnum, rightnum;
 	int dup, dbottom, dleft, dright;
+	int mapX, mapY;
 
 };
 extern struct AKABEI Akabei;
