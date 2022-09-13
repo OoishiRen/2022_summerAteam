@@ -8,6 +8,8 @@
 
 struct AKABEI Akabei;					// アカベイの構造体の宣言
 struct AKABEI Pinkey;
+struct AKABEI Aosuke;
+struct AKABEI Guzuta;
 int MonsterImage[ENEMY_IMAGE_MAX];		// モンスターの画像格納用変数
 int EyeImage[EYE_IMAGE_MAX];			// 目玉の画像格納用変数
 
