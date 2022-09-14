@@ -21,6 +21,7 @@ struct AKABEI {
 	int eyeImageCount;	// 目玉のアニメーション用変数
 	bool WallHit;
 	bool juuji;
+	bool juujiUp, juujiDown, juujiLeft, juujiRight;
 	bool left, right, up, bottom;
 	bool rightup, leftup, rightbottom, leftbottom;
 	int upnum, bottomnum;
