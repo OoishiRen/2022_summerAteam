@@ -18,6 +18,7 @@
 struct PAC {
 	bool flg;		//ミスしたら:false
 	bool dir;		//向き
+	int var;		//事前入力用
 	int type;		//状態遷移
 	int img;		//画像識別用
 	float x, y, w, h;	//座標
@@ -27,6 +28,8 @@ struct PAC {
 };
 
 extern struct PAC mPac;		//パックマン構造体
+
+static bool pac_x0 = false, pac_x1 = false, pac_y0 = false, pac_y1 = false;
 
 void Player_Initialize();	//初期化
 void Player_Finalize();		//終了処理
