@@ -57,20 +57,24 @@ void Player_Finalize() {
 //çXêV
 void Player_Update() {
 	if (g_NowKey & PAD_INPUT_UP && mPac.type != 0 && !pac_y0) {
-		mPac.type = 0;
-		mPac.img = (3 * mPac.type);
+		mPac.var = 0;
+		/*mPac.type = 0;
+		mPac.img = (3 * mPac.type);*/
 	}
-	else if (g_NowKey & PAD_INPUT_RIGHT && mPac.type != 1 && !pac_x1) {
-		mPac.type = 1;
-		mPac.img = (3 * mPac.type);
+	if (g_NowKey & PAD_INPUT_RIGHT && mPac.type != 1 && !pac_x1) {
+		mPac.var = 1;
+		/*mPac.type = 1;
+		mPac.img = (3 * mPac.type);*/
 	}
-	else if (g_NowKey & PAD_INPUT_DOWN && mPac.type != 2 && !pac_y1) {
-		mPac.type = 2;
-		mPac.img = (3 * mPac.type);
+	if (g_NowKey & PAD_INPUT_DOWN && mPac.type != 2 && !pac_y1) {
+		mPac.var = 2;
+		/*mPac.type = 2;
+		mPac.img = (3 * mPac.type);*/
 	}
-	else if (g_NowKey & PAD_INPUT_LEFT && mPac.type != 3 && !pac_x0) {
-		mPac.type = 3;
-		mPac.img = (3 * mPac.type);
+	if (g_NowKey & PAD_INPUT_LEFT && mPac.type != 3 && !pac_x0) {
+		mPac.var = 3;
+		/*mPac.type = 3;
+		mPac.img = (3 * mPac.type);*/
 	}
 	if (HitCheckEnemy(&mPac, &Akabei)) {
 		mPac.flg = false;
@@ -96,6 +100,9 @@ void Player_Draw() {
 	else {
 		DrawRotaGraph(mPac.x, mPac.y, 1.0f, 0, dying_image[mPac.img], TRUE, FALSE);
 	}
+
+	DrawFormatString(1000, 400, GetColor(255, 255, 255), "mPac.var:%d", mPac.var);
+	DrawFormatString(1000, 420, GetColor(255, 255, 255), "mPac.type:%d", mPac.type);
 }
 
 void Pac_Anim(float val) {

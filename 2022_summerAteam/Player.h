@@ -18,6 +18,7 @@
 struct PAC {
 	bool flg;		//ミスしたら:false
 	bool dir;		//向き
+	int var;		//事前入力用
 	int type;		//状態遷移
 	int img;		//画像識別用
 	float x, y, w, h;	//座標
