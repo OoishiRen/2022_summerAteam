@@ -27,12 +27,12 @@ int MapData[MAP_HEIGHT][MAP_WIDTH] = //マップデータ 1は壁がある 0は壁がない　
  { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
- { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 3,   3, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
- { 0, 1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 0 },
+ { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0,   0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
+ { 0, 1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
 
- { 2, 0, 0, 0, 0, 0, 5, 0, 7, 0, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 0, 5, 0, 7, 0, 0, 0, 0, 0, 3 },
+ { 2, 0, 0, 0, 0, 0, 5, 0, 7, 0, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3 },
 
- { 0, 1, 1, 1, 1, 1, 1, 6, 1, 1, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 1, 1, 6, 1, 1, 1, 1, 1, 1, 0 },
+ { 0, 1, 1, 1, 1, 1, 1, 6, 1, 1, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
@@ -136,6 +136,18 @@ void DrawMap() {
 							Akabei.x = Akabei.mx;
 							Akabei.y = Akabei.my;
 							Akabei.juujiRight = true;
+							Akabei.juuji = true;
+						}
+					}
+				}
+			}
+			if (MapData[i][j] == 8) {
+				if (Akabei.md == 2) {
+					if (Akabei.juuji == false) {
+						if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+							Akabei.x = Akabei.mx;
+							Akabei.y = Akabei.my;
+
 							Akabei.juuji = true;
 						}
 					}
@@ -310,35 +322,6 @@ void AkabeiMapHitCheck() {
 	}
 	else {
 		Akabei.bottom = false;
-	}
-
-
-	if (MapData[Akabei.mapY - 1][Akabei.mapX - 1] == 0) {
-		Akabei.leftup = true;
-	}
-	else {
-		Akabei.leftup = false;
-	}
-
-	if (MapData[Akabei.mapY - 1][Akabei.mapX + 1] == 0) {
-		Akabei.rightup = true;
-	}
-	else {
-		Akabei.rightup = false;
-	}
-
-	if (MapData[Akabei.mapY + 1][Akabei.mapX - 1] == 0) {
-		Akabei.leftbottom = true;
-	}
-	else {
-		Akabei.leftbottom = false;
-	}
-
-	if (MapData[Akabei.mapY + 1][Akabei.mapX + 1] == 0) {
-		Akabei.rightbottom = true;
-	}
-	else {
-		Akabei.rightbottom = false;
 	}
 }
 

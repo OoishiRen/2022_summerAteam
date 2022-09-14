@@ -23,7 +23,7 @@ struct AKABEI {
 	bool juuji;
 	bool juujiUp, juujiDown, juujiLeft, juujiRight;
 	bool left, right, up, bottom;
-	bool rightup, leftup, rightbottom, leftbottom;
+	bool juujiUp2, juujiDown2, juujiLeft2, juujiRight2;
 	int upnum, bottomnum;
 	int leftnum, rightnum;
 	int dup, dbottom, dleft, dright;

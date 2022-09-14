@@ -636,6 +636,8 @@ void AkabeiMove2() {
 	Akabei.mapX = (int)Akabei.x / 16;
 	Akabei.mapY = (int)Akabei.y / 16;
 
+	DrawLine(mPac.x, mPac.y, Akabei.x, Akabei.y, GetColor(255, 0, 0));
+
 
 	// アカベイが壁を避けながら移動する処理
 	switch (Akabei.ed) {
@@ -674,7 +676,7 @@ void AkabeiMove2() {
 		}
 	}
 	// 左と下に壁があったら
-	else if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
+	if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
 		// 壁に当たったら
 		if (Akabei.WallHit == true) {
 			// 右から入ってきたら、上に方向を変える
@@ -690,7 +692,7 @@ void AkabeiMove2() {
 		}
 	}
 	// 右と上に壁がある場合
-	else if (Akabei.left == false && Akabei.right == true && Akabei.up == true && Akabei.bottom == false) {
+	if (Akabei.left == false && Akabei.right == true && Akabei.up == true && Akabei.bottom == false) {
 		// 壁に当たったら
 		if (Akabei.WallHit == true) {
 			// 左から入ってきたら、下に方向を変える
@@ -705,9 +707,8 @@ void AkabeiMove2() {
 			}
 		}
 	}
-
 	// 右と下に壁がある場合
-	else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == true) {
+	if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == true) {
 		// 壁にあたったら
 		if (Akabei.WallHit == true) {
 			// 左から入ってきたら、上に方向を変える
@@ -742,7 +743,7 @@ void AkabeiMove2() {
 		}
 	}
 	// 下だけに壁があった場合
-	else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
+	if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
 		// 壁に当たった場合
 		if (Akabei.WallHit == true) {
 			// 上から入ってきたら
@@ -760,7 +761,7 @@ void AkabeiMove2() {
 		}
 	}
 	//　右だけに壁があった場合
-	else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
+	if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
 		// 壁に当たったら
 		if (Akabei.WallHit == true) {
 			// プレイヤーの位置がアカベイより下なら
@@ -775,7 +776,7 @@ void AkabeiMove2() {
 		}
 	}
 	// 左だけに壁があった場合
-	else if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
+	if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
 		// 壁に当たったら
 		if (Akabei.WallHit == true) {
 			// プレイヤーの位置がアカベイより下なら
@@ -796,11 +797,13 @@ void AkabeiMove2() {
 			if (Akabei.md == 2) {
 				if (mPac.x < Akabei.x) {
 					Akabei.ed = 0;
+					Akabei.WallHit = false;
 					Akabei.juujiUp = false;
 					Akabei.juuji = false;
 				}
 				else {
 					Akabei.ed = 1;
+					Akabei.WallHit = false;
 					Akabei.juujiUp = false;
 					Akabei.juuji = false;
 				}
@@ -808,13 +811,15 @@ void AkabeiMove2() {
 		}
 		else if (Akabei.juujiLeft == true) {
 			if (Akabei.md == 0) {
-				if (mPac.y < Akabei.x) {
+				if (mPac.y < Akabei.y) {
 					Akabei.ed = 2;
+					Akabei.WallHit = false;
 					Akabei.juujiLeft == false;
 					Akabei.juuji = false;
 				}
 				else {
 					Akabei.ed = 3;
+					Akabei.WallHit = false;
 					Akabei.juujiLeft = false;
 					Akabei.juuji = false;
 				}
@@ -824,11 +829,13 @@ void AkabeiMove2() {
 			if (Akabei.md == 3) {
 				if (mPac.x < Akabei.x) {
 					Akabei.ed = 0;
+					Akabei.WallHit = false;
 					Akabei.juujiDown = false;
 					Akabei.juuji = false;
 				}
 				else {
 					Akabei.ed = 1;
+					Akabei.WallHit = false;
 					Akabei.juujiDown = false;
 					Akabei.juuji = false;
 				}
@@ -838,11 +845,13 @@ void AkabeiMove2() {
 			if (Akabei.md == 1) {
 				if (mPac.y < Akabei.y) {
 					Akabei.ed = 2;
+					Akabei.WallHit = false;
 					Akabei.juujiRight = false;
 					Akabei.juuji = false;
 				}
 				else {
 					Akabei.ed = 3;
+					Akabei.WallHit = false;
 					Akabei.juujiRight = false;
 					Akabei.juuji = false;
 				}
