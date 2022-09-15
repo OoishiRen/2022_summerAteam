@@ -27,6 +27,7 @@ int num12 = 0;
 int num13 = 0;
 int esa;
 int ab;
+int GrHandle;
 //int high_score;
 
 void UI_Initialize() {
@@ -34,6 +35,11 @@ void UI_Initialize() {
 	LoadDivGraph("player_images/pacman.png", 12, 12, 1, 16, 16, zanpakuto_image);
 	LoadDivGraph("player_images/pacman.png", 12, 12, 1, 16, 16, zanpakuto_image1);
 	LoadDivGraph("player_images/pacman.png", 12, 12, 1, 16, 16, zanpakuto_image2);
+	GrHandle = LoadGraph("1UP.png");
+	GrHandle = LoadGraph("GAME OVER.png");
+	GrHandle = LoadGraph("HI-SCORE.png");
+	GrHandle = LoadGraph("PLAYER.png");
+	GrHandle = LoadGraph("READY!.png");
 }
 
 void  UI_Finalize() {
@@ -118,6 +124,7 @@ void UI_Draw() {
 		DrawRotaGraph(950, 50, 2.0f, 0, score_image[num11], TRUE, FALSE);
 		DrawRotaGraph(975, 50, 2.0f, 0, score_image[num12], TRUE, FALSE);
 		DrawRotaGraph(1000, 50, 2.0f, 0, score_image[num13], TRUE, FALSE);
+		DrawRotaGraph(320, 240, 1.0, 0.0, GrHandle, FALSE);
 }
 
 
