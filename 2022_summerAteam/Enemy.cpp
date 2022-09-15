@@ -13,7 +13,7 @@ struct AKABEI Guzuta;
 int MonsterImage[ENEMY_IMAGE_MAX];		// モンスターの画像格納用変数
 int EyeImage[EYE_IMAGE_MAX];			// 目玉の画像格納用変数
 
-
+int px, py, px2, py2;
 
 float A, B, C;		// 三平方の定理用の変数
 float dx, dy;		// 正規化用変数
@@ -30,8 +30,8 @@ void Enemy_Initialize() {
 	LoadDivGraph("enemy_images/eyes.png", 4, 4, 1, 16, 16, EyeImage);		   // 目玉の画像を読み込む
 
 	// アカベイの初期化
-	Akabei.x = 440.0f;
-	Akabei.y = 40.0f;
+	Akabei.x = 240.0f;
+	Akabei.y = 200.0f;
 	Akabei.w = 16.0f;
 	Akabei.h = 16.0f;
 	Akabei.ed = 0;
@@ -58,6 +58,36 @@ void Enemy_Initialize() {
 	Pinkey.right = false;
 	Pinkey.up = false;
 	Pinkey.bottom = false;
+
+	// アオスケの初期化
+	Aosuke.x = 200.0f;
+	Aosuke.y = 260.0f;
+	Aosuke.w = ENEMY_SIZE;
+	Aosuke.h = ENEMY_SIZE;
+	Aosuke.ed = 2;
+	Aosuke.ImageCount = 4;
+	Aosuke.eyeImageCount = 0;
+	Aosuke.speed = 1.5f;
+	Aosuke.WallHit = false;
+	Aosuke.left = false;
+	Aosuke.right = false;
+	Aosuke.up = false;
+	Aosuke.bottom = false;
+
+	// グズタの初期化
+	Guzuta.x = 280.0f;
+	Guzuta.y = 260.0f;
+	Guzuta.w = ENEMY_SIZE;
+	Guzuta.h = ENEMY_SIZE;
+	Guzuta.ed = 2;
+	Guzuta.ImageCount = 6;
+	Guzuta.eyeImageCount = 0;
+	Guzuta.speed = 1.5f;
+	Guzuta.WallHit = false;
+	Guzuta.left = false;
+	Guzuta.right = false;
+	Guzuta.up = false;
+	Guzuta.bottom = false;
 
 	eCnt = 0;
 	ScatterModeTime = 480;
@@ -105,25 +135,24 @@ void Enemy_Update() {
 	// アニメーション
 	if (!PowerUpFlg) {
 
-		if (Akabei.ImageCount == 0) {
-			Akabei.ImageCount = 1;
-
-		}
-		else {
-			Akabei.ImageCount = 0;
-		}
-
 		if (eCnt < ENEMY_CNT_SPEED) {
 			eCnt++;
 		}
 		else if (eCnt == ENEMY_CNT_SPEED) {
 			eCnt = 0;
 		}
+
 		if (eCnt < ENEMY_CNT_SPEED / 2) {
+			Akabei.ImageCount = 1;
 			Pinkey.ImageCount = 3;
+			Aosuke.ImageCount = 5;
+			Guzuta.ImageCount = 7;
 		}
 		else if (eCnt > ENEMY_CNT_SPEED / 2 && eCnt < ENEMY_CNT_SPEED) {
+			Akabei.ImageCount = 0;
 			Pinkey.ImageCount = 2;
+			Aosuke.ImageCount = 4;
+			Guzuta.ImageCount = 6;
 		}
 
 	}
@@ -171,28 +200,42 @@ void Enemy_Update() {
 	//Akabei.mx = Akabei.x;		// アカベイのx座標を保存
 	//Akabei.my = Akabei.y;		// アカベイのy座標を保存
 
-	//AkabeiChasePlayer();		// アカベイが仮プレイヤーを追いかける処理
+	AkabeiChasePlayer();		// アカベイが仮プレイヤーを追いかける処理
 
 	ModeChange();
 
-	AkabeiMove2();
+	//AkabeiMove2();
+	AosukeMove();
+	GuzutaMove();
 }
 
 
 // 描画
 void Enemy_Draw() {
-
 	if (!PowerUpFlg) {
 		DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], TRUE);
 		DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, EyeImage[Akabei.eyeImageCount], TRUE);
 
 		DrawRotaGraph(Pinkey.x, Pinkey.y, 1, 0, MonsterImage[Pinkey.ImageCount], TRUE);
 		DrawRotaGraph(Pinkey.x, Pinkey.y, 1, 0, EyeImage[Pinkey.eyeImageCount], TRUE);
+
+
+		DrawRotaGraph(Aosuke.x, Aosuke.y, 1, 0, MonsterImage[Aosuke.ImageCount], TRUE);
+		DrawRotaGraph(Aosuke.x, Aosuke.y, 1, 0, EyeImage[Aosuke.eyeImageCount], TRUE);
+
+		DrawRotaGraph(Guzuta.x, Guzuta.y, 1, 0, MonsterImage[Guzuta.ImageCount], TRUE);
+		DrawRotaGraph(Guzuta.x, Guzuta.y, 1, 0, EyeImage[Guzuta.eyeImageCount], TRUE);
+
 	}
 	else {
 		DrawRotaGraph(Akabei.x, Akabei.y, 1, 0, MonsterImage[Akabei.ImageCount], TRUE);
 
 		DrawRotaGraph(Pinkey.x, Pinkey.y, 1, 0, MonsterImage[Pinkey.ImageCount], TRUE);
+
+		DrawRotaGraph(Aosuke.x, Aosuke.y, 1, 0, MonsterImage[Aosuke.ImageCount], TRUE);
+
+		DrawRotaGraph(Guzuta.x, Guzuta.y, 1, 0, MonsterImage[Guzuta.ImageCount], TRUE);
+
 	}
 }
 
@@ -201,6 +244,35 @@ void Enemy_Draw() {
 void AkabeiChasePlayer() {
 	Akabei.mx = Akabei.x;		// アカベイのx座標を保存
 	Akabei.my = Akabei.y;		// アカベイのy座標を保存
+	Akabei.md = Akabei.ed;		// 敵の動く方向を保存
+
+	Akabei.mapX = (int)Akabei.x / 16;
+	Akabei.mapY = (int)Akabei.y / 16;
+	px = (int)mPac.x / 16;
+	py = (int)mPac.y / 16;
+
+	// アカベイが壁を避けながら移動する処理
+	switch (Akabei.ed) {
+	case 0:	// 左へ移動
+		Akabei.x--;
+		Akabei.eyeImageCount = 3;
+		break;
+	case 1:	// 右へ移動
+		Akabei.x++;
+		Akabei.eyeImageCount = 1;
+		break;
+	case 2:	// 上へ移動
+		Akabei.y--;
+		Akabei.eyeImageCount = 0;
+		break;
+	case 3:	// 下へ移動
+		Akabei.y++;
+		Akabei.eyeImageCount = 2;
+		break;
+	}
+
+
+	DrawLine(px, py, Akabei.mapX, Akabei.mapY, GetColor(255, 0, 0));
 
 	// 三平方の定理を使う
 	A = mPac.x - Akabei.x;
@@ -213,40 +285,249 @@ void AkabeiChasePlayer() {
 	dy = B / C;		// C を1（正規化）とするには、B を C で割る
 
 
-	if (Akabei.x < mPac.x - 16) {	// アカベイから見てプレイヤーは右側
-		if (Akabei.WallHit == false) {
-			Akabei.x += dx * Akabei.speed;
-			Akabei.eyeImageCount = 1;
-		}
-		else {
-			Akabei.WallHit = false;
+
+	//if (Akabei.x < mPac.x - 16) {	// アカベイから見てプレイヤーは右側
+	//	if (Akabei.WallHit == false) {
+	//		Akabei.x += dx * Akabei.speed;
+	//		Akabei.eyeImageCount = 1;
+	//	}
+	//	else {
+	//		Akabei.WallHit = false;
+	//	}
+	//}
+	//else if (Akabei.x > mPac.x + 16) {	// アカベイから見てプレイヤーは左側
+	//	if (Akabei.WallHit == false) {
+	//		Akabei.x += dx * Akabei.speed;
+	//		Akabei.eyeImageCount = 3;
+	//	}
+	//	else {
+	//		Akabei.WallHit = false;
+	//	}
+	//}
+	//else if (Akabei.y < mPac.y - 16) {	// アカベイから見てプレイヤーは下側
+	//	if (Akabei.WallHit == false) {
+	//		Akabei.y += dy * Akabei.speed;
+	//		Akabei.eyeImageCount = 2;
+	//	}
+	//	else {
+	//		Akabei.WallHit = false;
+	//	}
+	//}
+	//else if (Akabei.y > mPac.y + 16) {		// アカベイから見てプレイヤーは上側
+	//	if (Akabei.WallHit == false) {
+	//		Akabei.y += dy * Akabei.speed;
+	//		Akabei.eyeImageCount = 0;
+	//	}
+	//	else {
+	//		Akabei.WallHit = false;
+	//	}
+	//}
+
+	// 左と上に壁があった場合
+	if (Akabei.left == true && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
+		// 壁に当たったら
+		if (Akabei.WallHit == true) {
+			// 右から入ってきたら、下に方向を変える
+			if (Akabei.md == 0) {
+				Akabei.ed = 3;
+				Akabei.WallHit = false;
+			}
+			// 下から入ってきたら、右に方向を変える
+			else if (Akabei.md == 2) {
+				Akabei.ed = 1;
+				Akabei.WallHit = false;
+			}
 		}
 	}
-	else if (Akabei.x > mPac.x + 16) {	// アカベイから見てプレイヤーは左側
-		if (Akabei.WallHit == false) {
-			Akabei.x += dx * Akabei.speed;
-			Akabei.eyeImageCount = 3;
-		}
-		else {
-			Akabei.WallHit = false;
-		}
-	}
-	else if (Akabei.y < mPac.y - 16) {	// アカベイから見てプレイヤーは下側
-		if (Akabei.WallHit == false) {
-			Akabei.y += dy * Akabei.speed;
-			Akabei.eyeImageCount = 2;
-		}
-		else {
-			Akabei.WallHit = false;
+	// 左と下に壁があったら
+	else if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
+		// 壁に当たったら
+		if (Akabei.WallHit == true) {
+			// 右から入ってきたら、上に方向を変える
+			if (Akabei.md == 0) {
+				Akabei.ed = 2;
+				Akabei.WallHit = false;
+			}
+			// 上から入ってきたら、右に方向を変える
+			else if (Akabei.md == 3) {
+				Akabei.ed = 1;
+				Akabei.WallHit = false;
+			}
 		}
 	}
-	else if (Akabei.y > mPac.y + 16) {		// アカベイから見てプレイヤーは上側
-		if (Akabei.WallHit == false) {
-			Akabei.y += dy * Akabei.speed;
-			Akabei.eyeImageCount = 0;
+	// 右と上に壁がある場合
+	else if (Akabei.left == false && Akabei.right == true && Akabei.up == true && Akabei.bottom == false) {
+		// 壁に当たったら
+		if (Akabei.WallHit == true) {
+			// 左から入ってきたら、下に方向を変える
+			if (Akabei.md == 1) {
+				Akabei.ed = 3;
+				Akabei.WallHit = false;
+			}
+			// 下から入ってきたら、左に方向を変える
+			else if (Akabei.md == 2) {
+				Akabei.ed = 0;
+				Akabei.WallHit = false;
+			}
 		}
-		else {
-			Akabei.WallHit = false;
+	}
+	// 右と下に壁がある場合
+	else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == true) {
+		// 壁にあたったら
+		if (Akabei.WallHit == true) {
+			// 左から入ってきたら、上に方向を変える
+			if (Akabei.md == 1) {
+				Akabei.ed = 2;
+				Akabei.WallHit = false;
+			}
+			// 上から入ってきたら、左に方向を変える
+			else if (Akabei.md == 3) {
+				Akabei.ed = 0;
+				Akabei.WallHit = false;
+			}
+		}
+
+	}
+	// 上だけに壁があった場合
+	else if (Akabei.left == false && Akabei.right == false && Akabei.up == true && Akabei.bottom == false) {
+		// 壁に当たったら
+		if (Akabei.WallHit == true) {
+			// 下から入ってきたら
+			if (Akabei.md == 2) {
+				// プレイヤーの位置がアカベイより右なら
+				if (dx > 0.0f) {
+					Akabei.ed = 1;
+					Akabei.WallHit = false;
+				}
+				else {
+					Akabei.ed = 0;
+					Akabei.WallHit = false;
+				}
+			}
+		}
+	}
+	// 下だけに壁があった場合
+	else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
+		// 壁に当たった場合
+		if (Akabei.WallHit == true) {
+			// 上から入ってきたら
+			if (Akabei.md == 3) {
+				// プレイヤーの位置がアカベイより右なら
+				if (dx > 0.0f) {
+					Akabei.ed = 1;
+					Akabei.WallHit = false;
+				}
+				else {
+					Akabei.ed = 0;
+					Akabei.WallHit = false;
+				}
+			}
+		}
+	}
+	//　右だけに壁があった場合
+	else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
+		// 壁に当たったら
+		if (Akabei.WallHit == true) {
+			// プレイヤーの位置がアカベイより下なら
+			if (dy > 0.0f) {
+				Akabei.ed = 3;
+				Akabei.WallHit = false;
+			}
+			else {
+				Akabei.ed = 2;
+				Akabei.WallHit = false;
+			}
+		}
+	}
+	// 左だけに壁があった場合
+	else if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
+		// 壁に当たったら
+		if (Akabei.WallHit == true) {
+			// プレイヤーの位置がアカベイより下なら
+			if (dy > 0.0f) {
+				Akabei.ed = 3;
+				Akabei.WallHit = false;
+			}
+			else {
+				Akabei.ed = 2;
+				Akabei.WallHit = false;
+			}
+		}
+	}
+	else if (Akabei.WallHit == false) {
+		if (Akabei.juujiUp == true) {
+			if (Akabei.md == 2) {
+				if (dx < 0.0f) {
+					Akabei.ed = 0;
+					Akabei.WallHit = false;
+					Akabei.juujiUp = false;
+					Akabei.juuji = false;
+				}
+				else {
+					Akabei.ed = 1;
+					Akabei.WallHit = false;
+					Akabei.juujiUp = false;
+					Akabei.juuji = false;
+				}
+			}
+		}
+		else if (Akabei.juujiLeft == true) {
+			if (Akabei.md == 0) {
+				if (dy < 0.0f) {
+					Akabei.ed = 2;
+					Akabei.WallHit = false;
+					Akabei.juujiLeft == false;
+					Akabei.juuji = false;
+				}
+				else {
+					Akabei.ed = 3;
+					Akabei.WallHit = false;
+					Akabei.juujiLeft = false;
+					Akabei.juuji = false;
+				}
+			}
+		}
+		else if (Akabei.juujiDown == true) {
+			if (Akabei.md == 3) {
+				if (dx < 0.0f) {
+					Akabei.ed = 0;
+					Akabei.WallHit = false;
+					Akabei.juujiDown = false;
+					Akabei.juuji = false;
+				}
+				else {
+					Akabei.ed = 1;
+					Akabei.WallHit = false;
+					Akabei.juujiDown = false;
+					Akabei.juuji = false;
+				}
+			}
+		}
+		else if (Akabei.juujiRight == true) {
+			if (Akabei.md == 1) {
+				if (dy < 0.0f) {
+					Akabei.ed = 2;
+					Akabei.WallHit = false;
+					Akabei.juujiRight = false;
+					Akabei.juuji = false;
+				}
+				else {
+					Akabei.ed = 3;
+					Akabei.WallHit = false;
+					Akabei.juujiRight = false;
+					Akabei.juuji = false;
+				}
+			}
+		}
+		else if (Akabei.juujiUp2 == true) {
+			if (Akabei.md == 2) {
+				if (dx < 0.0f) {
+					Akabei.ed = 0;
+					Akabei.WallHit = false;
+					Akabei.juujiUp2 = false;
+					Akabei.juuji = false;
+				}
+			}
 		}
 	}
 }
@@ -742,6 +1023,106 @@ void ChaseMode() {
 					Pinkey.WallHit = false;
 				}
 			}
+		}
+	}
+}
+
+void GuzutaMove() {
+	Guzuta.mx = Guzuta.x;		// グズタのx座標を保存
+	Guzuta.my = Guzuta.y;		// グズタのy座標を保存
+	Guzuta.md = Guzuta.ed;		// グズタの動く方向を保存
+
+
+
+	// グズタが壁を避けながら移動する処理
+	switch (Guzuta.ed) {
+	case 0:	// 左へ移動
+		Guzuta.x--;
+		Guzuta.eyeImageCount = 3;
+		break;
+	case 1:	// 右へ移動
+		Guzuta.x++;
+		Guzuta.eyeImageCount = 1;
+		break;
+	case 2:	// 上へ移動
+		Guzuta.y--;
+		Guzuta.eyeImageCount = 0;
+		break;
+	case 3:	// 下へ移動
+		Guzuta.y++;
+		Guzuta.eyeImageCount = 2;
+		break;
+	}
+
+	if (DotCnt < 90) {
+		if (Guzuta.WallHit == true) {
+			if (Guzuta.ed == 2) {
+				Guzuta.ed = 3;
+				Guzuta.WallHit = false;
+			}
+			else if (Guzuta.ed == 3) {
+				Guzuta.ed = 2;
+				Guzuta.WallHit = false;
+			}
+		}
+	}
+	else {
+		// MapDtaa[15][15]を目指して、MapData[12][15]を目指す
+		if (Guzuta.x / 16 != 15.0f) {
+			Guzuta.ed = 0;
+		}
+		else {
+			Guzuta.ed = 2;
+		}
+	}
+}
+
+void AosukeMove() {
+	Aosuke.mx = Aosuke.x;		// アオスケのx座標を保存
+	Aosuke.my = Aosuke.y;		// アオスケのy座標を保存
+	Aosuke.md = Aosuke.ed;		// アオスケの動く方向を保存
+
+
+
+	// アオスケが壁を避けながら移動する処理
+	switch (Aosuke.ed) {
+	case 0:	// 左へ移動
+		Aosuke.x--;
+		Aosuke.eyeImageCount = 3;
+		break;
+	case 1:	// 右へ移動
+		Aosuke.x++;
+		Aosuke.eyeImageCount = 1;
+		break;
+	case 2:	// 上へ移動
+		Aosuke.y--;
+		Aosuke.eyeImageCount = 0;
+		break;
+	case 3:	// 下へ移動
+		Aosuke.y++;
+		Aosuke.eyeImageCount = 2;
+		break;
+	}
+
+	if (DotCnt < 30) {
+		if (Aosuke.WallHit == true) {
+			if (Aosuke.ed == 2) {
+				Aosuke.ed = 3;
+				Aosuke.WallHit = false;
+			}
+			else if (Aosuke.ed == 3) {
+				Aosuke.ed = 2;
+				Aosuke.WallHit = false;
+			}
+		}
+	}
+	else {
+		// MapDtaa[15][15]を目指して、MapData[12][15]を目指す
+		if (Aosuke.x / 16 != 15.0f) {
+			Aosuke.ed = 1;
+		}
+		else {
+			Aosuke.ed = 2;
 		}
 	}
 }
