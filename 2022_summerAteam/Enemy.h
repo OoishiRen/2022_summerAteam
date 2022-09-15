@@ -42,6 +42,8 @@ extern void Enemy_Update();			// 更新
 extern void Enemy_Draw();			// 描画
 
 extern void AkabeiChasePlayer();		// アカベイがプレイヤーを追いかける処理（簡易版）
+extern void AkabeiChasePlayer2();		// アカベイがプレイヤーを追いかける処理（簡易版）
+
 extern void AkabeiMove();
 extern void AkabeiMove2();
 
@@ -50,7 +52,6 @@ extern void PinkeyMove();
 extern void AosukeMove();
 
 extern void GuzutaMove();
-
 
 void ScatterMode();
 void ChaseMode();

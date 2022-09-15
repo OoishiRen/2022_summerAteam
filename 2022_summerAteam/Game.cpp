@@ -27,7 +27,7 @@ int MapData[MAP_HEIGHT][MAP_WIDTH] = //マップデータ 1は壁がある 0は壁がない　
  { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
- { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0,   0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
+ { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 4,   4, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
  { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
 
  { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3 },
@@ -67,6 +67,7 @@ void DrawMap() {
 						Akabei.WallHit = true;
 					}
 				}
+
 				if (HitCheck(Pinkey.x, Pinkey.y, ENEMY_SIZE, ENEMY_SIZE, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
 					Pinkey.x = Pinkey.mx;
 					Pinkey.y = Pinkey.my;
@@ -145,6 +146,57 @@ void DrawMap() {
 				WarpTunnel();
 			}
 			
+			if (MapData[i][j] == 4) {
+				if (Akabei.md == 2) {
+					if (Akabei.juuji == false) {
+						if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+							Akabei.x = Akabei.mx;
+							Akabei.y = Akabei.my;
+							Akabei.juujiUp = true;
+							Akabei.juuji = true;
+						}
+					}
+				}
+			}
+
+			if (MapData[i][j] == 5) {
+				if (Akabei.md == 0) {
+					if (Akabei.juuji == false) {
+						if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+							Akabei.x = Akabei.mx;
+							Akabei.y = Akabei.my;
+							Akabei.juujiLeft = true;
+							Akabei.juuji = true;
+						}
+					}
+				}
+			}
+
+			if (MapData[i][j] == 6) {
+				if (Akabei.md == 3) {
+					if (Akabei.juuji == false) {
+						if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+							Akabei.x = Akabei.mx;
+							Akabei.y = Akabei.my;
+							Akabei.juujiDown = true;
+							Akabei.juuji = true;
+						}
+					}
+				}
+			}
+
+			if (MapData[i][j] == 7) {
+				if (Akabei.md == 1) {
+					if (Akabei.juuji == false) {
+						if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+							Akabei.x = Akabei.mx;
+							Akabei.y = Akabei.my;
+							Akabei.juujiRight = true;
+							Akabei.juuji = true;
+						}
+					}
+				}
+			}
 		}
 	}
 }
@@ -278,7 +330,7 @@ void WarpTunnel() {
 
 void AkabeiMapHitCheck() {
 	// 左に壁があるときにフラグをtrueにする
-	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 1) {
+	if (MapData[Akabei.mapY][Akabei.mapX - 1] == 1 || MapData[Akabei.mapY][Akabei.mapX - 1] == 4) {
 		Akabei.left = true;
 	}
 	else {
@@ -286,8 +338,7 @@ void AkabeiMapHitCheck() {
 	}
 
 	// 右に壁があるときにフラグをtrueにする
-	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 1) {
-		//DrawBox(Akabei.x / 16, Akabei.y / 16, 1, 1, GetColor(0, 255, 0), TRUE);
+	if (MapData[Akabei.mapY][Akabei.mapX + 1] == 1 || MapData[Akabei.mapY][Akabei.mapX + 1] == 4) {
 		Akabei.right = true;
 	}
 	else {
@@ -295,7 +346,7 @@ void AkabeiMapHitCheck() {
 	}
 
 	// 上に壁があるときにフラグをtrueにする
-	if (MapData[((int)Akabei.y / 16) - 1][(int)Akabei.x / 16] == 1) {
+	if (MapData[Akabei.mapY - 1][Akabei.mapX] == 1 || MapData[Akabei.mapY - 1][Akabei.mapX] == 4) {
 		Akabei.up = true;
 	}
 	else {
@@ -303,7 +354,7 @@ void AkabeiMapHitCheck() {
 	}
 
 	// 下に壁があるときにフラグをtrueにする
-	if (MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 1) {
+	if (MapData[Akabei.mapY + 1][Akabei.mapX] == 1 || MapData[Akabei.mapY + 1][Akabei.mapX] == 4) {
 		Akabei.bottom = true;
 	}
 	else {
