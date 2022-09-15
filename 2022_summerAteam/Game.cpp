@@ -91,12 +91,12 @@ void DrawMap() {
 			}
 
 			if (HitCheck(mPac.x, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-				if (MapData[i][j] == 1) {
+				/*if (MapData[i][j] == 1) {
 					mPac.x = mx;
 					mPac.y = my;
 					mPac.img = mimg;
 					mPac.type = mtype;
-				}
+				}*/
 				WarpTunnel();
 			}
 		}
