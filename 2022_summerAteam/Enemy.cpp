@@ -272,7 +272,7 @@ void AkabeiChasePlayer() {
 	}
 
 
-	DrawLine(px, py, Akabei.mapX, Akabei.mapY, GetColor(255, 0, 0));
+	DrawLine(mPac.x, mPac.y, Akabei.x, Akabei.y, GetColor(255, 0, 0));
 
 	// 三平方の定理を使う
 	A = mPac.x - Akabei.x;
@@ -405,6 +405,20 @@ void AkabeiChasePlayer() {
 				}
 			}
 		}
+		else {
+			if (Akabei.md == 0) {
+				if (dy > 0.0f) {
+					Akabei.ed = 3;
+					Akabei.WallHit = false;
+				}
+			}
+			else if (Akabei.md == 1) {
+				if (dy > 0.0f) {
+					Akabei.ed = 3;
+					Akabei.WallHit = false;
+				}
+			}
+		}
 	}
 	// 下だけに壁があった場合
 	else if (Akabei.left == false && Akabei.right == false && Akabei.up == false && Akabei.bottom == true) {
@@ -423,19 +437,49 @@ void AkabeiChasePlayer() {
 				}
 			}
 		}
+		else {
+			if (Akabei.md == 0) {
+				if (dy < 0.0f) {
+					Akabei.ed = 2;
+					Akabei.WallHit = false;
+				}
+			}
+			else if (Akabei.md == 1) {
+				if (dy < 0.0f) {
+					Akabei.ed = 2;
+					Akabei.WallHit = false;
+				}
+			}
+		}
 	}
 	//　右だけに壁があった場合
 	else if (Akabei.left == false && Akabei.right == true && Akabei.up == false && Akabei.bottom == false) {
 		// 壁に当たったら
 		if (Akabei.WallHit == true) {
-			// プレイヤーの位置がアカベイより下なら
-			if (dy > 0.0f) {
-				Akabei.ed = 3;
-				Akabei.WallHit = false;
+			if (Akabei.md == 1) {
+				// プレイヤーの位置がアカベイより下なら
+				if (dy > 0.0f) {
+					Akabei.ed = 3;
+					Akabei.WallHit = false;
+				}
+				else {
+					Akabei.ed = 2;
+					Akabei.WallHit = false;
+				}
 			}
-			else {
-				Akabei.ed = 2;
-				Akabei.WallHit = false;
+		}
+		else {
+			if (Akabei.md == 2) {
+				if (dx < 0.0f) {
+					Akabei.ed = 0;
+					Akabei.WallHit = false;
+				}
+			}
+			else if (Akabei.md == 3) {
+				if (dx < 0.0f) {
+					Akabei.ed = 0;
+					Akabei.WallHit = false;
+				}
 			}
 		}
 	}
@@ -443,14 +487,30 @@ void AkabeiChasePlayer() {
 	else if (Akabei.left == true && Akabei.right == false && Akabei.up == false && Akabei.bottom == false) {
 		// 壁に当たったら
 		if (Akabei.WallHit == true) {
-			// プレイヤーの位置がアカベイより下なら
-			if (dy > 0.0f) {
-				Akabei.ed = 3;
-				Akabei.WallHit = false;
+			if (Akabei.md == 0) {
+				// プレイヤーの位置がアカベイより下なら
+				if (dy > 0.0f) {
+					Akabei.ed = 3;
+					Akabei.WallHit = false;
+				}
+				else {
+					Akabei.ed = 2;
+					Akabei.WallHit = false;
+				}
 			}
-			else {
-				Akabei.ed = 2;
-				Akabei.WallHit = false;
+		}
+		else {
+			if (Akabei.md == 2) {
+				if (dx > 0.0f) {
+					Akabei.ed = 1;
+					Akabei.WallHit = false;
+				}
+			}
+			else if (Akabei.md == 3) {
+				if (dx > 0.0f) {
+					Akabei.ed = 1;
+					Akabei.WallHit = false;
+				}
 			}
 		}
 	}
