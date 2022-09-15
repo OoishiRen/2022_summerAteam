@@ -1,1 +1,42 @@
-﻿  2022_summerAteam.vcxproj -> C:\Users\kbc12006174\OneDrive\ドキュメント\2022_summerAteam\2022_summerAteam\Debug\2022_summerAteam.exe
+﻿  Enemy.cpp
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(186,33): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(186,23): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(187,33): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(187,23): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(189,33): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(189,23): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(190,33): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(190,23): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(193,33): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(193,23): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(195,33): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(195,23): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(206,13): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(208,13): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(473,13): warning C4244: '=': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(474,13): warning C4244: '=': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(577,21): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(577,7): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(576,33): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(576,23): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(578,66): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(578,56): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(469,6): warning C4101: 'goal': ローカル変数は 1 度も使われていません。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(467,26): warning C4101: 'cy': ローカル変数は 1 度も使われていません。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(468,18): warning C4101: 'difc': ローカル変数は 1 度も使われていません。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(468,6): warning C4101: 'difx': ローカル変数は 1 度も使われていません。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(467,22): warning C4101: 'cx': ローカル変数は 1 度も使われていません。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(468,12): warning C4101: 'dify': ローカル変数は 1 度も使われていません。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(732,13): warning C4244: '=': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(733,13): warning C4244: '=': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(744,21): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(744,7): warning C4244: '引数': 'int' から 'float' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(743,33): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(743,23): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(745,46): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(745,36): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(745,26): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(745,18): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(727,26): warning C4101: 'cy': ローカル変数は 1 度も使われていません。
+C:\2022_summerAteam\2022_summerAteam\Enemy.cpp(727,22): warning C4101: 'cx': ローカル変数は 1 度も使われていません。
+  2022_summerAteam.vcxproj -> C:\2022_summerAteam\2022_summerAteam\Debug\2022_summerAteam.exe
