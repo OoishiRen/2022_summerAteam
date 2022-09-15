@@ -22,7 +22,6 @@ struct PAC {
 	int type;		//状態遷移
 	int img;		//画像識別用
 	float x, y, w, h;	//座標
-	float r;
 	float speed;		//移動量
 	int cnt;		//残機
 };
