@@ -26,8 +26,7 @@ int num11 = 0;
 int num12 = 0;
 int num13 = 0;
 int esa;
-int ab;
-//int high_score;
+int a;
 
 void UI_Initialize() {
 	LoadDivGraph("player_images/num.png", 15, 15, 1, 16, 16, score_image);
@@ -47,13 +46,13 @@ void UI_Updeta() {
 void UI_Draw() {
 	if (HitCheckEnemy(&mPac, &Akabei)) {
 		DeleteGraph(zanpakuto_image[num6]);
-		ab = 1;
+		a = 1;
 	}
-	if (HitCheckEnemy(&mPac, &Akabei) && ab == 1) {
+	if (HitCheckEnemy(&mPac, &Akabei) && a == 1) { 
 		DeleteGraph(zanpakuto_image1[num7]);
-		ab = 2;
+		a = 2;
 	}
-	if (HitCheckEnemy(&mPac, &Akabei) && ab == 2) {
+	if (HitCheckEnemy(&mPac, &Akabei) && a == 2) {
 		DeleteGraph(zanpakuto_image2[num8]);
 	}
 		if (esa == 1) {
@@ -97,12 +96,7 @@ void UI_Draw() {
 				num5 = 9;
 			}
 			esa = 0;
-			//// ハイスコアより大きければ
-			//if (num10 > num5)
-			//{
-			//	// ハイスコアを新記録で更新
-			//	num10 = esa; 
-			//}
+
 		}
 
 		DrawRotaGraph(1000, 100, 2.0f, 0, score_image[num1], TRUE, FALSE);
