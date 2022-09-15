@@ -19,26 +19,26 @@ int MapData[MAP_HEIGHT][MAP_WIDTH] = //マップデータ 1は壁がある 0は壁がない　
  { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,   1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
  { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
  { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
- { 0, 1, 0, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 0, 1, 0 },
- { 0, 1, 0, 0, 0, 0, 5, 0, 7, 0, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 5, 0, 7, 0, 0, 0, 0, 1, 0 },
- { 0, 1, 0, 1, 1, 1, 1, 6, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 6, 1, 1, 1, 1, 0, 1, 0 },
+ { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
+ { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+ { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
  { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
  { 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1,   1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0 },
  { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0,   0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
- { 0, 1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
+ { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
 
- { 2, 0, 0, 0, 0, 0, 5, 0, 7, 0, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3 },
+ { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3 },
 
- { 0, 1, 1, 1, 1, 1, 1, 6, 1, 1, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
+ { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
  { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
- { 0, 1, 1, 1, 1, 1, 1, 4, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 4, 1, 1, 1, 1, 1, 1, 0 },
- { 0, 1, 0, 0, 0, 0, 5, 0, 7, 0, 0, 0, 0, 0, 1,   1, 0, 0, 0, 0, 0, 5, 0, 7, 0, 0, 0, 0, 1, 0 },
- { 0, 1, 0, 1, 1, 1, 1, 6, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 6, 1, 1, 1, 1, 0, 1, 0 },
+ { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
+ { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,   1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
+ { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
  { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
  { 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0 },
  { 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0 },
@@ -90,79 +90,61 @@ void DrawMap() {
 				}
 			}
 
-			if (MapData[i][j] == 4) {
-				if (Akabei.md == 2) {
-					if (Akabei.juuji == false) {
-						if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-							Akabei.x = Akabei.mx;
-							Akabei.y = Akabei.my;
-							Akabei.juujiUp = true;
-							Akabei.juuji = true;
+			switch (mPac.var)
+			{
+			case 0:
+				DrawBox(mPac.x - (mPac.w * 0.5f) ,mPac.y - (mPac.h * 1.5f), mPac.x + (mPac.w * 0.5f), mPac.y - (mPac.h * 0.5f), GetColor(255,0,0), FALSE);
+				if (HitCheck(mPac.x - (mPac.w * 0.5f), mPac.y - (mPac.w * 1.5f), mPac.w, mPac.h, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+					if (MapData[i][j] == 0) {
+						if (mPac.x == (j * MAP_SIZE) + (MAP_SIZE * 0.5f)) {
+							mPac.type = 0;
 						}
 					}
 				}
-			}
-
-			if (MapData[i][j] == 5) {
-				if (Akabei.md == 0) {
-					if (Akabei.juuji == false) {
-						if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-							Akabei.x = Akabei.mx;
-							Akabei.y = Akabei.my;
-							Akabei.juujiLeft = true;
-							Akabei.juuji = true;
+				break;
+			case 1:
+				DrawBox(mPac.x + (mPac.w * 0.5f), mPac.y - (mPac.h * 0.5f), mPac.x + (mPac.w * 1.5f), mPac.y + (mPac.h * 0.5f), GetColor(255, 0, 0), FALSE);
+				if (HitCheck(mPac.x + (mPac.w * 0.5f), mPac.y - (mPac.h * 0.5f), mPac.w , mPac.h, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+					if (MapData[i][j] == 0) {
+						if (mPac.y == (i * MAP_SIZE) + (MAP_SIZE * 0.5f)) {
+							mPac.type = 1;
 						}
 					}
 				}
-			}
-
-			if (MapData[i][j] == 6) {
-				if (Akabei.md == 3) {
-					if (Akabei.juuji == false) {
-						if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-							Akabei.x = Akabei.mx;
-							Akabei.y = Akabei.my;
-							Akabei.juujiDown = true;
-							Akabei.juuji = true;
+				break;
+			case 2:
+				DrawBox(mPac.x - (mPac.w * 0.5f), mPac.y + (mPac.h * 0.5f), mPac.x + (mPac.w * 0.5f), mPac.y + (mPac.h * 1.5f), GetColor(255, 0, 0), FALSE);
+				if (HitCheck(mPac.x - (mPac.w * 0.5f), mPac.y + (mPac.h * 0.5f), mPac.w, mPac.h, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+					if (MapData[i][j] == 0) {
+						if (mPac.x == (j * MAP_SIZE) + (MAP_SIZE * 0.5f)) {
+							mPac.type = 2;
 						}
 					}
 				}
-			}
-
-			if (MapData[i][j] == 7) {
-				if (Akabei.md == 1) {
-					if (Akabei.juuji == false) {
-						if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-							Akabei.x = Akabei.mx;
-							Akabei.y = Akabei.my;
-							Akabei.juujiRight = true;
-							Akabei.juuji = true;
+				break;
+			case 3:
+				DrawBox(mPac.x - (mPac.w * 1.5f), mPac.y - (mPac.h * 0.5f), mPac.x - (mPac.w * 0.5f), mPac.y + (mPac.h * 0.5f), GetColor(255, 0, 0), FALSE);
+				if (HitCheck(mPac.x - (mPac.w * 1.5f), mPac.y - (mPac.h * 0.5f), mPac.w, mPac.h, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+					if (MapData[i][j] == 0) {
+						if (mPac.y == (i * MAP_SIZE) + (MAP_SIZE * 0.5f)) {
+							mPac.type = 3;
 						}
 					}
 				}
+				break;
+			default:
+				break;
 			}
-			if (MapData[i][j] == 8) {
-				if (Akabei.md == 2) {
-					if (Akabei.juuji == false) {
-						if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-							Akabei.x = Akabei.mx;
-							Akabei.y = Akabei.my;
-
-							Akabei.juuji = true;
-						}
-					}
+			if (HitCheck(mPac.x - (mPac.w * 0.5f), mPac.y - (mPac.h * 0.5f), mPac.w, mPac.h, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+				if (MapData[i][j] == 1) {
+					mPac.x = mx;
+					mPac.y = my;
+					mPac.img = mimg;
+					mPac.type = mPac.var;
 				}
-			}
-
-			if (HitCheck(mPac.x, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-				//if (MapData[i][j] == 1) {
-				//	mPac.x = mx;
-				//	mPac.y = my;
-				//	mPac.img = mimg;
-				//	mPac.type = mtype;
-				//}
 				WarpTunnel();
 			}
+			
 		}
 	}
 }
@@ -233,8 +215,11 @@ void Game_Update() {
 	}
 
 
-	if (CheckHitKey(KEY_INPUT_ESCAPE) != 0) {//Escキーが押されていたら
+	if (CheckHitKey(KEY_INPUT_B) != 0) {//Escキーが押されていたら
 		SceneMgr_ChangeScene(eScene_Menu);//シーンをメニューに変更
+	}
+	if (CheckHitKey(KEY_INPUT_ESCAPE) != 0 || (g_NowKey & PAD_INPUT_7) != 0) {// ESCAPEキーが押されているかを調べる
+		DxLib_End();
 	}
 	Player_Update();
 	DrawMap();
@@ -248,7 +233,7 @@ void Game_Update() {
 void Game_Draw() {
 
 	//DrawGraph(0, 0, mImageHandle, FALSE);
-	DrawFormatString(10, 700, 0xffffff, "ESCキーを押してメニュー画面へ");
+	DrawFormatString(10, 700, 0xffffff, "Bキーを押してタイトル画面へ");
 	Player_Draw();
 	Enemy_Draw();
 	Item_Draw();
@@ -293,7 +278,7 @@ void WarpTunnel() {
 
 void AkabeiMapHitCheck() {
 	// 左に壁があるときにフラグをtrueにする
-	if (MapData[Akabei.mapY][Akabei.mapX - 1] == 1 || MapData[Akabei.mapY][Akabei.mapX - 1] == 2) {
+	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 1) {
 		Akabei.left = true;
 	}
 	else {
@@ -301,7 +286,8 @@ void AkabeiMapHitCheck() {
 	}
 
 	// 右に壁があるときにフラグをtrueにする
-	if (MapData[Akabei.mapY][Akabei.mapX + 1] == 1 || MapData[Akabei.mapY][Akabei.mapX + 1] == 2) {
+	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 1) {
+		//DrawBox(Akabei.x / 16, Akabei.y / 16, 1, 1, GetColor(0, 255, 0), TRUE);
 		Akabei.right = true;
 	}
 	else {
@@ -309,7 +295,7 @@ void AkabeiMapHitCheck() {
 	}
 
 	// 上に壁があるときにフラグをtrueにする
-	if (MapData[Akabei.mapY - 1][Akabei.mapX] == 1 || MapData[Akabei.mapY - 1][Akabei.mapX] == 2) {
+	if (MapData[((int)Akabei.y / 16) - 1][(int)Akabei.x / 16] == 1) {
 		Akabei.up = true;
 	}
 	else {
@@ -317,7 +303,7 @@ void AkabeiMapHitCheck() {
 	}
 
 	// 下に壁があるときにフラグをtrueにする
-	if (MapData[Akabei.mapY + 1][Akabei.mapX] == 1 || MapData[Akabei.mapY + 1][Akabei.mapX] == 2) {
+	if (MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 1) {
 		Akabei.bottom = true;
 	}
 	else {
