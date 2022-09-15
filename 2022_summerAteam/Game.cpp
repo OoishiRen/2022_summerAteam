@@ -186,45 +186,12 @@ void Game_Update() {
 	mimg = mPac.img;
 	mtype = mPac.type;
 
-	Pinkey.mx = Pinkey.x;
-	Pinkey.my = Pinkey.y;
-
 	AkabeiMapHitCheck();
+	PinkeyMapHitCheck();
 	AosukeMapHitCheck();
 	GuzutaMapHitCheck();
 
-	// 左に壁があるときにフラグをtrueにする
-	if (MapData[(int)Pinkey.y / 16][((int)Pinkey.x / 16) - 1] == 1) {
-		Pinkey.left = true;
-	}
-	else {
-		Pinkey.left = false;
-	}
-
-	// 右に壁があるときにフラグをtrueにする
-	if (MapData[(int)Pinkey.y / 16][((int)Pinkey.x / 16) + 1] == 1) {
-		//DrawBox(Pinkey.x / 16, Pinkey.y / 16, 1, 1, GetColor(0, 255, 0), TRUE);
-		Pinkey.right = true;
-	}
-	else {
-		Pinkey.right = false;
-	}
-
-	// 上に壁があるときにフラグをtrueにする
-	if (MapData[((int)Pinkey.y / 16) - 1][(int)Pinkey.x / 16] == 1) {
-		Pinkey.up = true;
-	}
-	else {
-		Pinkey.up = false;
-	}
-
-	// 下に壁があるときにフラグをtrueにする
-	if (MapData[((int)Pinkey.y / 16) + 1][(int)Pinkey.x / 16] == 1) {
-		Pinkey.bottom = true;
-	}
-	else {
-		Pinkey.bottom = false;
-	}
+	
 
 
 	if (CheckHitKey(KEY_INPUT_B) != 0) {//Escキーが押されていたら
@@ -324,7 +291,38 @@ void AkabeiMapHitCheck() {
 }
 
 void PinkeyMapHitCheck() {
+	// 左に壁があるときにフラグをtrueにする
+	if (MapData[(int)Pinkey.y / 16][((int)Pinkey.x / 16) - 1] == 1) {
+		Pinkey.left = true;
+	}
+	else {
+		Pinkey.left = false;
+	}
 
+	// 右に壁があるときにフラグをtrueにする
+	if (MapData[(int)Pinkey.y / 16][((int)Pinkey.x / 16) + 1] == 1) {
+		//DrawBox(Pinkey.x / 16, Pinkey.y / 16, 1, 1, GetColor(0, 255, 0), TRUE);
+		Pinkey.right = true;
+	}
+	else {
+		Pinkey.right = false;
+	}
+
+	// 上に壁があるときにフラグをtrueにする
+	if (MapData[((int)Pinkey.y / 16) - 1][(int)Pinkey.x / 16] == 1) {
+		Pinkey.up = true;
+	}
+	else {
+		Pinkey.up = false;
+	}
+
+	// 下に壁があるときにフラグをtrueにする
+	if (MapData[((int)Pinkey.y / 16) + 1][(int)Pinkey.x / 16] == 1) {
+		Pinkey.bottom = true;
+	}
+	else {
+		Pinkey.bottom = false;
+	}
 }
 
 void AosukeMapHitCheck() {

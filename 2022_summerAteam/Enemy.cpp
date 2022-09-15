@@ -438,6 +438,9 @@ void ModeChange() {
 			ScatterMode();
 			ScatterModeTime--;
 		}
+		else if (PowerUpFlg == true) {
+			ScatterMode();
+		}
 		else if (ScatterModeTime == 0) {
 			EnemyMode = false;
 		}
@@ -446,7 +449,12 @@ void ModeChange() {
 		ScatterModeTime = 480;
 		if (ChaseModeTime > 0 != PowerUpFlg) {
 			ChaseMode();
+			//ScatterMode();
 			ChaseModeTime--;
+		}
+		else if (PowerUpFlg == true) {
+			ChaseMode();
+			//ScatterMode();
 		}
 		else if (ChaseModeTime == 0) {
 			EnemyMode = true;
@@ -456,8 +464,9 @@ void ModeChange() {
 
 void ScatterMode() {
 
-	int ax,ay, bx,by, cx,cy;
-
+	int ax, ay, bx, by, cx, cy;
+	int difx, dify, difc;
+	int goal;
 	ax = 2 * MAP_SIZE;
 	ay = 2 * MAP_SIZE;
 
@@ -467,165 +476,130 @@ void ScatterMode() {
 	Pinkey.mx = Pinkey.x;		// アカベイのx座標を保存
 	Pinkey.my = Pinkey.y;		// アカベイのy座標を保存
 	Pinkey.md = Pinkey.ed;		// 敵の動く方向を保存
-
 	for (int i = 0; i < MAP_HEIGHT; i++) {
 		for (int j = 0; j < MAP_WIDTH; j++) {
 			if (HitCheck(Pinkey.x, Pinkey.y, ENEMY_SIZE, ENEMY_SIZE,
 				j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
-				DrawLine(2* MAP_SIZE+4,2* MAP_SIZE+4,Pinkey.x,Pinkey.y,GetColor(246, 173, 198));
+				DrawLine(2 * MAP_SIZE + 4, 2 * MAP_SIZE + 4, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
 
 
-				// アカベイが壁を避けながら移動する処理
-				switch (Pinkey.ed) {
-				case 0:	// 左へ移動
-					Pinkey.x-= 0.5f;
-					Pinkey.eyeImageCount = 3;
-					break;
-				case 1:	// 右へ移動
-					Pinkey.x += 0.5f;
-					Pinkey.eyeImageCount = 1;
-					break;
-				case 2:	// 上へ移動
-					Pinkey.y -= 0.5f;
-					Pinkey.eyeImageCount = 0;
-					break;
-				case 3:	// 下へ移動
-					Pinkey.y += 0.5f;
-					Pinkey.eyeImageCount = 2;
-					break;
+			}
+		}
+	}
+	 //ピンキーが壁を避けながら移動する処理
+	switch (Pinkey.ed) {
+	case 0:	// 左へ移動
+		Pinkey.x -= Pinkey.speed;
+		Pinkey.eyeImageCount = 3;
+		break;
+	case 1:	// 右へ移動
+		Pinkey.x += Pinkey.speed;
+		Pinkey.eyeImageCount = 1;
+		break;
+	case 2:	// 上へ移動
+		Pinkey.y -= Pinkey.speed;
+		Pinkey.eyeImageCount = 0;
+		break;
+	case 3:	// 下へ移動
+		Pinkey.y += Pinkey.speed;
+		Pinkey.eyeImageCount = 2;
+		break;
+	}
+	if (Pinkey.WallHit == true) {//壁に当たったら
+		if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == true && Pinkey.bottom == false) {
+			if (Pinkey.ed == 0) {// ピンキーが左に進んでいる場合
+				Pinkey.ed = 3;//下へ移動
+				Pinkey.WallHit = false;
+			}
+			else if (Pinkey.ed == 2) {//上へ移動している場合
+				Pinkey.ed = 1;//右へ移動
+				Pinkey.WallHit = false;
+			}
+		}
+		else if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == false) {
+			// 縄張りの位置がピンキーより下なら
+			if (ay > Pinkey.y) {
+				Pinkey.ed = 3;
+				Pinkey.WallHit = false;
+			}
+			else {
+				Pinkey.ed = 2;
+				Pinkey.WallHit = false;
+			}
+		}
+		else if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == true) {
+			if (Pinkey.ed == 0) {
+				Pinkey.ed = 2;
+				Pinkey.WallHit = false;
+			}
+			else if (Pinkey.ed == 3) {
+				Pinkey.ed = 1;
+				Pinkey.WallHit = false;
+			}
+		}
+		// ピンキー右に進んでいる場合
+		else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == true && Pinkey.bottom == false) {
+			if (Pinkey.ed == 1) {
+				Pinkey.ed = 3;
+				Pinkey.WallHit = false;
+			}
+			else if (Pinkey.ed == 2) {
+				Pinkey.ed = 0;
+				Pinkey.WallHit = false;
+			}
+		}
+		else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == false && Pinkey.bottom == false) {
+			//縄張りの位置がピンキーより上なら
+			if (ay > Pinkey.y) {
+				Pinkey.ed = 3;
+				Pinkey.WallHit = false;
+			}
+			else {
+				Pinkey.ed = 2;
+				Pinkey.WallHit = false;
+			}
+		}
+		else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == false && Pinkey.bottom == true) {
+			if (Pinkey.ed == 1) {
+				Pinkey.ed = 2;
+				Pinkey.WallHit = false;
+			}
+			else if (Pinkey.ed == 3) {
+				Pinkey.ed = 0;
+				Pinkey.WallHit = false;
+			}
+		}
+		else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == true && Pinkey.bottom == false) {
+			// 縄張りの位置がピンキーより右なら
+			if (ax >= Pinkey.x) {
+				if (Pinkey.ed == 2) {
+					Pinkey.ed = 1;
+					Pinkey.WallHit = false;
 				}
-				if (Pinkey.WallHit == true) {
-					// アカベイが左に進んでいる場合
-					if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == true && Pinkey.bottom == false) {
-						if (Pinkey.ed == 0) {
-							Pinkey.ed = 3;
-							Pinkey.WallHit = false;
-						}
-						else if (Pinkey.ed == 2) {
-							Pinkey.ed = 1;
-							Pinkey.WallHit = false;
-						}
-					}
-					else if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == false) {
-						// プレイヤーの位置がアカベイより下なら
-						if (ay > Pinkey.y) {
-							Pinkey.ed = 3;
-							Pinkey.WallHit = false;
-						}
-						else {
-							Pinkey.ed = 2;
-							Pinkey.WallHit = false;
-						}
-					}
-					else if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == true) {
-						if (Pinkey.ed == 0) {
-							Pinkey.ed = 2;
-							Pinkey.WallHit = false;
-						}
-						else if (Pinkey.ed == 3) {
-							Pinkey.ed = 1;
-							Pinkey.WallHit = false;
-						}
-					}
-
-					// アカベイが右に進んでいる場合
-					else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == true && Pinkey.bottom == false) {
-						if (Pinkey.ed == 1) {
-							Pinkey.ed = 3;
-							Pinkey.WallHit = false;
-						}
-						else if (Pinkey.ed == 2) {
-							Pinkey.ed = 0;
-							Pinkey.WallHit = false;
-						}
-					}
-					else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == false && Pinkey.bottom == false) {
-						if (ay > Pinkey.y) {
-							Pinkey.ed = 3;
-							Pinkey.WallHit = false;
-						}
-						else {
-							Pinkey.ed = 2;
-							Pinkey.WallHit = false;
-						}
-					}
-					else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == false && Pinkey.bottom == true) {
-						if (Pinkey.ed == 1) {
-							Pinkey.ed = 2;
-							Pinkey.WallHit = false;
-						}
-						else if (Pinkey.ed == 3) {
-							Pinkey.ed = 0;
-							Pinkey.WallHit = false;
-						}
-
-					}
-					else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == true && Pinkey.bottom == false) {
-						// プレイヤーの位置がアカベイより右なら
-						if (mPac.x >= Pinkey.x) {
-							if (Pinkey.ed == 2) {
-								Pinkey.ed = 1;
-								Pinkey.WallHit = false;
-							}
-						}
-						else {
-							if (Pinkey.ed == 2) {
-								Pinkey.ed = 0;
-								Pinkey.WallHit = false;
-							}
-						}
-					}
-					else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == true) {
-						// プレイヤーの位置がアカベイより右なら
-						if (mPac.x >= Pinkey.x) {
-							if (Pinkey.ed == 3) {
-								Pinkey.ed = 1;
-								Pinkey.WallHit = false;
-							}
-						}
-						else {
-							if (Pinkey.ed == 3) {
-								Pinkey.ed = 0;
-								Pinkey.WallHit = false;
-							}
-						}
-					}
+			}
+			else {
+				if (Pinkey.ed == 2) {
+					Pinkey.ed = 0;
+					Pinkey.WallHit = false;
+				}
+			}
+		}
+		else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == true) {
+			// 縄張りの位置がピンキーより右なら
+			if (ax >= Pinkey.x) {
+				if (Pinkey.ed == 3) {
+					Pinkey.ed = 1;
+					Pinkey.WallHit = false;
+				}
+			}
+			else {
+				if (Pinkey.ed == 3) {
+					Pinkey.ed = 0;
+					Pinkey.WallHit = false;
 				}
 			}
 		}
 	}
-	/*// 左に壁があるときにフラグをtrueにする
-	if (MapData[(int)Pinkey.y / 16][((int)Pinkey.x / 16) - 1] == 1) {
-		Pinkey.left = true;
-	}
-	else {
-		Pinkey.left = false;
-	}
-
-	// 右に壁があるときにフラグをtrueにする
-	if (MapData[(int)Pinkey.y / 16][((int)Pinkey.x / 16) + 1] == 1) {
-		//DrawBox(Pinkey.x / 16, Pinkey.y / 16, 1, 1, GetColor(0, 255, 0), TRUE);
-		Pinkey.right = true;
-	}
-	else {
-		Pinkey.right = false;
-	}
-
-	// 上に壁があるときにフラグをtrueにする
-	if (MapData[((int)Pinkey.y / 16) - 1][(int)Pinkey.x / 16] == 1) {
-		Pinkey.up = true;
-	}
-	else {
-		Pinkey.up = false;
-	}
-
-	// 下に壁があるときにフラグをtrueにする
-	if (MapData[((int)Pinkey.y / 16) + 1][(int)Pinkey.x / 16] == 1) {
-		Pinkey.bottom = true;
-	}
-	else {
-		Pinkey.bottom = false;
-	}*/
 }
 
 void ChaseMode() {
@@ -648,156 +622,126 @@ void ChaseMode() {
 			if (HitCheck(Pinkey.x, Pinkey.y, ENEMY_SIZE, ENEMY_SIZE,
 				j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
 				DrawLine(mPac.x, mPac.y, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
+			}
+		}
+	}
 
-				// アカベイが壁を避けながら移動する処理
-				switch (Pinkey.ed) {
-				case 0:	// 左へ移動
-					Pinkey.x -= 0.5f;
-					Pinkey.eyeImageCount = 3;
-					break;
-				case 1:	// 右へ移動
-					Pinkey.x += 0.5f;
-					Pinkey.eyeImageCount = 1;
-					break;
-				case 2:	// 上へ移動
-					Pinkey.y -= 0.5f;
-					Pinkey.eyeImageCount = 0;
-					break;
-				case 3:	// 下へ移動
-					Pinkey.y += 0.5f;
-					Pinkey.eyeImageCount = 2;
-					break;
+
+	// アカベイが壁を避けながら移動する処理
+	switch (Pinkey.ed) {
+	case 0:	// 左へ移動
+		Pinkey.x -= Pinkey.speed;
+		Pinkey.eyeImageCount = 3;
+		break;
+	case 1:	// 右へ移動
+		Pinkey.x += Pinkey.speed;
+		Pinkey.eyeImageCount = 1;
+		break;
+	case 2:	// 上へ移動
+		Pinkey.y -= Pinkey.speed;
+		Pinkey.eyeImageCount = 0;
+		break;
+	case 3:	// 下へ移動
+		Pinkey.y += Pinkey.speed;
+		Pinkey.eyeImageCount = 2;
+		break;
+	}
+
+	if (Pinkey.WallHit == true) {
+		// アカベイが左に進んでいる場合
+		if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == true && Pinkey.bottom == false) {
+			if (Pinkey.ed == 0) {
+				Pinkey.ed = 3;
+				Pinkey.WallHit = false;
+			}
+			else if (Pinkey.ed == 2) {
+				Pinkey.ed = 1;
+				Pinkey.WallHit = false;
+			}
+		}
+		else if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == false) {
+			// プレイヤーの位置がアカベイより下なら
+			if (mPac.y > Pinkey.y) {
+				Pinkey.ed = 3;
+				Pinkey.WallHit = false;
+			}
+			else {
+				Pinkey.ed = 2;
+				Pinkey.WallHit = false;
+			}
+		}
+		else if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == true) {
+			if (Pinkey.ed == 0) {
+				Pinkey.ed = 2;
+				Pinkey.WallHit = false;
+			}
+			else if (Pinkey.ed == 3) {
+				Pinkey.ed = 1;
+				Pinkey.WallHit = false;
+			}
+		}
+
+		// アカベイが右に進んでいる場合
+		else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == true && Pinkey.bottom == false) {
+			if (Pinkey.ed == 1) {
+				Pinkey.ed = 3;
+				Pinkey.WallHit = false;
+			}
+			else if (Pinkey.ed == 2) {
+				Pinkey.ed = 0;
+				Pinkey.WallHit = false;
+			}
+		}
+		else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == false && Pinkey.bottom == false) {
+			if (mPac.y > Pinkey.y) {
+				Pinkey.ed = 3;
+				Pinkey.WallHit = false;
+			}
+			else {
+				Pinkey.ed = 2;
+				Pinkey.WallHit = false;
+			}
+		}
+		else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == false && Pinkey.bottom == true) {
+			if (Pinkey.ed == 1) {
+				Pinkey.ed = 2;
+				Pinkey.WallHit = false;
+			}
+			else if (Pinkey.ed == 3) {
+				Pinkey.ed = 0;
+				Pinkey.WallHit = false;
+			}
+
+		}
+		else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == true && Pinkey.bottom == false) {
+			// プレイヤーの位置がアカベイより右なら
+			if (mPac.x >= Pinkey.x) {
+				if (Pinkey.ed == 2) {
+					Pinkey.ed = 1;
+					Pinkey.WallHit = false;
 				}
-				if (Pinkey.WallHit == true) {
-					// アカベイが左に進んでいる場合
-					if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == true && Pinkey.bottom == false) {
-						if (Pinkey.ed == 0) {
-							Pinkey.ed = 3;
-							Pinkey.WallHit = false;
-						}
-						else if (Pinkey.ed == 2) {
-							Pinkey.ed = 1;
-							Pinkey.WallHit = false;
-						}
-					}
-					else if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == false) {
-						// プレイヤーの位置がアカベイより下なら
-						if (mPac.y > Pinkey.y) {
-							Pinkey.ed = 3;
-							Pinkey.WallHit = false;
-						}
-						else {
-							Pinkey.ed = 2;
-							Pinkey.WallHit = false;
-						}
-					}
-					else if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == true) {
-						if (Pinkey.ed == 0) {
-							Pinkey.ed = 2;
-							Pinkey.WallHit = false;
-						}
-						else if (Pinkey.ed == 3) {
-							Pinkey.ed = 1;
-							Pinkey.WallHit = false;
-						}
-					}
-
-					// アカベイが右に進んでいる場合
-					else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == true && Pinkey.bottom == false) {
-						if (Pinkey.ed == 1) {
-							Pinkey.ed = 3;
-							Pinkey.WallHit = false;
-						}
-						else if (Pinkey.ed == 2) {
-							Pinkey.ed = 0;
-							Pinkey.WallHit = false;
-						}
-					}
-					else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == false && Pinkey.bottom == false) {
-						if (mPac.y > Pinkey.y) {
-							Pinkey.ed = 3;
-							Pinkey.WallHit = false;
-						}
-						else {
-							Pinkey.ed = 2;
-							Pinkey.WallHit = false;
-						}
-					}
-					else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == false && Pinkey.bottom == true) {
-						if (Pinkey.ed == 1) {
-							Pinkey.ed = 2;
-							Pinkey.WallHit = false;
-						}
-						else if (Pinkey.ed == 3) {
-							Pinkey.ed = 0;
-							Pinkey.WallHit = false;
-						}
-
-					}
-					else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == true && Pinkey.bottom == false) {
-						// プレイヤーの位置がアカベイより右なら
-						if (ax >= Pinkey.x) {
-							if (Pinkey.ed == 2) {
-								Pinkey.ed = 1;
-								Pinkey.WallHit = false;
-							}
-						}
-						else {
-							if (Pinkey.ed == 2) {
-								Pinkey.ed = 0;
-								Pinkey.WallHit = false;
-							}
-						}
-					}
-					else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == true) {
-						// プレイヤーの位置がアカベイより右なら
-						if (ax >= Pinkey.x) {
-							if (Pinkey.ed == 3) {
-								Pinkey.ed = 1;
-								Pinkey.WallHit = false;
-							}
-						}
-						else {
-							if (Pinkey.ed == 3) {
-								Pinkey.ed = 0;
-								Pinkey.WallHit = false;
-							}
-						}
-					}
+			}
+			else {
+				if (Pinkey.ed == 2) {
+					Pinkey.ed = 0;
+					Pinkey.WallHit = false;
+				}
+			}
+		}
+		else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == true) {
+			// プレイヤーの位置がアカベイより右なら
+			if (mPac.x >= Pinkey.x) {
+				if (Pinkey.ed == 3) {
+					Pinkey.ed = 1;
+					Pinkey.WallHit = false;
+				}
+			}
+			else {
+				if (Pinkey.ed == 3) {
+					Pinkey.ed = 0;
+					Pinkey.WallHit = false;
 				}
 			}
 		}
 	}
-	/*// 左に壁があるときにフラグをtrueにする
-	if (MapData[(int)Pinkey.y / 16][((int)Pinkey.x / 16) - 1] == 1) {
-		Pinkey.left = true;
-	}
-	else {
-		Pinkey.left = false;
-	}
-
-	// 右に壁があるときにフラグをtrueにする
-	if (MapData[(int)Pinkey.y / 16][((int)Pinkey.x / 16) + 1] == 1) {
-		//DrawBox(Pinkey.x / 16, Pinkey.y / 16, 1, 1, GetColor(0, 255, 0), TRUE);
-		Pinkey.right = true;
-	}
-	else {
-		Pinkey.right = false;
-	}
-
-	// 上に壁があるときにフラグをtrueにする
-	if (MapData[((int)Pinkey.y / 16) - 1][(int)Pinkey.x / 16] == 1) {
-		Pinkey.up = true;
-	}
-	else {
-		Pinkey.up = false;
-	}
-
-	// 下に壁があるときにフラグをtrueにする
-	if (MapData[((int)Pinkey.y / 16) + 1][(int)Pinkey.x / 16] == 1) {
-		Pinkey.bottom = true;
-	}
-	else {
-		Pinkey.bottom = false;
-	}*/
 }
