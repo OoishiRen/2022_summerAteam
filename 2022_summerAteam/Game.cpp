@@ -90,15 +90,73 @@ void DrawMap() {
 				}
 			}
 
-			if (HitCheck(mPac.x, mPac.y, mPac.w, mPac.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
-				/*if (MapData[i][j] == 1) {
+			switch (mPac.var)
+			{
+			case 0:
+				if (HitCheck(mPac.x - (mPac.w * 0.5f), mPac.y - (mPac.w * 1.5f), mPac.w, mPac.h, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+					if (MapData[i][j] == 0) {
+						DrawBox(mPac.x - (mPac.w * 0.5f), mPac.y - (mPac.h * 1.5f), mPac.x + (mPac.w * 0.5f), mPac.y - (mPac.h * 0.5f), GetColor(0, 255, 0), FALSE);//デバッグ用
+						if (mPac.x == (j * MAP_SIZE) + (MAP_SIZE * 0.5f)) {
+							mPac.type = 0;
+						}
+					}
+					else {
+						DrawBox(mPac.x - (mPac.w * 0.5f), mPac.y - (mPac.h * 1.5f), mPac.x + (mPac.w * 0.5f), mPac.y - (mPac.h * 0.5f), GetColor(255, 0, 0), FALSE);//デバッグ用
+					}
+				}
+				break;
+			case 1:
+				if (HitCheck(mPac.x + (mPac.w * 0.5f), mPac.y - (mPac.h * 0.5f), mPac.w , mPac.h, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+					if (MapData[i][j] == 0) {
+						DrawBox(mPac.x + (mPac.w * 0.5f), mPac.y - (mPac.h * 0.5f), mPac.x + (mPac.w * 1.5f), mPac.y + (mPac.h * 0.5f), GetColor(0, 255, 0), FALSE);//デバッグ用
+						if (mPac.y == (i * MAP_SIZE) + (MAP_SIZE * 0.5f)) {
+							mPac.type = 1;
+						}
+					}
+					else {
+						DrawBox(mPac.x + (mPac.w * 0.5f), mPac.y - (mPac.h * 0.5f), mPac.x + (mPac.w * 1.5f), mPac.y + (mPac.h * 0.5f), GetColor(255, 0, 0), FALSE);//デバッグ用
+					}
+				}
+				break;
+			case 2:
+				if (HitCheck(mPac.x - (mPac.w * 0.5f), mPac.y + (mPac.h * 0.5f), mPac.w, mPac.h, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+					if (MapData[i][j] == 0) {
+						DrawBox(mPac.x - (mPac.w * 0.5f), mPac.y + (mPac.h * 0.5f), mPac.x + (mPac.w * 0.5f), mPac.y + (mPac.h * 1.5f), GetColor(0, 255, 0), FALSE);//デバッグ用
+						if (mPac.x == (j * MAP_SIZE) + (MAP_SIZE * 0.5f)) {
+							mPac.type = 2;
+						}
+					}
+					else {
+						DrawBox(mPac.x - (mPac.w * 0.5f), mPac.y + (mPac.h * 0.5f), mPac.x + (mPac.w * 0.5f), mPac.y + (mPac.h * 1.5f), GetColor(255, 0, 0), FALSE);//デバッグ用
+					}
+				}
+				break;
+			case 3:
+				if (HitCheck(mPac.x - (mPac.w * 1.5f), mPac.y - (mPac.h * 0.5f), mPac.w, mPac.h, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+					if (MapData[i][j] == 0) {
+						DrawBox(mPac.x - (mPac.w * 1.5f), mPac.y - (mPac.h * 0.5f), mPac.x - (mPac.w * 0.5f), mPac.y + (mPac.h * 0.5f), GetColor(0, 255, 0), FALSE);//デバッグ用
+						if (mPac.y == (i * MAP_SIZE) + (MAP_SIZE * 0.5f)) {
+							mPac.type = 3;
+						}
+					}
+					else {
+						DrawBox(mPac.x - (mPac.w * 1.5f), mPac.y - (mPac.h * 0.5f), mPac.x - (mPac.w * 0.5f), mPac.y + (mPac.h * 0.5f), GetColor(255, 0, 0), FALSE);//デバッグ用
+					}
+				}
+				break;
+			default:
+				break;
+			}
+			if (HitCheck(mPac.x - (mPac.w * 0.5f), mPac.y - (mPac.h * 0.5f), mPac.w, mPac.h, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+				if (MapData[i][j] == 1) {
 					mPac.x = mx;
 					mPac.y = my;
 					mPac.img = mimg;
-					mPac.type = mtype;
-				}*/
+					mPac.type = mPac.var;
+				}
 				WarpTunnel();
 			}
+			
 		}
 	}
 }
@@ -169,8 +227,11 @@ void Game_Update() {
 	}
 
 
-	if (CheckHitKey(KEY_INPUT_ESCAPE) != 0) {//Escキーが押されていたら
+	if (CheckHitKey(KEY_INPUT_B) != 0) {//Escキーが押されていたら
 		SceneMgr_ChangeScene(eScene_Menu);//シーンをメニューに変更
+	}
+	if (CheckHitKey(KEY_INPUT_ESCAPE) != 0 || (g_NowKey & PAD_INPUT_7) != 0) {// ESCAPEキーが押されているかを調べる
+		DxLib_End();
 	}
 	Player_Update();
 	DrawMap();
@@ -184,7 +245,7 @@ void Game_Update() {
 void Game_Draw() {
 
 	//DrawGraph(0, 0, mImageHandle, FALSE);
-	DrawFormatString(10, 700, 0xffffff, "ESCキーを押してメニュー画面へ");
+	DrawFormatString(10, 700, 0xffffff, "Bキーを押してタイトル画面へ");
 	Player_Draw();
 	Enemy_Draw();
 	Item_Draw();
