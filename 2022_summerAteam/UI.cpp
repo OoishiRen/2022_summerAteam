@@ -9,9 +9,9 @@
 extern float HitCheckEnemy(PAC* p, AKABEI* e);
 
 static int score_image[15];
-static int zanpakuto_image[10];
-static int zanpakuto_image1[10];
-static int zanpakuto_image2[10];
+static int zanpakuto_image[12];
+static int zanpakuto_image1[12];
+static int zanpakuto_image2[12];
 int num1 = 0;
 int num2 = 0;
 int num3 = 0;
