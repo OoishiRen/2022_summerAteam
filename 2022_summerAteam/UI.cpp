@@ -26,20 +26,13 @@ int num11 = 0;
 int num12 = 0;
 int num13 = 0;
 int esa;
-int ab;
-int GrHandle;
-//int high_score;
+int a;
 
 void UI_Initialize() {
 	LoadDivGraph("player_images/num.png", 15, 15, 1, 16, 16, score_image);
 	LoadDivGraph("player_images/pacman.png", 12, 12, 1, 16, 16, zanpakuto_image);
 	LoadDivGraph("player_images/pacman.png", 12, 12, 1, 16, 16, zanpakuto_image1);
 	LoadDivGraph("player_images/pacman.png", 12, 12, 1, 16, 16, zanpakuto_image2);
-	GrHandle = LoadGraph("1UP.png");
-	GrHandle = LoadGraph("GAME OVER.png");
-	GrHandle = LoadGraph("HI-SCORE.png");
-	GrHandle = LoadGraph("PLAYER.png");
-	GrHandle = LoadGraph("READY!.png");
 }
 
 void  UI_Finalize() {
@@ -53,13 +46,13 @@ void UI_Updeta() {
 void UI_Draw() {
 	if (HitCheckEnemy(&mPac, &Akabei)) {
 		DeleteGraph(zanpakuto_image[num6]);
-		ab = 1;
+		a = 1;
 	}
-	if (HitCheckEnemy(&mPac, &Akabei) && ab == 1) {
+	if (HitCheckEnemy(&mPac, &Akabei) && a == 1) { 
 		DeleteGraph(zanpakuto_image1[num7]);
-		ab = 2;
+		a = 2;
 	}
-	if (HitCheckEnemy(&mPac, &Akabei) && ab == 2) {
+	if (HitCheckEnemy(&mPac, &Akabei) && a == 2) {
 		DeleteGraph(zanpakuto_image2[num8]);
 	}
 		if (esa == 1) {
@@ -103,12 +96,7 @@ void UI_Draw() {
 				num5 = 9;
 			}
 			esa = 0;
-			//// ハイスコアより大きければ
-			//if (num10 > num5)
-			//{
-			//	// ハイスコアを新記録で更新
-			//	num10 = esa; 
-			//}
+
 		}
 
 		DrawRotaGraph(1000, 100, 2.0f, 0, score_image[num1], TRUE, FALSE);
@@ -124,7 +112,6 @@ void UI_Draw() {
 		DrawRotaGraph(950, 50, 2.0f, 0, score_image[num11], TRUE, FALSE);
 		DrawRotaGraph(975, 50, 2.0f, 0, score_image[num12], TRUE, FALSE);
 		DrawRotaGraph(1000, 50, 2.0f, 0, score_image[num13], TRUE, FALSE);
-		DrawRotaGraph(320, 240, 1.0, 0.0, GrHandle, FALSE);
 }
 
 
