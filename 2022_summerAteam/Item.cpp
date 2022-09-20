@@ -11,19 +11,19 @@ int Fruits_Handle[FRUIT_IMAGE_MAX];
 int Cnt;
 int Powerdot_Image;
 
-int Score;
-int DotCnt;
-int DotsLeft;
-int FruitCnt;
-int Round;
+int Score;//スコア
+int DotCnt;//エサをカウントする変数
+int DotsLeft;//残りのエサ数
+int FruitCnt;//フルーツをカウントする変数
+int Round;//ラウンドチェンジ
 
-bool PowerUpFlg;
+bool PowerUpFlg;//パックマンのパワーアップフラグ
 
-int PowerUpTime;
-int FruitTime;
+int PowerUpTime;//パワーアップの時間
+int FruitTime;//フルーツの出現時間
 struct FRUITS Fruits;		//フルーツ構造体
-int CntTime;
-bool FruiScoreUI;
+int CntTime;//カウントする変数
+bool FruiScoreUI;//フルーツのUIのフラグ
 
 int Item_Mapdata[MAP_HEIGHT][MAP_WIDTH]//０=エサなし １=エサ ２=パワーエサ ３=フルーツ
 {
@@ -117,11 +117,11 @@ void Item_Update() {
 	PowerUp();//パワーアップの関数
 	FruitTerget();//フルーツ出現関数
 
-	if (DotsLeft == 0) {
-		RoundChange();
+	if (DotsLeft == 0) {//残りエサがなくなったとき
+		RoundChange();//ラウンドチェンジ
 	}
 	if (FruiScoreUI == true) {
-		ScoreUIEnabled();
+		ScoreUIEnabled();//フルーツUI
 	}
 }
 void Item_Draw() {
@@ -143,7 +143,7 @@ void Item_Draw() {
 			}
 		}
 	}
-	FruitsUI();
+	FruitsUI();//フルーツのスコアを表示する関数
 
 
 	DrawFormatString(1000, 10, GetColor(255, 255, 255), "Score:%d", Score);//でバッグ
@@ -251,14 +251,14 @@ void FruitTerget() {
 }
 
 void RoundChange() {
-	Cnt = 0;
-	DotCnt = 0;
-	FruitCnt = 0;
-	PowerUpFlg = false;
-	PowerUpTime = 510;
-	FruitTime = 660;
-	DotsLeft = 244;
-	Round++;
+	Cnt = 0;//初期化
+	DotCnt = 0;//初期化
+	FruitCnt = 0;//初期化
+	PowerUpFlg = false;//初期化
+	PowerUpTime = 510;//初期化
+	FruitTime = 660;//初期化
+	DotsLeft = 244;//初期化
+	Round++;//初期化
 
 	mPac.flg = true;
 	mPac.type = 0;
@@ -267,7 +267,7 @@ void RoundChange() {
 	mPac.y = 392.0f;
 
 	if (Fruits.kind < 12) {
-		Fruits.kind++;
+		Fruits.kind++; //フルーツの種類++
 	}
 	if (Round == 1) {//ラウンド１
 		Fruits.fScore = Fruits.Cherry;//チェリー

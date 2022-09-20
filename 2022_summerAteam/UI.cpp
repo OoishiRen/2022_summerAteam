@@ -29,7 +29,7 @@ int esa;
 int a;
 
 void UI_Initialize() {
-	LoadDivGraph("player_images/num.png", 15, 15, 1, 16, 16, score_image);
+	LoadDivGraph("UI_images/num.png", 15, 15, 1, 16, 16, score_image);
 	LoadDivGraph("player_images/pacman.png", 12, 12, 1, 16, 16, zanpakuto_image);
 	LoadDivGraph("player_images/pacman.png", 12, 12, 1, 16, 16, zanpakuto_image1);
 	LoadDivGraph("player_images/pacman.png", 12, 12, 1, 16, 16, zanpakuto_image2);

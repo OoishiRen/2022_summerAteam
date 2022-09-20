@@ -91,8 +91,10 @@ void Player_Update() {
 		mPac.flg = false;
 	}
 	//当たり判定(対ピンキー)
-	if (HitCheckEnemy(&mPac, &Pinkey)) {
-		mPac.flg = false;
+	if (PowerUpFlg == false) {
+		if (HitCheckEnemy(&mPac, &Pinkey)) {
+			mPac.flg = false;
+		}
 	}
 
 	Pac_Anim(mPac.speed);	//パックマンのアニメーション
