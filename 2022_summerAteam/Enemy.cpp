@@ -942,8 +942,6 @@ void AkabeiMove2() {
 	//	}
 	//}
 }
-
-
 void ModeChange() {
 	if (EnemyMode == true) {//縄張りモード
 		ChaseModeTime = 1230;//追跡モードの時間を初期化
@@ -1596,9 +1594,26 @@ void ChaseMode() {
 	py = (int)mPac.y / 16;
 
 	// 三平方の定理を使う
-	A = mPac.x - Pinkey.x;
+	if (mPac.var == 3) {
 
-	B = mPac.y - Pinkey.y;
+		A = mPac.x - 4 * MAP_SIZE - Pinkey.x;
+		B = mPac.y - Pinkey.y;
+	}//左
+	else if (mPac.var == 1) {
+		A = mPac.x + 4 * MAP_SIZE - Pinkey.x;
+		B = mPac.y - Pinkey.y;
+	}//右
+	else if (mPac.var == 0) {
+		A = mPac.x - Pinkey.x;
+		B = mPac.y - 4 * MAP_SIZE - Pinkey.y;
+	}//上
+	else if (mPac.var == 2) {
+		A = mPac.x - Pinkey.x;
+		B = mPac.y + 4 * MAP_SIZE - Pinkey.y;
+	}//下
+
+	/*A = mPac.x - Pinkey.x;
+	B = mPac.y - Pinkey.y;*/
 
 	C = sqrtf(A * A + B * B);	// A と B を２乗して足した値の平方根を求める
 
@@ -1609,7 +1624,19 @@ void ChaseMode() {
 		for (int j = 0; j < MAP_WIDTH; j++) {
 			if (HitCheck(Pinkey.x, Pinkey.y, ENEMY_SIZE, ENEMY_SIZE,
 				j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
-				DrawLine(mPac.x, mPac.y, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
+				if (mPac.var == 3) {
+					DrawLine(mPac.x - 4 * MAP_SIZE, mPac.y, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
+				}//左
+				else if (mPac.var == 1) {
+					DrawLine(mPac.x + 4 * MAP_SIZE, mPac.y, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
+				}//右
+				else if (mPac.var == 0) {
+					DrawLine(mPac.x, mPac.y - 4 * MAP_SIZE, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
+				}//上
+				else if (mPac.var == 2) {
+					DrawLine(mPac.x, mPac.y + 4 * MAP_SIZE, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
+				}//下
+				//DrawLine(mPac.x, mPac.y, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
 
 
 			}
@@ -1924,12 +1951,44 @@ void ChaseMode() {
 			}
 		}
 	}
+	for (int i = 0; i < MAP_HEIGHT; i++) {
+		for (int j = 0; j < MAP_WIDTH; j++) {
+			if (HitCheck(Pinkey.x + 8, Pinkey.y, Pinkey.w, Pinkey.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+				if (MapData[i][j] == 2) {//左のトンネルに入ったら
+					for (int i = 0; i < MAP_HEIGHT; i++) {
+						for (int j = 0; j < MAP_WIDTH; j++) {
+							if (MapData[i][j] == 3 && Pinkey.md == 0) {//右のトンネルに
+								//Pinkey.x = j * MAP_SIZE - 8;//ワープ
+								Pinkey.x = j * MAP_SIZE + 4;//ワープ
+								Pinkey.y = i * MAP_SIZE + 8;//ワープ
+							}
+						}
+					}
+
+				}
+
+			}
+			if (HitCheck(Pinkey.x - 8, Pinkey.y, Pinkey.w, Pinkey.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+				if (MapData[i][j] == 3) {//右のトンネルに入ったら
+					for (int i = 0; i < MAP_HEIGHT; i++) {
+						for (int j = 0; j < MAP_WIDTH; j++) {
+							if (MapData[i][j] == 2 && Pinkey.md == 1) {//左のトンネルに
+								//Pinkey.x = j * MAP_SIZE + 16;//ワープ
+								Pinkey.x = j * MAP_SIZE + 12;//ワープ
+								Pinkey.y = i * MAP_SIZE + 8;//ワープ
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 void IjikeMode() {
 
 
-	
+
 
 	Pinkey.mx = Pinkey.x;		// ピンキーのx座標を保存
 	Pinkey.my = Pinkey.y;		// ピンキーのy座標を保存
