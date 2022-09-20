@@ -162,13 +162,16 @@ void Enemy_Update() {
 	}
 	else {
 		if (PowerUpTime > 150) {
-			if (Akabei.ImageCount == 16) {
-				Akabei.ImageCount = 17;
-
-			}
-			else {
-				Akabei.ImageCount = 16;
-			}
+			//if (Akabei.ImageCount == 16) {
+			//	Akabei.ImageCount = 17;
+			//	Aosuke.ImageCount = 17;
+			//	Guzuta.ImageCount = 17;
+			//}
+			//else {
+			//	Akabei.ImageCount = 16;
+			//	Aosuke.ImageCount = 16;
+			//	Guzuta.ImageCount = 16;
+			//}
 
 
 			if (eCnt < ENEMY_CNT_SPEED) {
@@ -178,10 +181,16 @@ void Enemy_Update() {
 				eCnt = 0;
 			}
 			if (eCnt < ENEMY_CNT_SPEED / 2) {
+				Akabei.ImageCount = 16;
 				Pinkey.ImageCount = 16;
+				Aosuke.ImageCount = 16;
+				Guzuta.ImageCount = 16;
 			}
 			else if (eCnt > ENEMY_CNT_SPEED / 2 && eCnt < ENEMY_CNT_SPEED) {
+				Akabei.ImageCount = 17;
 				Pinkey.ImageCount = 17;
+				Aosuke.ImageCount = 17;
+				Guzuta.ImageCount = 17;
 			}
 
 		}
@@ -190,12 +199,16 @@ void Enemy_Update() {
 				if (PowerUpTime % 5 == 0) {
 					Akabei.ImageCount++;
 					Pinkey.ImageCount++;
+					Aosuke.ImageCount++;
+					Guzuta.ImageCount++;
 				}
 			}
 			else
 			{
 				Akabei.ImageCount = 16;
 				Pinkey.ImageCount = 16;
+				Aosuke.ImageCount = 16;
+				Guzuta.ImageCount = 16;
 			}
 		}
 
@@ -943,6 +956,24 @@ void ModeChange() {
 		}
 		//パックマンがパワーアップモードの時
 		else if (PowerUpFlg == true) {
+			// アカベイの縄張りモード
+			AkabeiScatterMode();
+
+			// アオスケの縄張りモード
+			if (Aosuke.movefinish == false) {
+				AosukeMove();
+			}
+			else {
+				AosukeScatterMode();
+			}
+
+			// グズタの縄張りモード
+			if (Guzuta.movefinish == false) {
+				GuzutaMove();
+			}
+			else {
+				GuzutaScatterMode();
+			}
 			//イジケ状態にする
 			IjikeMode();
 		}//縄張りモードの時間が無くなったら
@@ -979,6 +1010,25 @@ void ModeChange() {
 		}
 		//パックマンがパワーアップモードの時
 		else if (PowerUpFlg == true) {
+
+			// アカベイの縄張りモード
+			AkabeiScatterMode();
+
+			// アオスケの縄張りモード
+			if (Aosuke.movefinish == false) {
+				AosukeMove();
+			}
+			else {
+				AosukeScatterMode();
+			}
+
+			// グズタの縄張りモード
+			if (Guzuta.movefinish == false) {
+				GuzutaMove();
+			}
+			else {
+				GuzutaScatterMode();
+			}
 			//イジケ状態にする
 			IjikeMode();
 		}//追跡モードの時間が無くなったら
