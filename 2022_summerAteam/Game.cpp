@@ -177,6 +177,7 @@ void Game_Finalize() {
 	Player_Finalize();
 	Enemy_Finalize();
 	Item_Finalize();//アイテム用
+	UI_Finalize();
 	//DeleteGraph(mImageHandle); //画像の解放
 }
 

@@ -52,5 +52,6 @@ extern void GuzutaScatterMode();
 
 void ScatterMode();
 void ChaseMode();
+void IjikeMode();
 
 void ModeChange();
