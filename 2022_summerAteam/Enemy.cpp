@@ -23,6 +23,7 @@ int eCnt;
 int ScatterModeTime;//縄張りモードの時間（フレーム）
 int ChaseModeTime;//追跡モードの時間（フレーム）
 bool EnemyMode; // True = 縄張りモード、false = 追跡モード
+int IjikeCnt;
 
 // 初期化
 void Enemy_Initialize() {
@@ -93,6 +94,7 @@ void Enemy_Initialize() {
 	ScatterModeTime = 480;
 	ChaseModeTime = 1230;
 	EnemyMode = true;
+	IjikeCnt = 20;
 }
 
 
@@ -125,6 +127,7 @@ void Enemy_Update() {
 	DrawFormatString(1000, 310, 255, "Akabei.up = %d", Akabei.up);
 	DrawFormatString(1000, 330, 255, "Akabei.bottom = %d", Akabei.bottom);
 	DrawFormatString(1000, 350, 255, "Akabei.mapY = %d", Akabei.mapY);
+	DrawFormatString(1000, 370, 255, "%d", IjikeCnt);
 
 
 	DrawFormatString(500, 30, GetColor(255, 255, 255),
@@ -943,29 +946,35 @@ void AkabeiMove2() {
 
 void ModeChange() {
 	if (EnemyMode == true) {//縄張りモード
-		ChaseModeTime = 1230;
+		ChaseModeTime = 1230;//追跡モードの時間を初期化
+		//縄張りモードの時間があるとき&&パックマンがパワーアップ上代じゃない時
 		if (ScatterModeTime > 0 != PowerUpFlg) {
-			ScatterMode();
-			ScatterModeTime--;
+			ScatterMode();//縄張りモードの処理関数
+			ScatterModeTime--;//縄張りモードの時間を減らす
 		}
+		//パックマンがパワーアップモードの時
 		else if (PowerUpFlg == true) {
+			//イジケ状態にする
 			IjikeMode();
-		}
+		}//縄張りモードの時間が無くなったら
 		else if (ScatterModeTime == 0) {
-			EnemyMode = false;
+			EnemyMode = false;//追跡モードにする
 		}
 	}
 	else if (EnemyMode == false) {//追跡モード
-		ScatterModeTime = 480;
+		ScatterModeTime = 480;//縄張りモードの時間を初期化
+		//追跡モードの時間があるとき&&パックマンがパワーアップ上代じゃない時
 		if (ChaseModeTime > 0 != PowerUpFlg) {
-			ChaseMode();
-			ChaseModeTime--;
+			ChaseMode();//追跡モードの処理関数
+			ChaseModeTime--;//追跡モードの時間を減らす
 		}
+		//パックマンがパワーアップモードの時
 		else if (PowerUpFlg == true) {
+			//イジケ状態にする
 			IjikeMode();
-		}
+		}//追跡モードの時間が無くなったら
 		else if (ChaseModeTime == 0) {
-			EnemyMode = true;
+			EnemyMode = true;//縄張りモードにする
 		}
 	}
 }
@@ -1105,26 +1114,26 @@ void ScatterMode() {
 	//	}
 	//}
 
-Pinkey.mx = Pinkey.x;		// ピンキーのx座標を保存
-Pinkey.my = Pinkey.y;		// ピンキーのy座標を保存
-Pinkey.md = Pinkey.ed;		// 敵の動く方向を保存
+	Pinkey.mx = Pinkey.x;		// ピンキーのx座標を保存
+	Pinkey.my = Pinkey.y;		// ピンキーのy座標を保存
+	Pinkey.md = Pinkey.ed;		// 敵の動く方向を保存
 
-Pinkey.mapX = (int)Pinkey.x / 16;
-Pinkey.mapY = (int)Pinkey.y / 16;
-px = (int)mPac.x / 16;
-py = (int)mPac.y / 16;
+	Pinkey.mapX = (int)Pinkey.x / 16;
+	Pinkey.mapY = (int)Pinkey.y / 16;
+	px = (int)mPac.x / 16;
+	py = (int)mPac.y / 16;
 
-// 三平方の定理を使う
-A = 2 * MAP_SIZE - Pinkey.x;
+	// 三平方の定理を使う
+	A = 2 * MAP_SIZE - Pinkey.x;
 
-B = 2 * MAP_SIZE - Pinkey.y;
+	B = 2 * MAP_SIZE - Pinkey.y;
 
-C = sqrtf(A * A + B * B);	// A と B を２乗して足した値の平方根を求める
+	C = sqrtf(A * A + B * B);	// A と B を２乗して足した値の平方根を求める
 
-dx = A / C;		// C を1（正規化）とするには、A を C で割る
-dy = B / C;		// C を1（正規化）とするには、B を C で割る
+	dx = A / C;		// C を1（正規化）とするには、A を C で割る
+	dy = B / C;		// C を1（正規化）とするには、B を C で割る
 
-for (int i = 0; i < MAP_HEIGHT; i++) {
+	for (int i = 0; i < MAP_HEIGHT; i++) {
 		for (int j = 0; j < MAP_WIDTH; j++) {
 			if (HitCheck(Pinkey.x, Pinkey.y, ENEMY_SIZE, ENEMY_SIZE,
 				j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
@@ -1134,315 +1143,315 @@ for (int i = 0; i < MAP_HEIGHT; i++) {
 			}
 		}
 	}
-// ピンキーが壁を避けながら移動する処理
-switch (Pinkey.ed) {
-case 0:	// 左へ移動
-	Pinkey.x--;
-	Pinkey.eyeImageCount = 3;
-	break;
-case 1:	// 右へ移動
-	Pinkey.x++;
-	Pinkey.eyeImageCount = 1;
-	break;
-case 2:	// 上へ移動
-	Pinkey.y--;
-	Pinkey.eyeImageCount = 0;
-	break;
-case 3:	// 下へ移動
-	Pinkey.y++;
-	Pinkey.eyeImageCount = 2;
-	break;
-}
- // 左と上に壁があった場合
-if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == true && Pinkey.bottom == false) {
-	// 壁に当たったら
-	if (Pinkey.WallHit == true) {
-		// 右から入ってきたら、下に方向を変える
-		if (Pinkey.md == 0) {
-			Pinkey.ed = 3;				// 下に方向を変える
-			Pinkey.WallHit = false;
-		}
-		// 下から入ってきたら、右に方向を変える
-		else if (Pinkey.md == 2) {
-			Pinkey.ed = 1;				// 右に方向を変える
-			Pinkey.WallHit = false;
-		}
+	// ピンキーが壁を避けながら移動する処理
+	switch (Pinkey.ed) {
+	case 0:	// 左へ移動
+		Pinkey.x--;
+		Pinkey.eyeImageCount = 3;
+		break;
+	case 1:	// 右へ移動
+		Pinkey.x++;
+		Pinkey.eyeImageCount = 1;
+		break;
+	case 2:	// 上へ移動
+		Pinkey.y--;
+		Pinkey.eyeImageCount = 0;
+		break;
+	case 3:	// 下へ移動
+		Pinkey.y++;
+		Pinkey.eyeImageCount = 2;
+		break;
 	}
-}
-// 左と下に壁があったら
-else if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == true) {
-	// 壁に当たったら
-	if (Pinkey.WallHit == true) {
-		// 右から入ってきたら、上に方向を変える
-		if (Pinkey.md == 0) {
-			Pinkey.ed = 2;				// 上に方向を変える
-			Pinkey.WallHit = false;
-		}
-		// 上から入ってきたら、右に方向を変える
-		else if (Pinkey.md == 3) {
-			Pinkey.ed = 1;				// 右に方向を変える
-			Pinkey.WallHit = false;
-		}
-	}
-}
-// 右と上に壁がある場合
-else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == true && Pinkey.bottom == false) {
-	// 壁に当たったら
-	if (Pinkey.WallHit == true) {
-		// 左から入ってきたら、下に方向を変える
-		if (Pinkey.md == 1) {
-			Pinkey.ed = 3;				// 下に方向を変える
-			Pinkey.WallHit = false;
-		}
-		// 下から入ってきたら、左に方向を変える
-		else if (Pinkey.md == 2) {	// 上に進んでいたら
-			Pinkey.ed = 0;				// 左に方向を変える
-			Pinkey.WallHit = false;
-		}
-	}
-}
-// 右と下に壁がある場合
-else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == false && Pinkey.bottom == true) {
-	// 壁に当たったら
-	if (Pinkey.WallHit == true) {
-		// 左から入ってきたら、上に方向を変える
-		if (Pinkey.md == 1) {	// 右に進んでいたら
-			Pinkey.ed = 2;				// 上に方向を変える
-			Pinkey.WallHit = false;
-		}
-		// 上から入ってきたら、左に方向を変える
-		else if (Pinkey.md == 3) {	// 下に進んでいたら
-			Pinkey.ed = 0;				// 左に方向を変える
-			Pinkey.WallHit = false;
-		}
-	}
-}
-// 上だけに壁があった場合
-else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == true && Pinkey.bottom == false) {
-	// 壁に当たったら
-	if (Pinkey.WallHit == true) {
-		if (Pinkey.md == 2) {	// 上に進んでいたら
-			// パックマンの位置がピンキーより右なら
-			if (dx > 0.0f) {
+	// 左と上に壁があった場合
+	if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == true && Pinkey.bottom == false) {
+		// 壁に当たったら
+		if (Pinkey.WallHit == true) {
+			// 右から入ってきたら、下に方向を変える
+			if (Pinkey.md == 0) {
+				Pinkey.ed = 3;				// 下に方向を変える
+				Pinkey.WallHit = false;
+			}
+			// 下から入ってきたら、右に方向を変える
+			else if (Pinkey.md == 2) {
 				Pinkey.ed = 1;				// 右に方向を変える
 				Pinkey.WallHit = false;
 			}
-			else {
+		}
+	}
+	// 左と下に壁があったら
+	else if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == true) {
+		// 壁に当たったら
+		if (Pinkey.WallHit == true) {
+			// 右から入ってきたら、上に方向を変える
+			if (Pinkey.md == 0) {
+				Pinkey.ed = 2;				// 上に方向を変える
+				Pinkey.WallHit = false;
+			}
+			// 上から入ってきたら、右に方向を変える
+			else if (Pinkey.md == 3) {
+				Pinkey.ed = 1;				// 右に方向を変える
+				Pinkey.WallHit = false;
+			}
+		}
+	}
+	// 右と上に壁がある場合
+	else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == true && Pinkey.bottom == false) {
+		// 壁に当たったら
+		if (Pinkey.WallHit == true) {
+			// 左から入ってきたら、下に方向を変える
+			if (Pinkey.md == 1) {
+				Pinkey.ed = 3;				// 下に方向を変える
+				Pinkey.WallHit = false;
+			}
+			// 下から入ってきたら、左に方向を変える
+			else if (Pinkey.md == 2) {	// 上に進んでいたら
 				Pinkey.ed = 0;				// 左に方向を変える
 				Pinkey.WallHit = false;
 			}
 		}
 	}
-	else {	// 壁に当たっていなかったら
-		if (Pinkey.md == 0) {	// 左に進んでいたら
-			// パックマンの位置がピンキーより下なら
-			if (dy > 0.0f) {
-				// 壁に引っかからずに曲がれるように
-				if (Pinkey.x / 16.0f == (float)Pinkey.mapX - 0.5f) {
-					Pinkey.ed = 3;				// 下に方向を変える
-					Pinkey.WallHit = false;
-				}
-			}
-		}
-		else if (Pinkey.md == 1) {	// 右に進んでいたら
-			// パックマンの位置がピンキーより下なら
-			if (dy > 0.0f) {
-				// 壁に引っかからずに曲がれるように
-				if (Pinkey.x / 16.0f == (float)Pinkey.mapX + 0.5f) {
-					Pinkey.ed = 3;				// 下に方向を変える
-					Pinkey.WallHit = false;
-				}
-			}
-		}
-	}
-}
-// 下だけに壁があった場合
-else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == true) {
-	// 壁に当たった場合
-	if (Pinkey.WallHit == true) {
-		// 上から入ってきたら
-		if (Pinkey.md == 3) {	// 下に進んでいたら
-			// パックマンの位置がピンキーより右なら
-			if (dx > 0.0f) {
-				Pinkey.ed = 1;				// 右に方向を変える
+	// 右と下に壁がある場合
+	else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == false && Pinkey.bottom == true) {
+		// 壁に当たったら
+		if (Pinkey.WallHit == true) {
+			// 左から入ってきたら、上に方向を変える
+			if (Pinkey.md == 1) {	// 右に進んでいたら
+				Pinkey.ed = 2;				// 上に方向を変える
 				Pinkey.WallHit = false;
 			}
-			else {
+			// 上から入ってきたら、左に方向を変える
+			else if (Pinkey.md == 3) {	// 下に進んでいたら
 				Pinkey.ed = 0;				// 左に方向を変える
 				Pinkey.WallHit = false;
 			}
 		}
 	}
-	else {	// 壁に当たっていなかったら
-		if (Pinkey.md == 0) {	// 左に進んでいたら
-			// パックマンの位置がピンキーより下なら
-			if (dy < 0.0f) {
+	// 上だけに壁があった場合
+	else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == true && Pinkey.bottom == false) {
+		// 壁に当たったら
+		if (Pinkey.WallHit == true) {
+			if (Pinkey.md == 2) {	// 上に進んでいたら
+				// パックマンの位置がピンキーより右なら
+				if (dx > 0.0f) {
+					Pinkey.ed = 1;				// 右に方向を変える
+					Pinkey.WallHit = false;
+				}
+				else {
+					Pinkey.ed = 0;				// 左に方向を変える
+					Pinkey.WallHit = false;
+				}
+			}
+		}
+		else {	// 壁に当たっていなかったら
+			if (Pinkey.md == 0) {	// 左に進んでいたら
+				// パックマンの位置がピンキーより下なら
+				if (dy > 0.0f) {
+					// 壁に引っかからずに曲がれるように
+					if (Pinkey.x / 16.0f == (float)Pinkey.mapX - 0.5f) {
+						Pinkey.ed = 3;				// 下に方向を変える
+						Pinkey.WallHit = false;
+					}
+				}
+			}
+			else if (Pinkey.md == 1) {	// 右に進んでいたら
+				// パックマンの位置がピンキーより下なら
+				if (dy > 0.0f) {
+					// 壁に引っかからずに曲がれるように
+					if (Pinkey.x / 16.0f == (float)Pinkey.mapX + 0.5f) {
+						Pinkey.ed = 3;				// 下に方向を変える
+						Pinkey.WallHit = false;
+					}
+				}
+			}
+		}
+	}
+	// 下だけに壁があった場合
+	else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == true) {
+		// 壁に当たった場合
+		if (Pinkey.WallHit == true) {
+			// 上から入ってきたら
+			if (Pinkey.md == 3) {	// 下に進んでいたら
+				// パックマンの位置がピンキーより右なら
+				if (dx > 0.0f) {
+					Pinkey.ed = 1;				// 右に方向を変える
+					Pinkey.WallHit = false;
+				}
+				else {
+					Pinkey.ed = 0;				// 左に方向を変える
+					Pinkey.WallHit = false;
+				}
+			}
+		}
+		else {	// 壁に当たっていなかったら
+			if (Pinkey.md == 0) {	// 左に進んでいたら
+				// パックマンの位置がピンキーより下なら
+				if (dy < 0.0f) {
+					// 壁に引っかからずに曲がれるように
+					if (Pinkey.x / 16.0f == (float)Pinkey.mapX - 0.5f) {
+						Pinkey.ed = 2;				// 上に方向を変える
+						Pinkey.WallHit = false;
+					}
+				}
+			}
+			else if (Pinkey.md == 1) {	// 右に進んでいたら
+				// パックマンの位置がピンキーより上なら
+				if (dy < 0.0f) {
+					// 壁に引っかからずに曲がれるように
+					if (Pinkey.x / 16.0f == (float)Pinkey.mapX + 0.5f) {
+						Pinkey.ed = 2;				// 上に方向を変える
+						Pinkey.WallHit = false;
+					}
+				}
+			}
+		}
+	}
+	//　右だけに壁があった場合
+	else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == false && Pinkey.bottom == false) {
+		// 壁に当たったら
+		if (Pinkey.WallHit == true) {
+			if (Pinkey.md == 1) {	// 右に進んでいたら
+				// パックマンの位置がピンキーより下なら
+				if (dy > 0.0f) {
+					Pinkey.ed = 3;				// 下に方向を変える
+					Pinkey.WallHit = false;
+				}
+				else {
+					Pinkey.ed = 2;				// 上に方向を変える
+					Pinkey.WallHit = false;
+				}
+			}
+		}
+		else {	// 壁に当たっていなかったら
+			if (Pinkey.md == 2) {	// 上に進んでいたら
+				// パックマンの位置がピンキーより左なら
+				if (dx < 0.0f) {
+					// 壁に引っかからずに曲がれるように
+					if (Pinkey.y / 16.0f == (float)Pinkey.mapY - 0.5f) {
+						Pinkey.ed = 0;				// 左に方向を変える
+						Pinkey.WallHit = false;
+					}
+				}
+			}
+			else if (Pinkey.md == 3) {	// 下に進んでいたら
+				// パックマンの位置がピンキーより左なら
+				if (dx < 0.0f) {
+					// 壁に引っかからずに曲がれるように
+					if (Pinkey.y / 16.0f == (float)Pinkey.mapY + 0.5f) {
+						Pinkey.ed = 0;				// 左に方向を変える
+						Pinkey.WallHit = false;
+					}
+				}
+			}
+		}
+	}
+	// 左だけに壁があった場合
+	else if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == false) {
+		// 壁に当たったら
+		if (Pinkey.WallHit == true) {
+			if (Pinkey.md == 0) {	// 左に進んでいたら
+				// パックマンの位置がピンキーより下なら
+				if (dy > 0.0f) {
+					Pinkey.ed = 3;				// 下に方向を変える
+					Pinkey.WallHit = false;
+				}
+				else {
+					Pinkey.ed = 2;				// 上に方向を変える
+					Pinkey.WallHit = false;
+				}
+			}
+		}
+		else {	// 壁に当たっていなかったら
+			if (Pinkey.md == 2) {	// 上に移動していたら
+				// パックマンの位置がピンキーより右なら
+				if (dx > 0.0f) {
+					// 壁に引っかからずに曲がれるように
+					if (Pinkey.y / 16.0f == (float)Pinkey.mapY - 0.5f) {
+						Pinkey.ed = 1;				// 右に方向を変える
+						Pinkey.WallHit = false;
+					}
+				}
+			}
+			else if (Pinkey.md == 3) {	// 下に移動していたら
+				// パックマンの位置がピンキーより右なら
+				if (dx > 0.0f) {
+					// 壁に引っかからずに曲がれるように
+					if (Pinkey.y / 16.0f == (float)Pinkey.mapY + 0.5f) {
+						Pinkey.ed = 1;				// 右に方向を変える
+						Pinkey.WallHit = false;
+					}
+				}
+			}
+		}
+	}
+	// 十字路の場合
+	else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == false) {
+		// 壁に当たっていなかったら
+		if (Pinkey.WallHit == false)
+		{		// ピンキーが進んでいる方向によって処理を決める
+			switch (Pinkey.md) {
+			case 0:	// 左に進んでいたら
 				// 壁に引っかからずに曲がれるように
 				if (Pinkey.x / 16.0f == (float)Pinkey.mapX - 0.5f) {
-					Pinkey.ed = 2;				// 上に方向を変える
-					Pinkey.WallHit = false;
+					// パックマンの位置がピンキーより上なら
+					if (dy < 0.0f) {
+						Pinkey.ed = 2;				// 上に方向を変える
+						Pinkey.WallHit = false;
+						break;
+					}
+					else {
+						Pinkey.ed = 3;				// 下に方向を変える
+						Pinkey.WallHit = false;
+						break;
+					}
 				}
-			}
-		}
-		else if (Pinkey.md == 1) {	// 右に進んでいたら
-			// パックマンの位置がピンキーより上なら
-			if (dy < 0.0f) {
+			case 1:	// 右に進んでいたら
 				// 壁に引っかからずに曲がれるように
 				if (Pinkey.x / 16.0f == (float)Pinkey.mapX + 0.5f) {
-					Pinkey.ed = 2;				// 上に方向を変える
-					Pinkey.WallHit = false;
+					// パックマンの位置がピンキーより上なら
+					if (dy < 0.0f) {
+						Pinkey.ed = 2;				// 上に方向を変える
+						Pinkey.WallHit = false;
+						break;
+					}
+					else {
+						Pinkey.ed = 3;				// 下に方向を変える
+						Pinkey.WallHit = false;
+						break;
+					}
 				}
-			}
-		}
-	}
-}
-//　右だけに壁があった場合
-else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == false && Pinkey.bottom == false) {
-	// 壁に当たったら
-	if (Pinkey.WallHit == true) {
-		if (Pinkey.md == 1) {	// 右に進んでいたら
-			// パックマンの位置がピンキーより下なら
-			if (dy > 0.0f) {
-				Pinkey.ed = 3;				// 下に方向を変える
-				Pinkey.WallHit = false;
-			}
-			else {
-				Pinkey.ed = 2;				// 上に方向を変える
-				Pinkey.WallHit = false;
-			}
-		}
-	}
-	else {	// 壁に当たっていなかったら
-		if (Pinkey.md == 2) {	// 上に進んでいたら
-			// パックマンの位置がピンキーより左なら
-			if (dx < 0.0f) {
+			case 2:	// 上に進んでいたら
 				// 壁に引っかからずに曲がれるように
 				if (Pinkey.y / 16.0f == (float)Pinkey.mapY - 0.5f) {
-					Pinkey.ed = 0;				// 左に方向を変える
-					Pinkey.WallHit = false;
+					// パックマンの位置がピンキーより左なら
+					if (dx < 0.0f) {
+						Pinkey.ed = 0;				// 左に方向を変える
+						Pinkey.WallHit = false;
+						break;
+					}
+					else {
+						Pinkey.ed = 1;				// 右に方向を変える
+						Pinkey.WallHit = false;
+						break;
+					}
 				}
-			}
-		}
-		else if (Pinkey.md == 3) {	// 下に進んでいたら
-			// パックマンの位置がピンキーより左なら
-			if (dx < 0.0f) {
+			case 3:	// 下に進んでいたら
 				// 壁に引っかからずに曲がれるように
 				if (Pinkey.y / 16.0f == (float)Pinkey.mapY + 0.5f) {
-					Pinkey.ed = 0;				// 左に方向を変える
-					Pinkey.WallHit = false;
+					// パックマンの位置がピンキーより左なら
+					if (dx < 0.0f) {
+						Pinkey.ed = 0;				// 左に方向を変える
+						Pinkey.WallHit = false;
+						break;
+					}
+					else {
+						Pinkey.ed = 1;				// 右に方向を変える
+						Pinkey.WallHit = false;
+						break;
+					}
 				}
 			}
 		}
 	}
-}
-// 左だけに壁があった場合
-else if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == false) {
-	// 壁に当たったら
-	if (Pinkey.WallHit == true) {
-		if (Pinkey.md == 0) {	// 左に進んでいたら
-			// パックマンの位置がピンキーより下なら
-			if (dy > 0.0f) {
-				Pinkey.ed = 3;				// 下に方向を変える
-				Pinkey.WallHit = false;
-			}
-			else {
-				Pinkey.ed = 2;				// 上に方向を変える
-				Pinkey.WallHit = false;
-			}
-		}
-	}
-	else {	// 壁に当たっていなかったら
-		if (Pinkey.md == 2) {	// 上に移動していたら
-			// パックマンの位置がピンキーより右なら
-			if (dx > 0.0f) {
-				// 壁に引っかからずに曲がれるように
-				if (Pinkey.y / 16.0f == (float)Pinkey.mapY - 0.5f) {
-					Pinkey.ed = 1;				// 右に方向を変える
-					Pinkey.WallHit = false;
-				}
-			}
-		}
-		else if (Pinkey.md == 3) {	// 下に移動していたら
-			// パックマンの位置がピンキーより右なら
-			if (dx > 0.0f) {
-				// 壁に引っかからずに曲がれるように
-				if (Pinkey.y / 16.0f == (float)Pinkey.mapY + 0.5f) {
-					Pinkey.ed = 1;				// 右に方向を変える
-					Pinkey.WallHit = false;
-				}
-			}
-		}
-	}
-}
-// 十字路の場合
-else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == false) {
-	// 壁に当たっていなかったら
-	if (Pinkey.WallHit == false)
-	{		// ピンキーが進んでいる方向によって処理を決める
-		switch (Pinkey.md) {
-		case 0:	// 左に進んでいたら
-			// 壁に引っかからずに曲がれるように
-			if (Pinkey.x / 16.0f == (float)Pinkey.mapX - 0.5f) {
-				// パックマンの位置がピンキーより上なら
-				if (dy < 0.0f) {
-					Pinkey.ed = 2;				// 上に方向を変える
-					Pinkey.WallHit = false;
-					break;
-				}
-				else {
-					Pinkey.ed = 3;				// 下に方向を変える
-					Pinkey.WallHit = false;
-					break;
-				}
-			}
-		case 1:	// 右に進んでいたら
-			// 壁に引っかからずに曲がれるように
-			if (Pinkey.x / 16.0f == (float)Pinkey.mapX + 0.5f) {
-				// パックマンの位置がピンキーより上なら
-				if (dy < 0.0f) {
-					Pinkey.ed = 2;				// 上に方向を変える
-					Pinkey.WallHit = false;
-					break;
-				}
-				else {
-					Pinkey.ed = 3;				// 下に方向を変える
-					Pinkey.WallHit = false;
-					break;
-				}
-			}
-		case 2:	// 上に進んでいたら
-			// 壁に引っかからずに曲がれるように
-			if (Pinkey.y / 16.0f == (float)Pinkey.mapY - 0.5f) {
-				// パックマンの位置がピンキーより左なら
-				if (dx < 0.0f) {
-					Pinkey.ed = 0;				// 左に方向を変える
-					Pinkey.WallHit = false;
-					break;
-				}
-				else {
-					Pinkey.ed = 1;				// 右に方向を変える
-					Pinkey.WallHit = false;
-					break;
-				}
-			}
-		case 3:	// 下に進んでいたら
-			// 壁に引っかからずに曲がれるように
-			if (Pinkey.y / 16.0f == (float)Pinkey.mapY + 0.5f) {
-				// パックマンの位置がピンキーより左なら
-				if (dx < 0.0f) {
-					Pinkey.ed = 0;				// 左に方向を変える
-					Pinkey.WallHit = false;
-					break;
-				}
-				else {
-					Pinkey.ed = 1;				// 右に方向を変える
-					Pinkey.WallHit = false;
-					break;
-				}
-			}
-		}
-	}
-}
 }
 
 void ChaseMode() {
@@ -1577,347 +1586,351 @@ void ChaseMode() {
 	//	}
 	//}
 
-Pinkey.mx = Pinkey.x;		// ピンキーのx座標を保存
-Pinkey.my = Pinkey.y;		// ピンキーのy座標を保存
-Pinkey.md = Pinkey.ed;		// 敵の動く方向を保存
+	Pinkey.mx = Pinkey.x;		// ピンキーのx座標を保存
+	Pinkey.my = Pinkey.y;		// ピンキーのy座標を保存
+	Pinkey.md = Pinkey.ed;		// 敵の動く方向を保存
 
-Pinkey.mapX = (int)Pinkey.x / 16;
-Pinkey.mapY = (int)Pinkey.y / 16;
-px = (int)mPac.x / 16;
-py = (int)mPac.y / 16;
+	Pinkey.mapX = (int)Pinkey.x / 16;
+	Pinkey.mapY = (int)Pinkey.y / 16;
+	px = (int)mPac.x / 16;
+	py = (int)mPac.y / 16;
 
-// 三平方の定理を使う
-A = mPac.x - Pinkey.x;
+	// 三平方の定理を使う
+	A = mPac.x - Pinkey.x;
 
-B = mPac.y - Pinkey.y;
+	B = mPac.y - Pinkey.y;
 
-C = sqrtf(A * A + B * B);	// A と B を２乗して足した値の平方根を求める
+	C = sqrtf(A * A + B * B);	// A と B を２乗して足した値の平方根を求める
 
-dx = A / C;		// C を1（正規化）とするには、A を C で割る
-dy = B / C;		// C を1（正規化）とするには、B を C で割る
+	dx = A / C;		// C を1（正規化）とするには、A を C で割る
+	dy = B / C;		// C を1（正規化）とするには、B を C で割る
 
-for (int i = 0; i < MAP_HEIGHT; i++) {
-	for (int j = 0; j < MAP_WIDTH; j++) {
-		if (HitCheck(Pinkey.x, Pinkey.y, ENEMY_SIZE, ENEMY_SIZE,
-			j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
-			DrawLine(mPac.x, mPac.y, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
+	for (int i = 0; i < MAP_HEIGHT; i++) {
+		for (int j = 0; j < MAP_WIDTH; j++) {
+			if (HitCheck(Pinkey.x, Pinkey.y, ENEMY_SIZE, ENEMY_SIZE,
+				j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+				DrawLine(mPac.x, mPac.y, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
 
 
+			}
 		}
 	}
-}
-// ピンキーが壁を避けながら移動する処理
-switch (Pinkey.ed) {
-case 0:	// 左へ移動
-	Pinkey.x--;
-	Pinkey.eyeImageCount = 3;
-	break;
-case 1:	// 右へ移動
-	Pinkey.x++;
-	Pinkey.eyeImageCount = 1;
-	break;
-case 2:	// 上へ移動
-	Pinkey.y--;
-	Pinkey.eyeImageCount = 0;
-	break;
-case 3:	// 下へ移動
-	Pinkey.y++;
-	Pinkey.eyeImageCount = 2;
-	break;
-}
-// 左と上に壁があった場合
-if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == true && Pinkey.bottom == false) {
-	// 壁に当たったら
-	if (Pinkey.WallHit == true) {
-		// 右から入ってきたら、下に方向を変える
-		if (Pinkey.md == 0) {
-			Pinkey.ed = 3;				// 下に方向を変える
-			Pinkey.WallHit = false;
-		}
-		// 下から入ってきたら、右に方向を変える
-		else if (Pinkey.md == 2) {
-			Pinkey.ed = 1;				// 右に方向を変える
-			Pinkey.WallHit = false;
-		}
+	// ピンキーが壁を避けながら移動する処理
+	switch (Pinkey.ed) {
+	case 0:	// 左へ移動
+		Pinkey.x--;
+		Pinkey.eyeImageCount = 3;
+		break;
+	case 1:	// 右へ移動
+		Pinkey.x++;
+		Pinkey.eyeImageCount = 1;
+		break;
+	case 2:	// 上へ移動
+		Pinkey.y--;
+		Pinkey.eyeImageCount = 0;
+		break;
+	case 3:	// 下へ移動
+		Pinkey.y++;
+		Pinkey.eyeImageCount = 2;
+		break;
 	}
-}
-// 左と下に壁があったら
-else if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == true) {
-	// 壁に当たったら
-	if (Pinkey.WallHit == true) {
-		// 右から入ってきたら、上に方向を変える
-		if (Pinkey.md == 0) {
-			Pinkey.ed = 2;				// 上に方向を変える
-			Pinkey.WallHit = false;
-		}
-		// 上から入ってきたら、右に方向を変える
-		else if (Pinkey.md == 3) {
-			Pinkey.ed = 1;				// 右に方向を変える
-			Pinkey.WallHit = false;
-		}
-	}
-}
-// 右と上に壁がある場合
-else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == true && Pinkey.bottom == false) {
-	// 壁に当たったら
-	if (Pinkey.WallHit == true) {
-		// 左から入ってきたら、下に方向を変える
-		if (Pinkey.md == 1) {
-			Pinkey.ed = 3;				// 下に方向を変える
-			Pinkey.WallHit = false;
-		}
-		// 下から入ってきたら、左に方向を変える
-		else if (Pinkey.md == 2) {	// 上に進んでいたら
-			Pinkey.ed = 0;				// 左に方向を変える
-			Pinkey.WallHit = false;
-		}
-	}
-}
-// 右と下に壁がある場合
-else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == false && Pinkey.bottom == true) {
-	// 壁に当たったら
-	if (Pinkey.WallHit == true) {
-		// 左から入ってきたら、上に方向を変える
-		if (Pinkey.md == 1) {	// 右に進んでいたら
-			Pinkey.ed = 2;				// 上に方向を変える
-			Pinkey.WallHit = false;
-		}
-		// 上から入ってきたら、左に方向を変える
-		else if (Pinkey.md == 3) {	// 下に進んでいたら
-			Pinkey.ed = 0;				// 左に方向を変える
-			Pinkey.WallHit = false;
-		}
-	}
-}
-// 上だけに壁があった場合
-else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == true && Pinkey.bottom == false) {
-	// 壁に当たったら
-	if (Pinkey.WallHit == true) {
-		if (Pinkey.md == 2) {	// 上に進んでいたら
-			// パックマンの位置がピンキーより右なら
-			if (dx > 0.0f) {
+	// 左と上に壁があった場合
+	if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == true && Pinkey.bottom == false) {
+		// 壁に当たったら
+		if (Pinkey.WallHit == true) {
+			// 右から入ってきたら、下に方向を変える
+			if (Pinkey.md == 0) {
+				Pinkey.ed = 3;				// 下に方向を変える
+				Pinkey.WallHit = false;
+			}
+			// 下から入ってきたら、右に方向を変える
+			else if (Pinkey.md == 2) {
 				Pinkey.ed = 1;				// 右に方向を変える
 				Pinkey.WallHit = false;
 			}
-			else {
+		}
+	}
+	// 左と下に壁があったら
+	else if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == true) {
+		// 壁に当たったら
+		if (Pinkey.WallHit == true) {
+			// 右から入ってきたら、上に方向を変える
+			if (Pinkey.md == 0) {
+				Pinkey.ed = 2;				// 上に方向を変える
+				Pinkey.WallHit = false;
+			}
+			// 上から入ってきたら、右に方向を変える
+			else if (Pinkey.md == 3) {
+				Pinkey.ed = 1;				// 右に方向を変える
+				Pinkey.WallHit = false;
+			}
+		}
+	}
+	// 右と上に壁がある場合
+	else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == true && Pinkey.bottom == false) {
+		// 壁に当たったら
+		if (Pinkey.WallHit == true) {
+			// 左から入ってきたら、下に方向を変える
+			if (Pinkey.md == 1) {
+				Pinkey.ed = 3;				// 下に方向を変える
+				Pinkey.WallHit = false;
+			}
+			// 下から入ってきたら、左に方向を変える
+			else if (Pinkey.md == 2) {	// 上に進んでいたら
 				Pinkey.ed = 0;				// 左に方向を変える
 				Pinkey.WallHit = false;
 			}
 		}
 	}
-	else {	// 壁に当たっていなかったら
-		if (Pinkey.md == 0) {	// 左に進んでいたら
-			// パックマンの位置がピンキーより下なら
-			if (dy > 0.0f) {
-				// 壁に引っかからずに曲がれるように
-				if (Pinkey.x / 16.0f == (float)Pinkey.mapX - 0.5f) {
-					Pinkey.ed = 3;				// 下に方向を変える
-					Pinkey.WallHit = false;
-				}
-			}
-		}
-		else if (Pinkey.md == 1) {	// 右に進んでいたら
-			// パックマンの位置がピンキーより下なら
-			if (dy > 0.0f) {
-				// 壁に引っかからずに曲がれるように
-				if (Pinkey.x / 16.0f == (float)Pinkey.mapX + 0.5f) {
-					Pinkey.ed = 3;				// 下に方向を変える
-					Pinkey.WallHit = false;
-				}
-			}
-		}
-	}
-}
-// 下だけに壁があった場合
-else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == true) {
-	// 壁に当たった場合
-	if (Pinkey.WallHit == true) {
-		// 上から入ってきたら
-		if (Pinkey.md == 3) {	// 下に進んでいたら
-			// パックマンの位置がピンキーより右なら
-			if (dx > 0.0f) {
-				Pinkey.ed = 1;				// 右に方向を変える
+	// 右と下に壁がある場合
+	else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == false && Pinkey.bottom == true) {
+		// 壁に当たったら
+		if (Pinkey.WallHit == true) {
+			// 左から入ってきたら、上に方向を変える
+			if (Pinkey.md == 1) {	// 右に進んでいたら
+				Pinkey.ed = 2;				// 上に方向を変える
 				Pinkey.WallHit = false;
 			}
-			else {
+			// 上から入ってきたら、左に方向を変える
+			else if (Pinkey.md == 3) {	// 下に進んでいたら
 				Pinkey.ed = 0;				// 左に方向を変える
 				Pinkey.WallHit = false;
 			}
 		}
 	}
-	else {	// 壁に当たっていなかったら
-		if (Pinkey.md == 0) {	// 左に進んでいたら
-			// パックマンの位置がピンキーより下なら
-			if (dy < 0.0f) {
+	// 上だけに壁があった場合
+	else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == true && Pinkey.bottom == false) {
+		// 壁に当たったら
+		if (Pinkey.WallHit == true) {
+			if (Pinkey.md == 2) {	// 上に進んでいたら
+				// パックマンの位置がピンキーより右なら
+				if (dx > 0.0f) {
+					Pinkey.ed = 1;				// 右に方向を変える
+					Pinkey.WallHit = false;
+				}
+				else {
+					Pinkey.ed = 0;				// 左に方向を変える
+					Pinkey.WallHit = false;
+				}
+			}
+		}
+		else {	// 壁に当たっていなかったら
+			if (Pinkey.md == 0) {	// 左に進んでいたら
+				// パックマンの位置がピンキーより下なら
+				if (dy > 0.0f) {
+					// 壁に引っかからずに曲がれるように
+					if (Pinkey.x / 16.0f == (float)Pinkey.mapX - 0.5f) {
+						Pinkey.ed = 3;				// 下に方向を変える
+						Pinkey.WallHit = false;
+					}
+				}
+			}
+			else if (Pinkey.md == 1) {	// 右に進んでいたら
+				// パックマンの位置がピンキーより下なら
+				if (dy > 0.0f) {
+					// 壁に引っかからずに曲がれるように
+					if (Pinkey.x / 16.0f == (float)Pinkey.mapX + 0.5f) {
+						Pinkey.ed = 3;				// 下に方向を変える
+						Pinkey.WallHit = false;
+					}
+				}
+			}
+		}
+	}
+	// 下だけに壁があった場合
+	else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == true) {
+		// 壁に当たった場合
+		if (Pinkey.WallHit == true) {
+			// 上から入ってきたら
+			if (Pinkey.md == 3) {	// 下に進んでいたら
+				// パックマンの位置がピンキーより右なら
+				if (dx > 0.0f) {
+					Pinkey.ed = 1;				// 右に方向を変える
+					Pinkey.WallHit = false;
+				}
+				else {
+					Pinkey.ed = 0;				// 左に方向を変える
+					Pinkey.WallHit = false;
+				}
+			}
+		}
+		else {	// 壁に当たっていなかったら
+			if (Pinkey.md == 0) {	// 左に進んでいたら
+				// パックマンの位置がピンキーより下なら
+				if (dy < 0.0f) {
+					// 壁に引っかからずに曲がれるように
+					if (Pinkey.x / 16.0f == (float)Pinkey.mapX - 0.5f) {
+						Pinkey.ed = 2;				// 上に方向を変える
+						Pinkey.WallHit = false;
+					}
+				}
+			}
+			else if (Pinkey.md == 1) {	// 右に進んでいたら
+				// パックマンの位置がピンキーより上なら
+				if (dy < 0.0f) {
+					// 壁に引っかからずに曲がれるように
+					if (Pinkey.x / 16.0f == (float)Pinkey.mapX + 0.5f) {
+						Pinkey.ed = 2;				// 上に方向を変える
+						Pinkey.WallHit = false;
+					}
+				}
+			}
+		}
+	}
+	//　右だけに壁があった場合
+	else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == false && Pinkey.bottom == false) {
+		// 壁に当たったら
+		if (Pinkey.WallHit == true) {
+			if (Pinkey.md == 1) {	// 右に進んでいたら
+				// パックマンの位置がピンキーより下なら
+				if (dy > 0.0f) {
+					Pinkey.ed = 3;				// 下に方向を変える
+					Pinkey.WallHit = false;
+				}
+				else {
+					Pinkey.ed = 2;				// 上に方向を変える
+					Pinkey.WallHit = false;
+				}
+			}
+		}
+		else {	// 壁に当たっていなかったら
+			if (Pinkey.md == 2) {	// 上に進んでいたら
+				// パックマンの位置がピンキーより左なら
+				if (dx < 0.0f) {
+					// 壁に引っかからずに曲がれるように
+					if (Pinkey.y / 16.0f == (float)Pinkey.mapY - 0.5f) {
+						Pinkey.ed = 0;				// 左に方向を変える
+						Pinkey.WallHit = false;
+					}
+				}
+			}
+			else if (Pinkey.md == 3) {	// 下に進んでいたら
+				// パックマンの位置がピンキーより左なら
+				if (dx < 0.0f) {
+					// 壁に引っかからずに曲がれるように
+					if (Pinkey.y / 16.0f == (float)Pinkey.mapY + 0.5f) {
+						Pinkey.ed = 0;				// 左に方向を変える
+						Pinkey.WallHit = false;
+					}
+				}
+			}
+		}
+	}
+	// 左だけに壁があった場合
+	else if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == false) {
+		// 壁に当たったら
+		if (Pinkey.WallHit == true) {
+			if (Pinkey.md == 0) {	// 左に進んでいたら
+				// パックマンの位置がピンキーより下なら
+				if (dy > 0.0f) {
+					Pinkey.ed = 3;				// 下に方向を変える
+					Pinkey.WallHit = false;
+				}
+				else {
+					Pinkey.ed = 2;				// 上に方向を変える
+					Pinkey.WallHit = false;
+				}
+			}
+		}
+		else {	// 壁に当たっていなかったら
+			if (Pinkey.md == 2) {	// 上に移動していたら
+				// パックマンの位置がピンキーより右なら
+				if (dx > 0.0f) {
+					// 壁に引っかからずに曲がれるように
+					if (Pinkey.y / 16.0f == (float)Pinkey.mapY - 0.5f) {
+						Pinkey.ed = 1;				// 右に方向を変える
+						Pinkey.WallHit = false;
+					}
+				}
+			}
+			else if (Pinkey.md == 3) {	// 下に移動していたら
+				// パックマンの位置がピンキーより右なら
+				if (dx > 0.0f) {
+					// 壁に引っかからずに曲がれるように
+					if (Pinkey.y / 16.0f == (float)Pinkey.mapY + 0.5f) {
+						Pinkey.ed = 1;				// 右に方向を変える
+						Pinkey.WallHit = false;
+					}
+				}
+			}
+		}
+	}
+	// 十字路の場合
+	else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == false) {
+		// 壁に当たっていなかったら
+		if (Pinkey.WallHit == false)
+		{		// ピンキーが進んでいる方向によって処理を決める
+			switch (Pinkey.md) {
+			case 0:	// 左に進んでいたら
 				// 壁に引っかからずに曲がれるように
 				if (Pinkey.x / 16.0f == (float)Pinkey.mapX - 0.5f) {
-					Pinkey.ed = 2;				// 上に方向を変える
-					Pinkey.WallHit = false;
+					// パックマンの位置がピンキーより上なら
+					if (dy < 0.0f) {
+						Pinkey.ed = 2;				// 上に方向を変える
+						Pinkey.WallHit = false;
+						break;
+					}
+					else {
+						Pinkey.ed = 3;				// 下に方向を変える
+						Pinkey.WallHit = false;
+						break;
+					}
 				}
-			}
-		}
-		else if (Pinkey.md == 1) {	// 右に進んでいたら
-			// パックマンの位置がピンキーより上なら
-			if (dy < 0.0f) {
+			case 1:	// 右に進んでいたら
 				// 壁に引っかからずに曲がれるように
 				if (Pinkey.x / 16.0f == (float)Pinkey.mapX + 0.5f) {
-					Pinkey.ed = 2;				// 上に方向を変える
-					Pinkey.WallHit = false;
+					// パックマンの位置がピンキーより上なら
+					if (dy < 0.0f) {
+						Pinkey.ed = 2;				// 上に方向を変える
+						Pinkey.WallHit = false;
+						break;
+					}
+					else {
+						Pinkey.ed = 3;				// 下に方向を変える
+						Pinkey.WallHit = false;
+						break;
+					}
 				}
-			}
-		}
-	}
-}
-//　右だけに壁があった場合
-else if (Pinkey.left == false && Pinkey.right == true && Pinkey.up == false && Pinkey.bottom == false) {
-	// 壁に当たったら
-	if (Pinkey.WallHit == true) {
-		if (Pinkey.md == 1) {	// 右に進んでいたら
-			// パックマンの位置がピンキーより下なら
-			if (dy > 0.0f) {
-				Pinkey.ed = 3;				// 下に方向を変える
-				Pinkey.WallHit = false;
-			}
-			else {
-				Pinkey.ed = 2;				// 上に方向を変える
-				Pinkey.WallHit = false;
-			}
-		}
-	}
-	else {	// 壁に当たっていなかったら
-		if (Pinkey.md == 2) {	// 上に進んでいたら
-			// パックマンの位置がピンキーより左なら
-			if (dx < 0.0f) {
+			case 2:	// 上に進んでいたら
 				// 壁に引っかからずに曲がれるように
 				if (Pinkey.y / 16.0f == (float)Pinkey.mapY - 0.5f) {
-					Pinkey.ed = 0;				// 左に方向を変える
-					Pinkey.WallHit = false;
+					// パックマンの位置がピンキーより左なら
+					if (dx < 0.0f) {
+						Pinkey.ed = 0;				// 左に方向を変える
+						Pinkey.WallHit = false;
+						break;
+					}
+					else {
+						Pinkey.ed = 1;				// 右に方向を変える
+						Pinkey.WallHit = false;
+						break;
+					}
 				}
-			}
-		}
-		else if (Pinkey.md == 3) {	// 下に進んでいたら
-			// パックマンの位置がピンキーより左なら
-			if (dx < 0.0f) {
+			case 3:	// 下に進んでいたら
 				// 壁に引っかからずに曲がれるように
 				if (Pinkey.y / 16.0f == (float)Pinkey.mapY + 0.5f) {
-					Pinkey.ed = 0;				// 左に方向を変える
-					Pinkey.WallHit = false;
+					// パックマンの位置がピンキーより左なら
+					if (dx < 0.0f) {
+						Pinkey.ed = 0;				// 左に方向を変える
+						Pinkey.WallHit = false;
+						break;
+					}
+					else {
+						Pinkey.ed = 1;				// 右に方向を変える
+						Pinkey.WallHit = false;
+						break;
+					}
 				}
 			}
 		}
 	}
-}
-// 左だけに壁があった場合
-else if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == false) {
-	// 壁に当たったら
-	if (Pinkey.WallHit == true) {
-		if (Pinkey.md == 0) {	// 左に進んでいたら
-			// パックマンの位置がピンキーより下なら
-			if (dy > 0.0f) {
-				Pinkey.ed = 3;				// 下に方向を変える
-				Pinkey.WallHit = false;
-			}
-			else {
-				Pinkey.ed = 2;				// 上に方向を変える
-				Pinkey.WallHit = false;
-			}
-		}
-	}
-	else {	// 壁に当たっていなかったら
-		if (Pinkey.md == 2) {	// 上に移動していたら
-			// パックマンの位置がピンキーより右なら
-			if (dx > 0.0f) {
-				// 壁に引っかからずに曲がれるように
-				if (Pinkey.y / 16.0f == (float)Pinkey.mapY - 0.5f) {
-					Pinkey.ed = 1;				// 右に方向を変える
-					Pinkey.WallHit = false;
-				}
-			}
-		}
-		else if (Pinkey.md == 3) {	// 下に移動していたら
-			// パックマンの位置がピンキーより右なら
-			if (dx > 0.0f) {
-				// 壁に引っかからずに曲がれるように
-				if (Pinkey.y / 16.0f == (float)Pinkey.mapY + 0.5f) {
-					Pinkey.ed = 1;				// 右に方向を変える
-					Pinkey.WallHit = false;
-				}
-			}
-		}
-	}
-}
-// 十字路の場合
-else if (Pinkey.left == false && Pinkey.right == false && Pinkey.up == false && Pinkey.bottom == false) {
-	// 壁に当たっていなかったら
-	if (Pinkey.WallHit == false)
-	{		// ピンキーが進んでいる方向によって処理を決める
-		switch (Pinkey.md) {
-		case 0:	// 左に進んでいたら
-			// 壁に引っかからずに曲がれるように
-			if (Pinkey.x / 16.0f == (float)Pinkey.mapX - 0.5f) {
-				// パックマンの位置がピンキーより上なら
-				if (dy < 0.0f) {
-					Pinkey.ed = 2;				// 上に方向を変える
-					Pinkey.WallHit = false;
-					break;
-				}
-				else {
-					Pinkey.ed = 3;				// 下に方向を変える
-					Pinkey.WallHit = false;
-					break;
-				}
-			}
-		case 1:	// 右に進んでいたら
-			// 壁に引っかからずに曲がれるように
-			if (Pinkey.x / 16.0f == (float)Pinkey.mapX + 0.5f) {
-				// パックマンの位置がピンキーより上なら
-				if (dy < 0.0f) {
-					Pinkey.ed = 2;				// 上に方向を変える
-					Pinkey.WallHit = false;
-					break;
-				}
-				else {
-					Pinkey.ed = 3;				// 下に方向を変える
-					Pinkey.WallHit = false;
-					break;
-				}
-			}
-		case 2:	// 上に進んでいたら
-			// 壁に引っかからずに曲がれるように
-			if (Pinkey.y / 16.0f == (float)Pinkey.mapY - 0.5f) {
-				// パックマンの位置がピンキーより左なら
-				if (dx < 0.0f) {
-					Pinkey.ed = 0;				// 左に方向を変える
-					Pinkey.WallHit = false;
-					break;
-				}
-				else {
-					Pinkey.ed = 1;				// 右に方向を変える
-					Pinkey.WallHit = false;
-					break;
-				}
-			}
-		case 3:	// 下に進んでいたら
-			// 壁に引っかからずに曲がれるように
-			if (Pinkey.y / 16.0f == (float)Pinkey.mapY + 0.5f) {
-				// パックマンの位置がピンキーより左なら
-				if (dx < 0.0f) {
-					Pinkey.ed = 0;				// 左に方向を変える
-					Pinkey.WallHit = false;
-					break;
-				}
-				else {
-					Pinkey.ed = 1;				// 右に方向を変える
-					Pinkey.WallHit = false;
-					break;
-				}
-			}
-		}
-	}
-}
 }
 
 void IjikeMode() {
+
+
+	
+
 	Pinkey.mx = Pinkey.x;		// ピンキーのx座標を保存
 	Pinkey.my = Pinkey.y;		// ピンキーのy座標を保存
 	Pinkey.md = Pinkey.ed;		// 敵の動く方向を保存
@@ -1937,23 +1950,46 @@ void IjikeMode() {
 	dx = A / C;		// C を1（正規化）とするには、A を C で割る
 	dy = B / C;		// C を1（正規化）とするには、B を C で割る
 	// ピンキーが壁を避けながら移動する処理
-	switch (Pinkey.ed) {
-	case 0:	// 左へ移動
-		Pinkey.x--;
-		Pinkey.eyeImageCount = 3;
-		break;
-	case 1:	// 右へ移動
-		Pinkey.x++;
-		Pinkey.eyeImageCount = 1;
-		break;
-	case 2:	// 上へ移動
-		Pinkey.y--;
-		Pinkey.eyeImageCount = 0;
-		break;
-	case 3:	// 下へ移動
-		Pinkey.y++;
-		Pinkey.eyeImageCount = 2;
-		break;
+	if (IjikeCnt != 0) {
+		IjikeCnt--;
+		switch (Pinkey.ed) {
+		case 0:	// 左へ移動
+			Pinkey.x++;
+			Pinkey.eyeImageCount = 3;
+			break;
+		case 1:	// 右へ移動
+			Pinkey.x--;
+			Pinkey.eyeImageCount = 1;
+			break;
+		case 2:	// 上へ移動
+			Pinkey.y++;
+			Pinkey.eyeImageCount = 0;
+			break;
+		case 3:	// 下へ移動
+			Pinkey.y--;
+			Pinkey.eyeImageCount = 2;
+			break;
+		}
+	}
+	else {
+		switch (Pinkey.ed) {
+		case 0:	// 左へ移動
+			Pinkey.x--;
+			Pinkey.eyeImageCount = 3;
+			break;
+		case 1:	// 右へ移動
+			Pinkey.x++;
+			Pinkey.eyeImageCount = 1;
+			break;
+		case 2:	// 上へ移動
+			Pinkey.y--;
+			Pinkey.eyeImageCount = 0;
+			break;
+		case 3:	// 下へ移動
+			Pinkey.y++;
+			Pinkey.eyeImageCount = 2;
+			break;
+		}
 	}
 	// 左と上に壁があった場合
 	if (Pinkey.left == true && Pinkey.right == false && Pinkey.up == true && Pinkey.bottom == false) {

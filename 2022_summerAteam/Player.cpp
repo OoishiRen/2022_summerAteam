@@ -91,8 +91,10 @@ void Player_Update() {
 		mPac.flg = false;
 	}
 	//“–‚½‚è”»’è(‘Îƒsƒ“ƒL[)
-	if (HitCheckEnemy(&mPac, &Pinkey)) {
-		mPac.flg = false;
+	if (PowerUpFlg == false) {
+		if (HitCheckEnemy(&mPac, &Pinkey)) {
+			mPac.flg = false;
+		}
 	}
 
 
