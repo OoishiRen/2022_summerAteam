@@ -177,6 +177,7 @@ void HitItem() {
 		for (int j = 0; j < MAP_WIDTH; j++) {
 			//ヒットチェック
 			if (HitCheck(mPac.x - 24, mPac.y - 24, mPac.w, mPac.h, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+
 				if (Item_Mapdata[i][j] == 1) {//食べたのがエサだったの場合
 					Item_Mapdata[i][j] = 4;//エサを消す
 					Score += 10;//スコア＋１０
@@ -184,6 +185,7 @@ void HitItem() {
 					DotsLeft--;	//残りの個数ー１
 					esa = 1;
 				}
+
 				if (Item_Mapdata[i][j] == 2) {//食べたのがパワーエサだった場合
 					Item_Mapdata[i][j] = 5;//パワーエサを消す
 					Score += 50;//スコア＋５０

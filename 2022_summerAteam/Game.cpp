@@ -254,7 +254,9 @@ void Game_Update() {
 	}
 	Player_Update();
 	DrawMap();
-	Enemy_Update();
+	if (mPac.flg) {
+		Enemy_Update();
+	}
 	Item_Update();//アイテム用
 
 
@@ -266,7 +268,9 @@ void Game_Draw() {
 	//DrawGraph(0, 0, mImageHandle, FALSE);
 	DrawFormatString(10, 700, 0xffffff, "Bキーを押してタイトル画面へ");
 	Player_Draw();
-	Enemy_Draw();
+	if (mPac.flg) {
+		Enemy_Draw();
+	}
 	Item_Draw();
 	UI_Draw();
 }
