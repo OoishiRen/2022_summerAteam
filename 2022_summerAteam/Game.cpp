@@ -60,7 +60,7 @@ void DrawMap() {
 				DrawBox(j * MAP_SIZE, i * MAP_SIZE, j *
 					MAP_SIZE + MAP_SIZE, i * MAP_SIZE + MAP_SIZE, GetColor(0, 0, 255), TRUE);
 
-				if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
+				if (HitCheck(Akabei.x - 8, Akabei.y - 8, Akabei.w, Akabei.h, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
 					Akabei.x = Akabei.mx;
 					Akabei.y = Akabei.my;
 					if (Akabei.ed == Akabei.md) {
