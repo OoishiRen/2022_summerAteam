@@ -8,6 +8,7 @@
 static int mTitleHandle; //画像ハンドル格納用変数
 static int score_image[15];
 int img_x = 338, img_y = 720;
+int mozi_x = 590, mozi_y = 780;
 int num14 = 1;
 int num15 = 0;
 int num16 = 0;
@@ -27,6 +28,8 @@ void Menu_Initialize() {
 
 
 	img_x = 338, img_y = 720;//タイトルの初期位置
+	mozi_x = 590, mozi_y = 780;
+
 }
 //終了処理
 void Menu_Finalize() {
@@ -39,6 +42,15 @@ void Menu_Update() {
 	if (CheckHitKey(KEY_INPUT_S) != 0) {//Sキーが押されていたら
 		SceneMgr_ChangeScene(eScene_Game);//シーンをメニューに変更
 	}
+
+	if (mozi_y <= 50) {
+
+		mozi_y = 50;
+	}
+	else {
+		mozi_y -= TITLE_SPD;
+	}
+
 
 
 	if (img_y <= 138) {
@@ -65,9 +77,9 @@ void Menu_Draw() {
 	DrawGraph(img_x, img_y, mTitleHandle, FALSE);
 	DrawFormatString(10, 700, 0xffffff, "Gキー、またはAボタンを押してゲーム画面へ");
 	DrawFormatString(10, 680, 0xffffff, "Sキーを押してタイトルをスキップ(ゲーム画面へ)");
-	DrawRotaGraph(900, 50, 2.0f, 0, score_image[num14], TRUE, FALSE);
-	DrawRotaGraph(925, 50, 2.0f, 0, score_image[num15], TRUE, FALSE);
-	DrawRotaGraph(950, 50, 2.0f, 0, score_image[num16], TRUE, FALSE);
-	DrawRotaGraph(975, 50, 2.0f, 0, score_image[num17], TRUE, FALSE);
-	DrawRotaGraph(1000, 50, 2.0f, 0, score_image[num18], TRUE, FALSE);
+	DrawRotaGraph(mozi_x, mozi_y, 2.0f, 0, score_image[num14], TRUE, FALSE);
+	DrawRotaGraph(615, 50, 2.0f, 0, score_image[num15], TRUE, FALSE);
+	DrawRotaGraph(640, 50, 2.0f, 0, score_image[num16], TRUE, FALSE);
+	DrawRotaGraph(665, 50, 2.0f, 0, score_image[num17], TRUE, FALSE);
+	DrawRotaGraph(690, 50, 2.0f, 0, score_image[num18], TRUE, FALSE);
 }
