@@ -26,6 +26,9 @@ struct AKABEI {
 	int mapX, mapY;
 
 };
+
+extern bool Run;
+
 extern struct AKABEI Akabei;
 extern struct AKABEI Pinkey;
 extern struct AKABEI Aosuke;
@@ -55,3 +58,5 @@ void ChaseMode();
 void IjikeMode();
 
 void ModeChange();
+
+void PinkeyWarp();
