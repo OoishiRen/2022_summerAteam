@@ -10,6 +10,7 @@
 #include "UI.h"
 
 extern float HitCheckEnemy(PAC* p, AKABEI* e);
+extern float PinkeyHitCheckEnemy(PAC* p, AKABEI* e);
 
 /*************************
 ** 変数 **
@@ -132,7 +133,7 @@ void Player_Update() {
 			UIy = mPac.y;
 		}
 	}*/
-	if (HitCheckEnemy(&mPac, &Pinkey)) {
+	if (PinkeyHitCheckEnemy(&mPac, &Pinkey)) {
 		if (PowerUpFlg == false) {
 			mPac.flg = false;
 		}
@@ -290,6 +291,28 @@ float HitCheckEnemy(PAC*p, AKABEI*e) {
 	int dx2 = e->x + (int)(e->w * 0.5f);
 	int dy2 = e->y + (int)(e->h * 0.5f);
 	
+	//矩形が重なっていれば当たり
+	if (sx1 < dx2 && dx1 < sx2 && sy1 < dy2 && dy1 < sy2) {
+		//パワーアップ中はスルー（仮）
+		if (!PowerUpFlg) {
+			return TRUE;
+		}
+		//return TRUE;
+	}
+	return FALSE;
+}
+
+float PinkeyHitCheckEnemy(PAC* p, AKABEI* e) {
+	int sx1 = p->x - (int)(p->w * 0.5f);
+	int sy1 = p->y - (int)(p->h * 0.5f);
+	int sx2 = p->x + (int)(p->w * 0.5f);
+	int sy2 = p->y + (int)(p->h * 0.5f);
+
+	int dx1 = e->x - (int)(e->w * 0.5f);
+	int dy1 = e->y - (int)(e->h * 0.5f);
+	int dx2 = e->x + (int)(e->w * 0.5f);
+	int dy2 = e->y + (int)(e->h * 0.5f);
+
 	//矩形が重なっていれば当たり
 	if (sx1 < dx2 && dx1 < sx2 && sy1 < dy2 && dy1 < sy2) {
 		//パワーアップ中はスルー（仮）

@@ -219,6 +219,52 @@ void Enemy_Update() {
 	}
 
 	ModeChange();
+
+	//デバッグ用
+	for (int i = 0; i < MAP_HEIGHT; i++) {
+		for (int j = 0; j < MAP_WIDTH; j++) {
+			//if (HitCheck(Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 1.5f), ENEMY_SIZE, ENEMY_SIZE, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {//上
+			//	if (MapData[i][j] == 0) {
+			//		DrawBox(Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 1.5f), Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), GetColor(0, 255, 0), FALSE);//デバッグ用
+			//	}
+			//	else {
+			//		DrawBox(Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 1.5f), Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), GetColor(255, 0, 0), FALSE);//デバッグ用
+			//	}
+			//}
+			//if (HitCheck(Pinkey.x - ENEMY_SIZE , Pinkey.y - ENEMY_SIZE * 1, ENEMY_SIZE, ENEMY_SIZE, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {//上
+			//	if (MapData[i][j] == 0) {
+			//		DrawBox(Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 1.5f), Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), GetColor(0, 255, 0), FALSE);//デバッグ用
+			//	}
+			//	else {
+			//		DrawBox(Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 1.5f), Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), GetColor(255, 0, 0), FALSE);//デバッグ用
+			//	}
+			//}
+			//if (HitCheck(Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), ENEMY_SIZE, ENEMY_SIZE, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {//右
+			//	if (MapData[i][j] == 0) {
+			//		DrawBox(Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), Pinkey.x + (ENEMY_SIZE * 1.5f), Pinkey.y + (ENEMY_SIZE * 0.5f), GetColor(0, 255, 0), FALSE);//デバッグ用
+			//	}
+			//	else {
+			//		DrawBox(Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), Pinkey.x + (ENEMY_SIZE * 1.5f), Pinkey.y + (ENEMY_SIZE * 0.5f), GetColor(255, 0, 0), FALSE);//デバッグ用
+			//	}
+			//}
+			//if (HitCheck(Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y + (ENEMY_SIZE * 0.5f), ENEMY_SIZE, ENEMY_SIZE, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {//下
+			//	if (MapData[i][j] == 0) {
+			//		DrawBox(Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y + (ENEMY_SIZE * 0.5f), Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y + (ENEMY_SIZE * 1.5f), GetColor(0, 255, 0), FALSE);//デバッグ用
+			//	}
+			//	else {
+			//		DrawBox(Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y + (ENEMY_SIZE * 0.5f), Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y + (ENEMY_SIZE * 1.5f), GetColor(255, 0, 0), FALSE);//デバッグ用
+			//	}
+			//}
+			//if (HitCheck(Pinkey.x - (ENEMY_SIZE * 1.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), ENEMY_SIZE, ENEMY_SIZE, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {//左
+			//	if (MapData[i][j] == 0) {
+			//		DrawBox(Pinkey.x - (ENEMY_SIZE * 1.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y + (ENEMY_SIZE * 0.5f), GetColor(0, 255, 0), FALSE);//デバッグ用
+			//	}
+			//	else {
+			//		DrawBox(Pinkey.x - (ENEMY_SIZE * 1.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y + (ENEMY_SIZE * 0.5f), GetColor(255, 0, 0), FALSE);//デバッグ用
+			//	}
+			//}
+		}
+	}
 }
 
 
