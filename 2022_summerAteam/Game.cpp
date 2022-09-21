@@ -8,6 +8,35 @@
 #include "UI.h"
 
 static int mImageHandle; //画像ハンドル格納用変数
+static int outerwall_left;//1
+static int door;//4
+static int outerwall_right;//6
+static int outerwall_top;//5
+static int outerwall_bottom;//7
+static int outercorner_top_left;//8
+static int outercorner_top_right;//9
+static int outercorner_bottom_left;//10
+static int outercorner_bottom_right;//11
+static int outercorner_narrow_top_left;//12
+static int outercorner_narrow_top_right;//13
+static int outercorner_narrow_bottom_left;//14
+static int outercorner_narrow_bottom_right;//15
+static int outernose_left_top;//16
+static int outernose_left_bottom;//17
+static int outernose_top_left;//18
+static int outernose_top_right;//19
+static int outernose_right_top;// 20
+static int outernose_right_bottom;//21
+static int wall_top;//22
+static int wall_bottom;//23
+static int wall_left;//24
+static int wall_right;//25
+static int corner_bottom_left;//26
+static int corner_bottom_right;//27
+static int corner_top_left;//28
+static int corner_top_right;//29
+static int gate_left;//30
+static int gate_right;//31
 float mx = 0, my = 0;
 int mimg = 0, mtype = 0;	//画像保存用
 
@@ -15,39 +44,39 @@ int mimg = 0, mtype = 0;	//画像保存用
 int MapData[MAP_HEIGHT][MAP_WIDTH] = //マップデータ 1は壁がある 0は壁がない　
 {
  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
- { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
- { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,   1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
- { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
- { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
- { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
- { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
- { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
- { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
- { 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1,   1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0 },
- { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
- { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
- { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
- { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 4,   4, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
- { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
+ { 0, 8, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,18,   19,5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 0 },
+ { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,24,   25,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0 },
+ { 0, 1, 0, 12,7, 7,13, 0, 1, 1, 1, 1, 1, 0,24,   25,0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 6, 0 },
+ { 0, 1, 0, 6, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0,24,   25,0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 6, 0 },
+ { 0, 1, 0, 14,5, 5,15, 0, 1, 1, 1, 1, 1, 0,26,   27,0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 6, 0 },
+ { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0 },
+ { 0, 1, 0, 12,7, 7, 13,0, 28,29, 0, 8, 5, 5,5,   5, 5, 5, 9, 0,28,29, 0, 1, 1, 1, 1, 0, 6, 0 },
+ { 0, 1, 0, 14,5, 5, 15,0, 24,25, 0, 10,7, 7,13,  12,7, 7, 11,0,24,25, 0, 1, 1, 1, 1, 0, 6, 0 },
+ { 0, 1, 0, 0, 0, 0, 0, 0, 24,25, 0, 0, 0, 0,6,   1, 0, 0, 0, 0,24,25, 0, 0, 0, 0, 0, 0, 6, 0 },
+ { 0, 10,7, 7, 7, 7,13, 0, 24,26, 22,22,29,0,6,   1, 0,28,22,22,27,25, 0,12, 7, 7, 7, 7,11, 0 },
+ { 0, 0, 0, 0, 0, 0, 1, 0, 24,28, 23,23,27,0,14,  15,0,26,23,23,29,25, 0, 6, 0, 0, 0, 0, 0, 0 },
+ { 0, 0, 0, 0, 0, 0, 1, 0, 24,25, 0, 0, 0, 0,0,   0,0, 0, 0, 0, 24,25, 0, 6, 0, 0, 0, 0, 0, 0 },
+ { 0, 0, 0, 0, 0, 0, 1, 0, 24,25, 0, 12,7,30,4,   4,31,7,13, 0, 24,25, 0, 6, 0, 0, 0, 0, 0, 0 },
+ { 5, 5, 5, 5, 5, 5,15, 0, 26,27, 0, 6, 0, 0,0,   0,0, 0, 1, 0, 26,27, 0,14, 5, 5, 5, 5, 5, 5 },
 
- { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3 },
+ { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  6, 0, 0, 0,   0, 0, 0,1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3 },
 
- { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0,   0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
- { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
- { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
- { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
- { 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0 },
- { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,   1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
- { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
- { 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0 },
- { 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0 },
- { 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0 },
- { 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0 },
- { 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1,   1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0 },
- { 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0 },
- { 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0 },
- { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 },
- { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 },
+ { 7, 7, 7, 7, 7, 7,13, 0, 28,29, 0, 6, 0, 0,0,   0, 0, 0, 1, 0,28,29, 0,12 ,7, 7, 7, 7, 7, 7 },
+ { 0, 0, 0, 0, 0, 0, 1, 0, 24,25, 0, 14,5, 5,5,   5, 5, 5, 15,0,24,25, 0, 6, 0, 0, 0, 0, 0, 0 },
+ { 0, 0, 0, 0, 0, 0, 1, 0, 24,25, 0, 0, 0, 0,0,   0, 0, 0, 0, 0,24,25, 0, 6, 0, 0, 0, 0, 0, 0 },
+ { 0, 0, 0, 0, 0, 0, 1, 0, 24,25, 0, 1, 1, 1,1,   1, 1, 1, 1, 0,24,25, 0, 6, 0, 0, 0, 0, 0, 0 },
+ { 0, 8 ,5, 5, 5, 5,15, 0, 26,27, 0, 1, 1, 1,1,   1, 1, 1, 1, 0,26,27, 0,14, 5, 5, 5, 5, 9, 0 },
+ { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,   1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0 },
+ { 0, 1, 0, 28,22,22,29,0, 28,22,22,22,29, 0,1,   1, 0,28,22,22,22,29, 0,28,22,22,29, 0, 6, 0 },
+ { 0, 1, 0, 26,23,29,25,0, 26,23,23,23,27, 0,1,   1, 0,26,23,23,23,27, 0,24,28,23,27, 0, 6, 0 },
+ { 0, 1, 0, 0, 0, 24,25,0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0,24,25, 0, 0, 0, 6, 0 },
+ { 0, 16,22,29,0, 24,25,0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0,24,25, 0, 28,22,20,0 },
+ { 0, 17,23,27,0, 26,27,0, 1, 1, 0, 1, 1, 1, 1,   1, 1, 1, 1, 0, 1, 1, 0,26,27, 0, 26,23,21,0 },
+ { 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1,   1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 6, 0 },
+ { 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 6, 0 },
+ { 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,   1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 6, 0 },
+ { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0 },
+ { 0, 10,7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,   7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 11,0 },
  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 };
 /**********仮のマップチップ（消してもいい）**********/
@@ -57,9 +86,8 @@ void DrawMap() {
 	for (int i = 0; i < MAP_HEIGHT; i++) {
 		for (int j = 0; j < MAP_WIDTH; j++) {
 			if (MapData[i][j] == 1) {
-				DrawBox(j * MAP_SIZE, i * MAP_SIZE, j *
-					MAP_SIZE + MAP_SIZE, i * MAP_SIZE + MAP_SIZE, GetColor(0, 0, 255), TRUE);
-
+				//DrawBox(j * MAP_SIZE, i * MAP_SIZE, j *MAP_SIZE + MAP_SIZE, i * MAP_SIZE + MAP_SIZE, GetColor(0, 0, 255), TRUE);
+					DrawGraph(j * MAP_SIZE, i * MAP_SIZE, outerwall_left, TRUE);
 				if (HitCheck(Akabei.x - 8, Akabei.y - 8, Akabei.w, Akabei.h, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
 					Akabei.x = Akabei.mx;
 					Akabei.y = Akabei.my;
@@ -149,7 +177,7 @@ void DrawMap() {
 				break;
 			}
 			if (HitCheck(mPac.x - (mPac.w * 0.5f), mPac.y - (mPac.h * 0.5f), mPac.w, mPac.h, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
-				if (MapData[i][j] == 1) {
+				if (MapData[i][j] != 0) {
 					mPac.x = mx;
 					mPac.y = my;
 					mPac.img = mimg;
@@ -159,6 +187,7 @@ void DrawMap() {
 			}
 			
 			if (MapData[i][j] == 4) {
+				DrawGraph(j* MAP_SIZE, i* MAP_SIZE, door, TRUE);
 				if (Akabei.md == 2) {
 					if (Akabei.juuji == false) {
 						if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
@@ -172,6 +201,7 @@ void DrawMap() {
 			}
 
 			if (MapData[i][j] == 5) {
+				DrawGraph(j* FRUIT_SIZE, i* FRUIT_SIZE, outerwall_top, TRUE);
 				if (Akabei.md == 0) {
 					if (Akabei.juuji == false) {
 						if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
@@ -185,6 +215,7 @@ void DrawMap() {
 			}
 
 			if (MapData[i][j] == 6) {
+				DrawGraph(j* MAP_SIZE, i* MAP_SIZE, outerwall_right, TRUE);
 				if (Akabei.md == 3) {
 					if (Akabei.juuji == false) {
 						if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
@@ -198,6 +229,7 @@ void DrawMap() {
 			}
 
 			if (MapData[i][j] == 7) {
+				DrawGraph(j* FRUIT_SIZE, i* FRUIT_SIZE, outerwall_bottom, TRUE);
 				if (Akabei.md == 1) {
 					if (Akabei.juuji == false) {
 						if (HitCheck(Akabei.x, Akabei.y, Akabei.w, Akabei.h, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
@@ -221,6 +253,35 @@ void Game_Initialize() {
 	Item_Initialize();//アイテム用
 	UI_Initialize();
 	//mImageHandle = LoadGraph("images/Scene_GameMain.png"); //画像のロード
+	outerwall_left = LoadGraph("Map_images/outerwall_left.png");
+	outerwall_right = LoadGraph("Map_images/outerwall_right.png");
+	outerwall_top = LoadGraph("Map_images/outerwall_top.png");
+	outerwall_bottom = LoadGraph("Map_images/outerwall_bottom.png");
+	outercorner_top_left= LoadGraph("Map_images/outercorner_top_left.png");
+	outercorner_top_right = LoadGraph("Map_images/outercorner_top_right.png");
+	outercorner_bottom_left = LoadGraph("Map_images/outercorner_bottom_left.png");
+	outercorner_bottom_right = LoadGraph("Map_images/outercorner_bottom_right.png");
+	outercorner_narrow_top_left = LoadGraph("Map_images/outercorner_narrow_top_left.png");
+	outercorner_narrow_top_right = LoadGraph("Map_images/outercorner_narrow_top_right.png");
+	outercorner_narrow_bottom_left = LoadGraph("Map_images/outercorner_narrow_bottom_left.png");
+	outercorner_narrow_bottom_right = LoadGraph("Map_images/outercorner_narrow_bottom_right.png");
+	outernose_left_top = LoadGraph("Map_images/outernose_left_top.png");
+	outernose_left_bottom = LoadGraph("Map_images/outernose_left_bottom.png");
+	outernose_top_left = LoadGraph("Map_images/outernose_top_left.png");
+	outernose_top_right = LoadGraph("Map_images/outernose_top_right.png");
+	outernose_right_top = LoadGraph("Map_images/outernose_right_top.png");
+	outernose_right_bottom = LoadGraph("Map_images/outernose_right_bottom.png");
+	wall_top = LoadGraph("Map_images/wall_top.png");
+	wall_bottom = LoadGraph("Map_images/wall_bottom.png");
+	wall_left = LoadGraph("Map_images/wall_left.png");
+	wall_right = LoadGraph("Map_images/wall_right.png");
+	corner_bottom_left = LoadGraph("Map_images/corner_bottom_left.png");
+	corner_bottom_right = LoadGraph("Map_images/corner_bottom_right.png");
+	corner_top_left = LoadGraph("Map_images/corner_top_left.png");
+	corner_top_right = LoadGraph("Map_images/corner_top_right.png");
+	gate_left = LoadGraph("Map_images/gate_left.png");
+	gate_right = LoadGraph("Map_images/gate_right.png");
+	door = LoadGraph("Map_images/door.png");
 }
 
 //終了処理
@@ -269,6 +330,84 @@ void Game_Draw() {
 	Enemy_Draw();
 	Item_Draw();
 	UI_Draw();
+
+	for (int i = 0; i < MAP_HEIGHT; i++) {
+		for (int j = 0; j < MAP_WIDTH; j++) {
+
+			if (MapData[i][j] == 8) {//マップデータが8だったら
+				DrawGraph(j * MAP_SIZE, i * MAP_SIZE, outercorner_top_left, TRUE);
+			}
+			if (MapData[i][j] == 9) {//マップデータが9だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, outercorner_top_right, TRUE);
+			}
+			if (MapData[i][j] == 10) {//マップデータが10だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, outercorner_bottom_left, TRUE);
+			}
+			if (MapData[i][j] == 11) {//マップデータが11だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, outercorner_bottom_right, TRUE);
+			}
+			if (MapData[i][j] == 12) {//マップデータが12だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, outercorner_narrow_top_left, TRUE);
+			}
+			if (MapData[i][j] == 13) {//マップデータが13だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, outercorner_narrow_top_right, TRUE);
+			}
+			if (MapData[i][j] == 14) {//マップデータが14だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, outercorner_narrow_bottom_left, TRUE);
+			}
+			if (MapData[i][j] == 15) {//マップデータが15だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, outercorner_narrow_bottom_right, TRUE);
+			}
+			if (MapData[i][j] == 16) {//マップデータが16だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, outernose_left_top, TRUE);
+			}
+			if (MapData[i][j] == 17) {//マップデータが17だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, outernose_left_bottom, TRUE);
+			}
+			if (MapData[i][j] == 18) {//マップデータが18だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, outernose_top_left, TRUE);
+			}
+			if (MapData[i][j] == 19) {//マップデータが19だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, outernose_top_right, TRUE);
+			}
+			if (MapData[i][j] == 20) {//マップデータが20だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, outernose_right_top, TRUE);
+			}
+			if (MapData[i][j] == 21) {//マップデータが21だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, outernose_right_bottom, TRUE);
+			}
+			if (MapData[i][j] == 22) {//マップデータが22だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, wall_top, TRUE);
+			}
+			if (MapData[i][j] == 23) {//マップデータが23だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, wall_bottom, TRUE);
+			}
+			if (MapData[i][j] == 24) {//マップデータが24だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, wall_left, TRUE);
+			}
+			if (MapData[i][j] == 25) {//マップデータが25だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, wall_right, TRUE);
+			}
+			if (MapData[i][j] == 26) {//マップデータが26だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, corner_bottom_left, TRUE);
+			}
+			if (MapData[i][j] == 27) {//マップデータが27だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, corner_bottom_right, TRUE);
+			}
+			if (MapData[i][j] == 28) {//マップデータが28だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, corner_top_left, TRUE);
+			}
+			if (MapData[i][j] == 29) {//マップデータが29だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, corner_top_right, TRUE);
+			}
+			if (MapData[i][j] == 30) {//マップデータが30だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, gate_left, TRUE);
+			}
+			if (MapData[i][j] == 31) {//マップデータが31だったら
+				DrawGraph(j * FRUIT_SIZE, i * FRUIT_SIZE, gate_right, TRUE);
+			}
+		}
+	}
 }
 
 void WarpTunnel() {
