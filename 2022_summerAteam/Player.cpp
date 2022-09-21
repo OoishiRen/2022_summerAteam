@@ -96,6 +96,18 @@ void Player_Update() {
 			mPac.flg = false;
 		}
 	}
+	//当たり判定(対アオスケ)
+	if (PowerUpFlg == false) {
+		if (HitCheckEnemy(&mPac, &Aosuke)) {
+			mPac.flg = false;
+		}
+	}
+	//当たり判定(対グズタ)
+	if (PowerUpFlg == false) {
+		if (HitCheckEnemy(&mPac, &Guzuta)) {
+			mPac.flg = false;
+		}
+	}
 
 
 	Pac_Anim(mPac.speed);	//パックマンのアニメーション
@@ -213,6 +225,9 @@ float HitCheckEnemy(PAC*p, AKABEI*e) {
 		//パワーアップ中はスルー（仮）
 		if (!PowerUpFlg) {
 			return TRUE;
+		}
+		else {
+			Akabei.movenest = true;
 		}
 	}
 	return FALSE;
