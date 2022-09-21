@@ -1,5 +1,4 @@
 #include "DxLib.h"
-#include "Config.h"
 #include "Game.h"
 #include "Menu.h"
 #include "SceneMgr.h"
@@ -37,9 +36,6 @@ void SceneMgr_Update() {
 	case eScene_Game:
 		Game_Update();
 		break;
-	case eScene_Config:
-		Config_Update();
-		break;
 	}
 }
 //描画
@@ -50,9 +46,6 @@ void SceneMgr_Draw() {
 		break;//以下略
 	case eScene_Game:
 		Game_Draw();
-		break;
-	case eScene_Config:
-		Config_Draw();
 		break;
 	}
 }
@@ -73,9 +66,6 @@ static void SceneMgr_InitializeModule(eScene scene) {
 	case eScene_Game:
 		Game_Initialize();
 		break;
-	case eScene_Config:
-		Config_Initialize();
-		break;
 	}
 }
 // 引数sceneモジュールの終了処理を行う
@@ -87,9 +77,6 @@ static void SceneMgr_FinalizeModule(eScene scene) {
 		break;//以下略
 	case eScene_Game:
 		Game_Finalize();
-		break;
-	case eScene_Config:
-		Config_Finalize();
 		break;
 	}
 }
