@@ -147,13 +147,13 @@ void Item_Draw() {
 	FruitsUI();//フルーツのスコアを表示する関数
 
 
-	DrawFormatString(1000, 10, GetColor(255, 255, 255), "Score:%d", Score);//でバッグ
-	DrawFormatString(1000, 30, GetColor(255, 255, 255), PowerUpFlg ? "PowerUp" : "Normal");//でバッグ
-	DrawFormatString(1000, 50, GetColor(255, 255, 255), "PowerUpTime:%d", PowerUpTime);//でバッグ
-	DrawFormatString(1000, 70, GetColor(255, 255, 255), "Dots Left:%d/244", DotsLeft);//でバッグ
-	DrawFormatString(1000, 90, GetColor(255, 255, 255), "Fruits Target:%d", FruitTime);//でバッグ
-	DrawFormatString(1000, 110, GetColor(255, 255, 255), "ROUND:%d", Round);//でバッグ
-	DrawFormatString(1000, 130, GetColor(255, 255, 255), "CntTime:%d", CntTime);//でバッグ
+	//DrawFormatString(1000, 10, GetColor(255, 255, 255), "Score:%d", Score);//でバッグ
+	//DrawFormatString(1000, 30, GetColor(255, 255, 255), PowerUpFlg ? "PowerUp" : "Normal");//でバッグ
+	//DrawFormatString(1000, 50, GetColor(255, 255, 255), "PowerUpTime:%d", PowerUpTime);//でバッグ
+	//DrawFormatString(1000, 70, GetColor(255, 255, 255), "Dots Left:%d/244", DotsLeft);//でバッグ
+	//DrawFormatString(1000, 90, GetColor(255, 255, 255), "Fruits Target:%d", FruitTime);//でバッグ
+	//DrawFormatString(1000, 110, GetColor(255, 255, 255), "ROUND:%d", Round);//でバッグ
+	//DrawFormatString(1000, 130, GetColor(255, 255, 255), "CntTime:%d", CntTime);//でバッグ
 }
 void PowerdotAnim() {
 

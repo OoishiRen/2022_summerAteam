@@ -121,7 +121,7 @@ void Enemy_Update() {
 	//DrawFormatString(1000, 110, 255, "dy = %.1f", dy);
 	//DrawFormatString(1000, 130, 255, "md = %d", Akabei.md);
 	//DrawFormatString(1000, 150, 255, "ed = %d", Akabei.ed);
-	DrawFormatString(1000, 170, 255, "Akabei.x = %.1f", Akabei.x);
+	/*DrawFormatString(1000, 170, 255, "Akabei.x = %.1f", Akabei.x);
 	DrawFormatString(1000, 190, 255, "Akabei.y = %.1f", Akabei.y);
 	DrawFormatString(1000, 210, 255, "Akabei.x = %.1f", Akabei.x / 16);
 	DrawFormatString(1000, 230, 255, "Akabei.y = %.1f", Akabei.y / 16);
@@ -135,7 +135,7 @@ void Enemy_Update() {
 
 
 	DrawFormatString(500, 30, GetColor(255, 255, 255),
-		EnemyMode ? "Scatter %d" : "Chase %d", EnemyMode ? ScatterModeTime : ChaseModeTime);
+		EnemyMode ? "Scatter %d" : "Chase %d", EnemyMode ? ScatterModeTime : ChaseModeTime);*/
 
 	PinkeyWarp();
 
@@ -220,51 +220,7 @@ void Enemy_Update() {
 
 	ModeChange();
 
-	//デバッグ用
-	for (int i = 0; i < MAP_HEIGHT; i++) {
-		for (int j = 0; j < MAP_WIDTH; j++) {
-			//if (HitCheck(Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 1.5f), ENEMY_SIZE, ENEMY_SIZE, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {//上
-			//	if (MapData[i][j] == 0) {
-			//		DrawBox(Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 1.5f), Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), GetColor(0, 255, 0), FALSE);//デバッグ用
-			//	}
-			//	else {
-			//		DrawBox(Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 1.5f), Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), GetColor(255, 0, 0), FALSE);//デバッグ用
-			//	}
-			//}
-			//if (HitCheck(Pinkey.x - ENEMY_SIZE , Pinkey.y - ENEMY_SIZE * 1, ENEMY_SIZE, ENEMY_SIZE, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {//上
-			//	if (MapData[i][j] == 0) {
-			//		DrawBox(Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 1.5f), Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), GetColor(0, 255, 0), FALSE);//デバッグ用
-			//	}
-			//	else {
-			//		DrawBox(Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 1.5f), Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), GetColor(255, 0, 0), FALSE);//デバッグ用
-			//	}
-			//}
-			//if (HitCheck(Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), ENEMY_SIZE, ENEMY_SIZE, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {//右
-			//	if (MapData[i][j] == 0) {
-			//		DrawBox(Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), Pinkey.x + (ENEMY_SIZE * 1.5f), Pinkey.y + (ENEMY_SIZE * 0.5f), GetColor(0, 255, 0), FALSE);//デバッグ用
-			//	}
-			//	else {
-			//		DrawBox(Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), Pinkey.x + (ENEMY_SIZE * 1.5f), Pinkey.y + (ENEMY_SIZE * 0.5f), GetColor(255, 0, 0), FALSE);//デバッグ用
-			//	}
-			//}
-			//if (HitCheck(Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y + (ENEMY_SIZE * 0.5f), ENEMY_SIZE, ENEMY_SIZE, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {//下
-			//	if (MapData[i][j] == 0) {
-			//		DrawBox(Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y + (ENEMY_SIZE * 0.5f), Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y + (ENEMY_SIZE * 1.5f), GetColor(0, 255, 0), FALSE);//デバッグ用
-			//	}
-			//	else {
-			//		DrawBox(Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y + (ENEMY_SIZE * 0.5f), Pinkey.x + (ENEMY_SIZE * 0.5f), Pinkey.y + (ENEMY_SIZE * 1.5f), GetColor(255, 0, 0), FALSE);//デバッグ用
-			//	}
-			//}
-			//if (HitCheck(Pinkey.x - (ENEMY_SIZE * 1.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), ENEMY_SIZE, ENEMY_SIZE, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {//左
-			//	if (MapData[i][j] == 0) {
-			//		DrawBox(Pinkey.x - (ENEMY_SIZE * 1.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y + (ENEMY_SIZE * 0.5f), GetColor(0, 255, 0), FALSE);//デバッグ用
-			//	}
-			//	else {
-			//		DrawBox(Pinkey.x - (ENEMY_SIZE * 1.5f), Pinkey.y - (ENEMY_SIZE * 0.5f), Pinkey.x - (ENEMY_SIZE * 0.5f), Pinkey.y + (ENEMY_SIZE * 0.5f), GetColor(255, 0, 0), FALSE);//デバッグ用
-			//	}
-			//}
-		}
-	}
+	
 }
 
 
@@ -319,7 +275,7 @@ void AkabeiChaseMode() {
 	dx = A / C;		// C を1（正規化）とするには、A を C で割る
 	dy = B / C;		// C を1（正規化）とするには、B を C で割る
 
-	DrawLine(mPac.x, mPac.y, Akabei.x, Akabei.y, GetColor(255, 0, 0));
+	//DrawLine(mPac.x, mPac.y, Akabei.x, Akabei.y, GetColor(255, 0, 0));
 
 	// アカベイが壁を避けながら移動する処理
 	switch (Akabei.ed) {
@@ -659,7 +615,7 @@ void AkabeiScatterMode() {
 	dx = A / C;		// C を1（正規化）とするには、A を C で割る
 	dy = B / C;		// C を1（正規化）とするには、B を C で割る
 
-	DrawLine(NawabariX, NawabariY, Akabei.x, Akabei.y, GetColor(255, 0, 0));
+	//DrawLine(NawabariX, NawabariY, Akabei.x, Akabei.y, GetColor(255, 0, 0));
 
 
 	// アカベイが壁を避けながら移動する処理
@@ -1111,7 +1067,7 @@ void ScatterMode() {
 		for (int j = 0; j < MAP_WIDTH; j++) {
 			if (HitCheck(Pinkey.x, Pinkey.y, ENEMY_SIZE, ENEMY_SIZE,
 				j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
-				DrawLine(2 * MAP_SIZE + 4, 2 * MAP_SIZE + 4, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
+				//DrawLine(2 * MAP_SIZE + 4, 2 * MAP_SIZE + 4, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
 
 
 			}
@@ -1466,28 +1422,28 @@ void ChaseMode() {
 	dx = A / C;		// C を1（正規化）とするには、A を C で割る
 	dy = B / C;		// C を1（正規化）とするには、B を C で割る
 
-	for (int i = 0; i < MAP_HEIGHT; i++) {
-		for (int j = 0; j < MAP_WIDTH; j++) {
-			if (HitCheck(Pinkey.x, Pinkey.y, ENEMY_SIZE, ENEMY_SIZE,
-				j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
-				if (mPac.var == 3) {
-					DrawLine(mPac.x - 4 * MAP_SIZE, mPac.y, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
-				}//左
-				else if (mPac.var == 1) {
-					DrawLine(mPac.x + 4 * MAP_SIZE, mPac.y, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
-				}//右
-				else if (mPac.var == 0) {
-					DrawLine(mPac.x, mPac.y - 4 * MAP_SIZE, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
-				}//上
-				else if (mPac.var == 2) {
-					DrawLine(mPac.x, mPac.y + 4 * MAP_SIZE, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
-				}//下
-				//DrawLine(mPac.x, mPac.y, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
+	//for (int i = 0; i < MAP_HEIGHT; i++) {
+	//	for (int j = 0; j < MAP_WIDTH; j++) {
+	//		if (HitCheck(Pinkey.x, Pinkey.y, ENEMY_SIZE, ENEMY_SIZE,
+	//			j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+	//			if (mPac.var == 3) {
+	//				DrawLine(mPac.x - 4 * MAP_SIZE, mPac.y, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
+	//			}//左
+	//			else if (mPac.var == 1) {
+	//				DrawLine(mPac.x + 4 * MAP_SIZE, mPac.y, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
+	//			}//右
+	//			else if (mPac.var == 0) {
+	//				DrawLine(mPac.x, mPac.y - 4 * MAP_SIZE, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
+	//			}//上
+	//			else if (mPac.var == 2) {
+	//				DrawLine(mPac.x, mPac.y + 4 * MAP_SIZE, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
+	//			}//下
+	//			//DrawLine(mPac.x, mPac.y, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
 
 
-			}
-		}
-	}
+	//		}
+	//	}
+	//}
 	// ピンキーが壁を避けながら移動する処理
 	switch (Pinkey.ed) {
 	case 0:	// 左へ移動
@@ -2162,7 +2118,7 @@ void IjikeMode() {
 			for (int j = 0; j < MAP_WIDTH; j++) {
 				if (HitCheck(Pinkey.x, Pinkey.y, ENEMY_SIZE, ENEMY_SIZE,
 					j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
-					DrawLine(15 * MAP_SIZE + 4, 15 * MAP_SIZE + 4, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
+					//DrawLine(15 * MAP_SIZE + 4, 15 * MAP_SIZE + 4, Pinkey.x, Pinkey.y, GetColor(246, 173, 198));
 				}
 			}
 		}
@@ -2563,7 +2519,7 @@ void AosukeChaseMode() {
 	dx = A / C;		// C を1（正規化）とするには、A を C で割る
 	dy = B / C;		// C を1（正規化）とするには、B を C で割る
 
-	DrawLine(mPac.x, mPac.y, Aosuke.x, Aosuke.y, GetColor(24, 235, 249));
+	//DrawLine(mPac.x, mPac.y, Aosuke.x, Aosuke.y, GetColor(24, 235, 249));
 
 	// アカベイが壁を避けながら移動する処理
 	switch (Aosuke.ed) {
@@ -2903,7 +2859,7 @@ void AosukeScatterMode() {
 	dx = A / C;		// C を1（正規化）とするには、A を C で割る
 	dy = B / C;		// C を1（正規化）とするには、B を C で割る
 
-	DrawLine(NawabariX, NawabariY, Aosuke.x, Aosuke.y, GetColor(24, 235, 249));
+	//DrawLine(NawabariX, NawabariY, Aosuke.x, Aosuke.y, GetColor(24, 235, 249));
 
 
 	// アカベイが壁を避けながら移動する処理
@@ -3298,7 +3254,7 @@ void GuzutaChaseMode() {
 	dx = A / C;		// C を1（正規化）とするには、A を C で割る
 	dy = B / C;		// C を1（正規化）とするには、B を C で割る
 
-	DrawLine(mPac.x, mPac.y, Guzuta.x, Guzuta.y, GetColor(233, 150, 122));
+	//DrawLine(mPac.x, mPac.y, Guzuta.x, Guzuta.y, GetColor(233, 150, 122));
 
 	// アカベイが壁を避けながら移動する処理
 	switch (Guzuta.ed) {
@@ -3638,7 +3594,7 @@ void GuzutaScatterMode() {
 	dx = A / C;		// C を1（正規化）とするには、A を C で割る
 	dy = B / C;		// C を1（正規化）とするには、B を C で割る
 
-	DrawLine(NawabariX, NawabariY, Guzuta.x, Guzuta.y, GetColor(233, 150, 122));
+	//DrawLine(NawabariX, NawabariY, Guzuta.x, Guzuta.y, GetColor(233, 150, 122));
 
 
 	// アカベイが壁を避けながら移動する処理

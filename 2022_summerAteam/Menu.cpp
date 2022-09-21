@@ -75,8 +75,8 @@ void Menu_Update() {
 //描画
 void Menu_Draw() {
 	DrawGraph(img_x, img_y, mTitleHandle, FALSE);
-	DrawFormatString(10, 700, 0xffffff, "Gキー、またはAボタンを押してゲーム画面へ");
-	DrawFormatString(10, 680, 0xffffff, "Sキーを押してタイトルをスキップ(ゲーム画面へ)");
+	//DrawFormatString(10, 700, 0xffffff, "Gキー、またはAボタンを押してゲーム画面へ");
+	//DrawFormatString(10, 680, 0xffffff, "Sキーを押してタイトルをスキップ(ゲーム画面へ)");
 	DrawRotaGraph(mozi_x, mozi_y, 2.0f, 0, score_image[num14], TRUE, FALSE);
 	DrawRotaGraph(615, 50, 2.0f, 0, score_image[num15], TRUE, FALSE);
 	DrawRotaGraph(640, 50, 2.0f, 0, score_image[num16], TRUE, FALSE);

@@ -216,11 +216,11 @@ void Player_Draw() {
 			DrawRotaGraph(mPac.x, mPac.y, 1.0f, 0, dying_image[mPac.img], TRUE, FALSE);
 		}
 	}
-	DrawFormatString(1000, 340, GetColor(255, 255, 255), "count:%.1f", count);		//デバッグ用
-	DrawFormatString(1000, 360, GetColor(255, 255, 255), "stop_time:%d", stop_time);		//デバッグ用
-	DrawFormatString(1000, 380, GetColor(255, 255, 255), "mPac.speed:%.1f", mPac.speed);		//デバッグ用
-	DrawFormatString(1000, 400, GetColor(255, 255, 255), "mPac.var:%d", mPac.var);		//デバッグ用
-	DrawFormatString(1000, 420, GetColor(255, 255, 255), "mPac.type:%d", mPac.type);	//デバッグ用
+	//DrawFormatString(1000, 340, GetColor(255, 255, 255), "count:%.1f", count);		//デバッグ用
+	//DrawFormatString(1000, 360, GetColor(255, 255, 255), "stop_time:%d", stop_time);		//デバッグ用
+	//DrawFormatString(1000, 380, GetColor(255, 255, 255), "mPac.speed:%.1f", mPac.speed);		//デバッグ用
+	//DrawFormatString(1000, 400, GetColor(255, 255, 255), "mPac.var:%d", mPac.var);		//デバッグ用
+	//DrawFormatString(1000, 420, GetColor(255, 255, 255), "mPac.type:%d", mPac.type);	//デバッグ用
 }
 
 /*************************************
