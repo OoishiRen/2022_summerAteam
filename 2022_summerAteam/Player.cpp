@@ -118,11 +118,13 @@ void Player_Update() {
 //描画
 void Player_Draw() {
 	//パックマンの表示
-	if (mPac.flg) {	//ゲーム中
-		DrawRotaGraph(mPac.x, mPac.y, 1.0f, 0, pac_image[mPac.img], TRUE, FALSE);
-	}
-	else {			//ミス時
-		DrawRotaGraph(mPac.x, mPac.y, 1.0f, 0, dying_image[mPac.img], TRUE, FALSE);
+	if (mPac.cnt > -1) {//ライフが0ではない場合
+		if (mPac.flg) {	//ゲーム中
+			DrawRotaGraph(mPac.x, mPac.y, 1.0f, 0, pac_image[mPac.img], TRUE, FALSE);
+		}
+		else {			//ミス時
+			DrawRotaGraph(mPac.x, mPac.y, 1.0f, 0, dying_image[mPac.img], TRUE, FALSE);
+		}
 	}
 	DrawFormatString(1000, 340, GetColor(255, 255, 255), "count:%.1f", count);		//デバッグ用
 	DrawFormatString(1000, 360, GetColor(255, 255, 255), "stop_time:%d", stop_time);		//デバッグ用
@@ -161,8 +163,12 @@ void Pac_Anim(float val) {
 				if (mPac.img < 11) {
 					mPac.img++;
 				}
-				else if (mPac.cnt > 0) {
+				else if (mPac.cnt > 1) {
 					respawn = true;
+					mPac.cnt--;
+					mPac.img = 0;
+				}
+				else {
 					mPac.cnt--;
 					mPac.img = 0;
 				}

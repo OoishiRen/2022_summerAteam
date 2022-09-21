@@ -321,6 +321,6 @@ void ScoreUIEnabled() {
 void FruitsUI() {
 
 	for (int i = 1; i <= Round; i++) {
-		DrawRotaGraph(454 + FRUIT_SIZE * i, 316, 1.0f, 0, Fruits_Handle[i - 1], TRUE, FALSE);
+		DrawRotaGraph(830 + (FRUIT_SIZE * 3.0f) * i, 400, 3.0f, 0, Fruits_Handle[i - 1], TRUE, FALSE);
 	}
 }

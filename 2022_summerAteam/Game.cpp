@@ -206,6 +206,7 @@ void Game_Update() {
 	DrawMap();
 	Enemy_Update();
 	Item_Update();//アイテム用
+	UI_Update();
 
 
 }
