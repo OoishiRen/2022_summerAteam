@@ -169,7 +169,6 @@ void Player_Update() {
 		}
 	}
 
-
 	Pac_Anim(mPac.speed);	//パックマンのアニメーション
 	Pac_Move(mPac.type);	//パックマンの動き
 
@@ -183,6 +182,7 @@ void Player_Update() {
 		mPac.speed = PAC_SPEED;
 		mPac.x = 240.0f;
 		mPac.y = 392.0f;
+		stop_time = 0;
 	}
 
 }
@@ -207,13 +207,17 @@ void EnemyScoreUIEnabled() {
 //描画
 void Player_Draw() {
 	//パックマンの表示
-	if (mPac.flg) {	//ゲーム中
-		DrawRotaGraph(mPac.x, mPac.y, 1.0f, 0, pac_image[mPac.img], TRUE, FALSE);
+	if (mPac.cnt > -1) {//ライフが0ではない場合
+		if (mPac.flg) {	//ゲーム中
+			DrawRotaGraph(mPac.x, mPac.y, 1.0f, 0, pac_image[mPac.img], TRUE, FALSE);
+		}
+		else {			//ミス時
+			DrawRotaGraph(mPac.x, mPac.y, 1.0f, 0, dying_image[mPac.img], TRUE, FALSE);
+		}
 	}
-	else {			//ミス時
-		DrawRotaGraph(mPac.x, mPac.y, 1.0f, 0, dying_image[mPac.img], TRUE, FALSE);
-	}
-
+	DrawFormatString(1000, 340, GetColor(255, 255, 255), "count:%.1f", count);		//デバッグ用
+	DrawFormatString(1000, 360, GetColor(255, 255, 255), "stop_time:%d", stop_time);		//デバッグ用
+	DrawFormatString(1000, 380, GetColor(255, 255, 255), "mPac.speed:%.1f", mPac.speed);		//デバッグ用
 	DrawFormatString(1000, 400, GetColor(255, 255, 255), "mPac.var:%d", mPac.var);		//デバッグ用
 	DrawFormatString(1000, 420, GetColor(255, 255, 255), "mPac.type:%d", mPac.type);	//デバッグ用
 }
@@ -225,9 +229,7 @@ void Player_Draw() {
 **************************************/
 void Pac_Anim(float val) {
 
-	//1フレーム1カウント
-	count += 1.0f;
-
+	
 	if (mPac.flg) {		//生き残っている場合
 		if (count / val == 0.75f) {
 			count = 0;
@@ -238,20 +240,35 @@ void Pac_Anim(float val) {
 				mPac.img = (3 * mPac.type);
 			}
 		}
+		//1フレーム1カウント
+		count += 1.0f;
+
 	}
 	else {			//ミスした場合
 		mPac.speed = 0.0f;	//パックマンの動きを停止
+		if (stop_time >= 30) {
+			if (count / (PAC_SPEED * 2) == 0.75f) {
+				count = 0;
+				if (mPac.img < 11) {
+					mPac.img++;
+				}
+				else if (mPac.cnt > 1) {
+					respawn = true;
+					mPac.cnt--;
+					mPac.img = 0;
+				}
+				else {
+					mPac.cnt--;
+					mPac.img = 0;
+				}
+			}
 
-		if (count / (PAC_SPEED * 2) == 0.75f) {
-			count = 0;
-			if (mPac.img < 11) {
-				mPac.img++;
-			}
-			else if(mPac.cnt > 0){
-				respawn = true;
-				mPac.cnt--;
-				mPac.img = 0;
-			}
+			//1フレーム1カウント
+			count += 1.0f;
+		}
+		else {
+			stop_time++;
+			mPac.img = 0;
 		}
 	}
 }
