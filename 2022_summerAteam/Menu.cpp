@@ -6,13 +6,24 @@
 
 
 static int mTitleHandle; //画像ハンドル格納用変数
+static int score_image[15];
 int img_x = 338, img_y = 720;
+int num14 = 1;
+int num15 = 0;
+int num16 = 0;
+int num17 = 0;
+int num18 = 0;
+
+
 
 //初期化
 void Menu_Initialize() {
 	//mImageHandle = LoadGraph("images/Scene_Menu.png"); //画像のロード
 
 	mTitleHandle = LoadGraph("Item_images/PAC-MAN_logo.png"); //画像のロード
+	//mTitleHandle = LoadGraph("UI_images/num.png"); //画像のロード
+	LoadDivGraph("UI_images/num.png", 15, 15, 1, 16, 16, score_image);
+
 
 
 	img_x = 338, img_y = 720;//タイトルの初期位置
@@ -54,4 +65,9 @@ void Menu_Draw() {
 	DrawGraph(img_x, img_y, mTitleHandle, FALSE);
 	DrawFormatString(10, 700, 0xffffff, "Gキー、またはAボタンを押してゲーム画面へ");
 	DrawFormatString(10, 680, 0xffffff, "Sキーを押してタイトルをスキップ(ゲーム画面へ)");
+	DrawRotaGraph(900, 50, 2.0f, 0, score_image[num14], TRUE, FALSE);
+	DrawRotaGraph(925, 50, 2.0f, 0, score_image[num15], TRUE, FALSE);
+	DrawRotaGraph(950, 50, 2.0f, 0, score_image[num16], TRUE, FALSE);
+	DrawRotaGraph(975, 50, 2.0f, 0, score_image[num17], TRUE, FALSE);
+	DrawRotaGraph(1000, 50, 2.0f, 0, score_image[num18], TRUE, FALSE);
 }

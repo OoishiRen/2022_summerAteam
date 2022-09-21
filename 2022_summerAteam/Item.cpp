@@ -202,6 +202,7 @@ void HitItem() {
 					FruitCnt++;
 					FruitTime = 660;
 					FruiScoreUI = true;
+					fruit = 1;
 				}
 			}
 		}
