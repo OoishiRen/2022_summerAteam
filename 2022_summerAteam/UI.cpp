@@ -27,6 +27,7 @@ int num11 = 0;
 int num12 = 0;
 int num13 = 0;
 int esa;
+int fruit;
 int a = 0;
 
 void UI_Initialize() {
@@ -91,7 +92,121 @@ void UI_Draw() {
 				num5 = 9;
 			}
 			esa = 0;
-
+		}
+		if (fruit == 1) {
+			if (Round == 1) {
+				num3 += 1;
+				if (num3 > 9) {
+					num3 = 0;
+					num4 += 1;
+				}
+				if (num4 > 9) {
+					num4 = 0;
+					num5 += 1;
+				}
+				if (num5 > 9) {
+					num5 = 9;
+				}
+			}
+			if (Round == 2) {
+				if (num3 <= 6) {
+					num3 += 3;
+				}
+				else if (num3 >= 7) {
+					num3 = num3 % 7;
+					num4 += 1;
+				}
+				if (num4 > 9) {
+					num4 = 0;
+					num5 += 1;
+				}
+				if (num5 > 9) {
+					num5 = 9;
+				}
+			}
+			if (Round == 3 || Round == 4) {
+				if (num3 <= 4) {
+					num3 += 5;
+				}
+				else if (num3 >= 5) {
+					num3 = num3 % 5;
+					num4 += 1;
+				}
+				if (num4 > 9) {
+					num4 = 0;
+					num5 += 1;
+				}
+				if (num5 > 9) {
+					num5 = 9;
+				}
+			}
+			if (Round == 5 || Round == 6) {
+				if (num3 <= 2) {
+					num3 += 7;
+				}
+				else if (num3 >= 3) {
+					num3 = num3 % 3;
+					num4 += 1;
+				}
+				if (num4 > 9) {
+					num4 = 0;
+					num5 += 1;
+				}
+				if (num5 > 9) {
+					num5 = 9;
+				}
+			}
+			if (Round == 7 || Round == 8) {
+				num4 += 1;
+				if (num3 > 9) {
+					num3 = 0;
+					num4 += 1;
+				}
+				if (num4 > 9) {
+					num4 = 0;
+					num5 += 1;
+				}
+				if (num5 > 9) {
+					num5 = 9;
+				}
+			}
+			if (Round == 9 || Round == 10) {
+				if (num4 <= 7) {
+					num4 += 2;
+				}
+				else if (num4 >= 8) {
+					num4 = num4 % 8;
+					num5 += 1;
+				}
+				if (num5 > 9) {
+					num5 = 9;
+				}
+			}
+			if (Round == 11 || Round == 12) {
+				if (num4 <= 6) {
+					num4 += 3;
+				}
+				else if (num4 >= 7) {
+					num4 = num4 % 7;
+					num5 += 1;
+				}
+				if (num5 > 9) {
+					num5 = 9;
+				}
+			}
+			if (Round >= 13) {
+				if (num4 <= 4) {
+					num4 += 5;
+				}
+				else if (num4 >= 5) {
+					num4 = num4 % 5;
+					num5 += 1;
+				}
+				if (num5 > 9) {
+					num5 = 9;
+				}
+			}
+			fruit = 0;
 		}
 
 		DrawRotaGraph(1000, 100, 2.0f, 0, score_image[num1], TRUE, FALSE);
@@ -104,6 +219,7 @@ void UI_Draw() {
 		DrawRotaGraph(950, 50, 2.0f, 0, score_image[num11], TRUE, FALSE);
 		DrawRotaGraph(975, 50, 2.0f, 0, score_image[num12], TRUE, FALSE);
 		DrawRotaGraph(1000, 50, 2.0f, 0, score_image[num13], TRUE, FALSE);
+		DrawFormatString(1025, 600, GetColor(255, 255, 255), "%d", fruit);
 }
 
 
