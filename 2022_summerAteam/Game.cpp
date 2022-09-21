@@ -60,7 +60,7 @@ void DrawMap() {
 				DrawBox(j * MAP_SIZE, i * MAP_SIZE, j *
 					MAP_SIZE + MAP_SIZE, i * MAP_SIZE + MAP_SIZE, GetColor(0, 0, 255), TRUE);
 
-				if (HitCheck(Akabei.x - 8, Akabei.y - 8, Akabei.w, Akabei.h, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+				if (HitCheck(Akabei.x, Akabei.y, ENEMY_SIZE, ENEMY_SIZE, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
 					Akabei.x = Akabei.mx;
 					Akabei.y = Akabei.my;
 					if (Akabei.ed == Akabei.md) {
@@ -75,14 +75,14 @@ void DrawMap() {
 						Pinkey.WallHit = true;
 					}
 				}
-				if (HitCheck(Aosuke.x - 8, Aosuke.y - 8, Aosuke.w, Aosuke.h, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+				if (HitCheck(Aosuke.x, Aosuke.y, ENEMY_SIZE, ENEMY_SIZE, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
 					Aosuke.x = Aosuke.mx;
 					Aosuke.y = Aosuke.my;
 					if (Aosuke.ed == Aosuke.md) {
 						Aosuke.WallHit = true;
 					}
 				}
-				if (HitCheck(Guzuta.x - 8, Guzuta.y - 8, Guzuta.w, Guzuta.h, j * MAP_SIZE, i * MAP_SIZE, MAP_SIZE, MAP_SIZE)) {
+				if (HitCheck(Guzuta.x, Guzuta.y, ENEMY_SIZE, ENEMY_SIZE, j * MAP_SIZE + 8, i * MAP_SIZE + 8, MAP_SIZE, MAP_SIZE)) {
 					Guzuta.x = Guzuta.mx;
 					Guzuta.y = Guzuta.my;
 					if (Guzuta.ed == Guzuta.md) {
@@ -261,7 +261,7 @@ void WarpTunnel() {
 // アカベイの上下左右に壁があるかどうか調べる処理
 void AkabeiMapHitCheck() {
 	// 左に壁があるときにフラグをtrueにする
-	if (MapData[Akabei.mapY][Akabei.mapX - 1] == 1 || MapData[Akabei.mapY][Akabei.mapX - 1] == 4) {
+	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 1 || MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) - 1] == 4) {
 		Akabei.left = true;
 	}
 	else {
@@ -269,7 +269,7 @@ void AkabeiMapHitCheck() {
 	}
 
 	// 右に壁があるときにフラグをtrueにする
-	if (MapData[Akabei.mapY][Akabei.mapX + 1] == 1 || MapData[Akabei.mapY][Akabei.mapX + 1] == 4) {
+	if (MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 1 || MapData[(int)Akabei.y / 16][((int)Akabei.x / 16) + 1] == 4) {
 		Akabei.right = true;
 	}
 	else {
@@ -277,7 +277,7 @@ void AkabeiMapHitCheck() {
 	}
 
 	// 上に壁があるときにフラグをtrueにする
-	if (MapData[Akabei.mapY - 1][Akabei.mapX] == 1 || MapData[Akabei.mapY - 1][Akabei.mapX] == 4) {
+	if (MapData[((int)Akabei.y / 16) - 1][(int)Akabei.x / 16] == 1 || MapData[((int)Akabei.y / 16) - 1][(int)Akabei.x / 16] == 4) {
 		Akabei.up = true;
 	}
 	else {
@@ -285,7 +285,7 @@ void AkabeiMapHitCheck() {
 	}
 
 	// 下に壁があるときにフラグをtrueにする
-	if (MapData[Akabei.mapY + 1][Akabei.mapX] == 1 || MapData[Akabei.mapY + 1][Akabei.mapX] == 4) {
+	if (MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 1 || MapData[((int)Akabei.y / 16) + 1][(int)Akabei.x / 16] == 4) {
 		Akabei.bottom = true;
 	}
 	else {
@@ -331,7 +331,7 @@ void PinkeyMapHitCheck() {
 // アオスケの上下左右に壁があるかどうか調べる処理
 void AosukeMapHitCheck() {
 	// 左に壁があるときにフラグをtrueにする
-	if (MapData[Aosuke.mapY][Aosuke.mapX - 1] == 1 || MapData[Aosuke.mapY][Aosuke.mapX - 1] == 4) {
+	if (MapData[(int)Aosuke.y / 16][((int)Aosuke.x / 16) - 1] == 1 || MapData[(int)Aosuke.y / 16][((int)Aosuke.x / 16) - 1] == 4) {
 		Aosuke.left = true;
 	}
 	else {
@@ -339,7 +339,7 @@ void AosukeMapHitCheck() {
 	}
 
 	// 右に壁があるときにフラグをtrueにする
-	if (MapData[Aosuke.mapY][Aosuke.mapX + 1] == 1 || MapData[Aosuke.mapY][Aosuke.mapX + 1] == 4) {
+	if (MapData[(int)Aosuke.y / 16][((int)Aosuke.x / 16) + 1] == 1 || MapData[(int)Aosuke.y / 16][((int)Aosuke.x / 16) + 1] == 4) {
 		Aosuke.right = true;
 	}
 	else {
@@ -347,7 +347,7 @@ void AosukeMapHitCheck() {
 	}
 
 	// 上に壁があるときにフラグをtrueにする
-	if (MapData[Aosuke.mapY - 1][Aosuke.mapX] == 1 || MapData[Aosuke.mapY - 1][Aosuke.mapX] == 4) {
+	if (MapData[((int)Aosuke.y / 16) - 1][(int)Aosuke.x / 16] == 1 || MapData[((int)Aosuke.y / 16) - 1][(int)Aosuke.x / 16] == 4) {
 		Aosuke.up = true;
 	}
 	else {
@@ -355,7 +355,7 @@ void AosukeMapHitCheck() {
 	}
 
 	// 下に壁があるときにフラグをtrueにする
-	if (MapData[Aosuke.mapY + 1][Aosuke.mapX] == 1 || MapData[Aosuke.mapY + 1][Aosuke.mapX] == 4) {
+	if (MapData[((int)Aosuke.y / 16) + 1][(int)Aosuke.x / 16] == 1 || MapData[((int)Aosuke.y / 16) + 1][(int)Aosuke.x / 16] == 4) {
 		Aosuke.bottom = true;
 	}
 	else {
@@ -366,7 +366,7 @@ void AosukeMapHitCheck() {
 // グズタの上下左右に壁があるかどうか調べる処理
 void GuzutaMapHitCheck() {
 	// 左に壁があるときにフラグをtrueにする
-	if (MapData[Guzuta.mapY][Guzuta.mapX - 1] == 1 || MapData[Guzuta.mapY][Guzuta.mapX - 1] == 4) {
+	if (MapData[(int)Guzuta.y / 16][((int)Guzuta.x / 16) - 1] == 1 || MapData[(int)Guzuta.y / 16][((int)Guzuta.x / 16) - 1] == 4) {
 		Guzuta.left = true;
 	}
 	else {
@@ -374,7 +374,7 @@ void GuzutaMapHitCheck() {
 	}
 
 	// 右に壁があるときにフラグをtrueにする
-	if (MapData[Guzuta.mapY][Guzuta.mapX + 1] == 1 || MapData[Guzuta.mapY][Guzuta.mapX + 1] == 4) {
+	if (MapData[(int)Guzuta.y / 16][((int)Guzuta.x / 16) + 1] == 1 || MapData[(int)Guzuta.y / 16][((int)Guzuta.x / 16) + 1] == 4) {
 		Guzuta.right = true;
 	}
 	else {
@@ -382,7 +382,7 @@ void GuzutaMapHitCheck() {
 	}
 
 	// 上に壁があるときにフラグをtrueにする
-	if (MapData[Guzuta.mapY - 1][Guzuta.mapX] == 1 || MapData[Guzuta.mapY - 1][Guzuta.mapX] == 4) {
+	if (MapData[((int)Guzuta.y / 16) - 1][(int)Guzuta.x / 16] == 1 || MapData[((int)Guzuta.y / 16) - 1][(int)Guzuta.x / 16] == 4) {
 		Guzuta.up = true;
 	}
 	else {
@@ -390,7 +390,7 @@ void GuzutaMapHitCheck() {
 	}
 
 	// 下に壁があるときにフラグをtrueにする
-	if (MapData[Guzuta.mapY + 1][Guzuta.mapX] == 1 || MapData[Guzuta.mapY + 1][Guzuta.mapX] == 4) {
+	if (MapData[((int)Guzuta.y / 16) + 1][(int)Guzuta.x / 16] == 1 || MapData[((int)Guzuta.y / 16) + 1][(int)Guzuta.x / 16] == 4) {
 		Guzuta.bottom = true;
 	}
 	else {

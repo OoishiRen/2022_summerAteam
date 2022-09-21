@@ -144,6 +144,30 @@ void Player_Update() {
 			UIy = mPac.y;
 		}
 	}
+	if (HitCheckEnemy(&mPac, &Aosuke)) {
+		if (PowerUpFlg == false) {
+			mPac.flg = false;
+		}
+		else if (Run == false) {
+			EnemyScoreUI = true;
+			Run = true;
+			//Score += 200;
+			UIx = mPac.x;
+			UIy = mPac.y;
+		}
+	}
+	if (HitCheckEnemy(&mPac, &Guzuta)) {
+		if (PowerUpFlg == false) {
+			mPac.flg = false;
+		}
+		else if (Run == false) {
+			EnemyScoreUI = true;
+			Run = true;
+			//Score += 200;
+			UIx = mPac.x;
+			UIy = mPac.y;
+		}
+	}
 
 
 	Pac_Anim(mPac.speed);	//パックマンのアニメーション
