@@ -7,6 +7,7 @@
 #include "Enemy.h"
 
 extern float HitCheckEnemy(PAC* p, AKABEI* e);
+PAC pac;
 
 static int score_image[15];
 static int zanpakuto_image[12];
@@ -26,7 +27,7 @@ int num11 = 0;
 int num12 = 0;
 int num13 = 0;
 int esa;
-int a;
+int a = 0;
 
 void UI_Initialize() {
 	LoadDivGraph("UI_images/num.png", 15, 15, 1, 16, 16, score_image);
@@ -44,16 +45,8 @@ void UI_Updeta() {
 }
 //•`‰æ
 void UI_Draw() {
-	if (HitCheckEnemy(&mPac, &Akabei)) {
-		DeleteGraph(zanpakuto_image[num6]);
-		a = 1;
-	}
-	if (HitCheckEnemy(&mPac, &Akabei) && a == 1) { 
-		DeleteGraph(zanpakuto_image1[num7]);
-		a = 2;
-	}
-	if (HitCheckEnemy(&mPac, &Akabei) && a == 2) {
-		DeleteGraph(zanpakuto_image2[num8]);
+	for (int i = 0; i < mPac.cnt; i++) {
+		DrawRotaGraph(900 + i * 50 , 500, 1.0f, 0, zanpakuto_image2[num8], TRUE, FALSE);
 	}
 		if (esa == 1) {
 			num2 += 1;
@@ -104,9 +97,6 @@ void UI_Draw() {
 		DrawRotaGraph(950, 100, 2.0f, 0, score_image[num3], TRUE, FALSE);
 		DrawRotaGraph(925, 100, 2.0f, 0, score_image[num4], TRUE, FALSE);
 		DrawRotaGraph(900, 100, 2.0f, 0, score_image[num5], TRUE, FALSE);
-		DrawRotaGraph(1000, 500, 1.0f, 0, zanpakuto_image[num6], TRUE, FALSE);
-		DrawRotaGraph(950, 500, 1.0f, 0, zanpakuto_image1[num7], TRUE, FALSE);
-		DrawRotaGraph(900, 500, 1.0f, 0, zanpakuto_image2[num8], TRUE, FALSE);
 		DrawRotaGraph(900, 50, 2.0f, 0, score_image[num9], TRUE, FALSE);
 		DrawRotaGraph(925, 50, 2.0f, 0, score_image[num10], TRUE, FALSE);
 		DrawRotaGraph(950, 50, 2.0f, 0, score_image[num11], TRUE, FALSE);
