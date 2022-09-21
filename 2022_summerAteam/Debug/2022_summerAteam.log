@@ -1,24 +1,2 @@
-﻿  Player.cpp
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(144,14): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(145,14): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(189,30): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(189,22): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(192,30): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(192,22): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(284,10): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(285,10): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(286,10): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(287,10): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(289,10): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(290,10): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(291,10): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(292,10): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(306,10): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(307,10): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(308,10): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(309,10): warning C4244: '初期化中': 'float' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(311,10): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(312,10): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(313,10): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。
-C:\2022_summerAteam\2022_summerAteam\Player.cpp(314,10): warning C4244: '初期化中': 'double' から 'int' への変換です。データが失われる可能性があります。
+﻿  Menu.cpp
   2022_summerAteam.vcxproj -> C:\2022_summerAteam\2022_summerAteam\Debug\2022_summerAteam.exe
