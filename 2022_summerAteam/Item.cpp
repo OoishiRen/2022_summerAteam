@@ -194,7 +194,8 @@ void HitItem() {
 					DotsLeft--;	//残りの個数ー１
 					PowerUpFlg = true;//パワーアップフラグをtrueにする
 					esa = 2;
-					Run = false;
+					Run = false; 
+					PowerUpTime = 510;
 				}
 			}
 			//フルーツ用のヒットチェック
