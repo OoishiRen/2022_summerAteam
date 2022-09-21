@@ -219,7 +219,7 @@ void UI_Draw() {
 		DrawRotaGraph(950, 50, 2.0f, 0, score_image[num11], TRUE, FALSE);
 		DrawRotaGraph(975, 50, 2.0f, 0, score_image[num12], TRUE, FALSE);
 		DrawRotaGraph(1000, 50, 2.0f, 0, score_image[num13], TRUE, FALSE);
-		DrawFormatString(1025, 600, GetColor(255, 255, 255), "%d", fruit);
+		/*DrawFormatString(1025, 600, GetColor(255, 255, 255), "%d", fruit);*/
 }
 
 
