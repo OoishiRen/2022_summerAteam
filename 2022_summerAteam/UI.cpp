@@ -32,6 +32,8 @@ int num13 = 0;
 int esa;
 int fruit;
 int a = 0;
+int reset = 0;
+int cnt = 0;
 
 void UI_Initialize() {
 	LoadDivGraph("UI_images/num.png", 15, 15, 1, 16, 16, score_image);
@@ -209,6 +211,53 @@ void UI_Update() {
 		}
 		fruit = 0;
 	}
+	if (PowerUpFlg) {
+		if (reset == 0) {
+			 cnt = 0;
+			reset = 1;
+		}
+		if (HitCheckEnemy(&mPac, &Akabei)|| HitCheckEnemy(&mPac, &Pinkey)|| HitCheckEnemy(&mPac, &Aosuke)|| HitCheckEnemy(&mPac, &Guzuta)&& cnt == 0) {
+			if (cnt == 0) {
+				if (num3 <= 7) {
+					num3 += 2;
+				}
+				else if (num3 >= 8) {
+					num3 = num3 % 8;
+					num4 += 1;
+
+				}
+				if (num4 > 9) {
+					num4 = 0;
+					num5 += 1;
+				}
+				if (num5 > 9) {
+					num5 = 9;
+				}
+				cnt = 1;
+				/*reset = 0;*/
+			}
+			//if (HitCheckEnemy(&mPac, &Akabei) || HitCheckEnemy(&mPac, &Pinkey) || HitCheckEnemy(&mPac, &Aosuke) || HitCheckEnemy(&mPac, &Guzuta) && cnt == 1) {
+			//	if (cnt == 1) {
+			//		if (num3 <= 5) {
+			//			num3 += 4;
+			//		}
+			//		else if (num3 >= 6) {
+			//			num3 = num3 % 6;
+			//			num4 += 1;
+
+			//		}
+			//		if (num4 > 9) {
+			//			num4 = 0;
+			//			num5 += 1;
+			//		}
+			//		if (num5 > 9) {
+			//			num5 = 9;
+			//		}
+			//		cnt = 2;
+			//	}
+			//}
+		}
+	}
 
 }
 //•`‰æ
@@ -237,7 +286,7 @@ void UI_Draw() {
 	DrawRotaGraph(990, 100, 2.0f, 0, score_image[num12], TRUE, FALSE);
 	DrawRotaGraph(1020, 100, 2.0f, 0, score_image[num13], TRUE, FALSE);
 
-	DrawFormatString(1025, 600, GetColor(255, 255, 255), "%d", fruit);
+	DrawFormatString(1025, 600, GetColor(255, 255, 255), "%d", cnt);
 }
 
 

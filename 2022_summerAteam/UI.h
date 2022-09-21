@@ -8,3 +8,4 @@ void UI_Anim();//UIのアニメーション
 
 extern int esa;
 extern int fruit;
+
