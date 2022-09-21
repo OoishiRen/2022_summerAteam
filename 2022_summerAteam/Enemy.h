@@ -20,13 +20,9 @@ struct AKABEI {
 	int ImageCount;		// アニメーション用変数
 	int eyeImageCount;	// 目玉のアニメーション用変数
 	bool WallHit;
-	bool juuji;
-	bool juujiUp, juujiDown, juujiLeft, juujiRight;
 	bool left, right, up, bottom;
-	bool juujiUp2, juujiDown2, juujiLeft2, juujiRight2;
-	int upnum, bottomnum;
-	int leftnum, rightnum;
-	int dup, dbottom, dleft, dright;
+	bool juuji;
+	bool movefinish;
 	int mapX, mapY;
 
 };
@@ -41,17 +37,18 @@ extern void Enemy_Finalize();		// 終了処理
 extern void Enemy_Update();			// 更新
 extern void Enemy_Draw();			// 描画
 
-extern void AkabeiChasePlayer();		// アカベイがプレイヤーを追いかける処理（簡易版）
-extern void AkabeiChasePlayer2();		// アカベイがプレイヤーを追いかける処理（簡易版）
-
-extern void AkabeiMove();
-extern void AkabeiMove2();
+extern void AkabeiChaseMode();		// アカベイがプレイヤーを追いかける処理（簡易版）
+extern void AkabeiScatterMode();
 
 extern void PinkeyMove();
 
 extern void AosukeMove();
+extern void AosukeChaseMode();
+extern void AosukeScatterMode();
 
 extern void GuzutaMove();
+extern void GuzutaChaseMode();
+extern void GuzutaScatterMode();
 
 void ScatterMode();
 void ChaseMode();
