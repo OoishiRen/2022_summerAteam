@@ -26,6 +26,8 @@ struct PAC {
 	int cnt;		//残機
 };
 
+extern bool EnemyScoreUI;
+
 extern struct PAC mPac;		//パックマン構造体
 
 static bool pac_x0 = false, pac_x1 = false, pac_y0 = false, pac_y1 = false;
@@ -37,3 +39,5 @@ void Player_Draw();			//描画
 
 void Pac_Anim(float val);	//パックマンのアニメーション
 void Pac_Move(int Type);			//パックマンの移動
+
+void EnemyScoreUIEnabled();

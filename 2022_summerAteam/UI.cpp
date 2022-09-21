@@ -39,8 +39,10 @@ void  UI_Finalize() {
 
 }
 
-void UI_Updeta() {
-
+void UI_Update() {
+	if (EnemyScoreUI == true) {
+		EnemyScoreUIEnabled();//ƒtƒ‹[ƒcUI
+	}
 }
 //•`‰æ
 void UI_Draw() {
