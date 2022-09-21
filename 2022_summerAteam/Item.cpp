@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Player.h"
 #include "UI.h"
+#include "Enemy.h"
 
 int Dot_Handle;
 int Powerdot_Handle[DOT_IMAGE_MAX];
@@ -191,6 +192,7 @@ void HitItem() {
 					DotsLeft--;	//残りの個数ー１
 					PowerUpFlg = true;//パワーアップフラグをtrueにする
 					esa = 2;
+					Run = false;
 				}
 			}
 			//フルーツ用のヒットチェック
@@ -202,6 +204,7 @@ void HitItem() {
 					FruitCnt++;
 					FruitTime = 660;
 					FruiScoreUI = true;
+					fruit = 1;
 				}
 			}
 		}

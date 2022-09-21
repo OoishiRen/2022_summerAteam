@@ -25,6 +25,11 @@ bool respawn = false;						//リスポーン用変数
 *************************/
 struct PAC mPac;							//パックマン構造体
 
+int EnemyCntTime;
+bool EnemyScoreUI;
+int UIx, UIy;
+int ESC;
+
 //初期化
 void Player_Initialize() {
 	//画像読み込み
@@ -45,6 +50,10 @@ void Player_Initialize() {
 
 	//カウント初期化
 	count = 0;
+
+
+	EnemyCntTime = 120;
+	EnemyScoreUI = false;
 }
 
 //終了処理
@@ -86,26 +95,53 @@ void Player_Update() {
 		mPac.img = (3 * mPac.type);*/
 	}
 
+	if (!Run)
+	{
+		// 押されていない
+		if (ESC > 0)
+			ESC = -1;		// ESCキーが離れた瞬間
+		else
+			ESC = 0;		// ESCキーが離れている状態
+	}
+	else
+	{
+		// 押されている
+		ESC++;				// ESCキーが押されている間は値を増やし続ける
+	}
+	if (ESC == 1) {
+		Score += 200;
+		/*UIx = mPac.x;
+		UIy = mPac.y;*/
+	}
+	
+
 	//当たり判定(対アカベイ)
 	if (HitCheckEnemy(&mPac, &Akabei)) {
 		mPac.flg = false;
 	}
 	//当たり判定(対ピンキー)
-	if (PowerUpFlg == false) {
+	/*if (PowerUpFlg == false) {
 		if (HitCheckEnemy(&mPac, &Pinkey)) {
 			mPac.flg = false;
 		}
 	}
-	//当たり判定(対アオスケ)
-	if (PowerUpFlg == false) {
-		if (HitCheckEnemy(&mPac, &Aosuke)) {
+	else if (PowerUpFlg == true) {
+		if (HitCheckEnemy(&mPac, &Pinkey)) {
+			EnemyScoreUI = true;
+			UIx = mPac.x;
+			UIy = mPac.y;
+		}
+	}*/
+	if (HitCheckEnemy(&mPac, &Pinkey)) {
+		if (PowerUpFlg == false) {
 			mPac.flg = false;
 		}
-	}
-	//当たり判定(対グズタ)
-	if (PowerUpFlg == false) {
-		if (HitCheckEnemy(&mPac, &Guzuta)) {
-			mPac.flg = false;
+		else if (Run == false) {
+			EnemyScoreUI = true;
+			Run = true;
+			//Score += 200;
+			UIx = mPac.x;
+			UIy = mPac.y;
 		}
 	}
 
@@ -125,6 +161,23 @@ void Player_Update() {
 		mPac.y = 392.0f;
 	}
 
+}
+
+void EnemyScoreUIEnabled() {
+	if (EnemyCntTime > 0) {
+		EnemyCntTime--;//２秒間の間
+		for (int i = 0; i < MAP_HEIGHT; i++) {
+			for (int j = 0; j < MAP_WIDTH; j++) {
+				//スコアUI表示
+				DrawFormatString(UIx - 8, UIy - 8, GetColor(255, 255, 255), "200");//でバッグ
+			}
+		}
+
+	}
+	else if (EnemyCntTime == 0) {
+		EnemyScoreUI = false;
+		EnemyCntTime = 120;
+	}
 }
 
 //描画
@@ -226,9 +279,7 @@ float HitCheckEnemy(PAC*p, AKABEI*e) {
 		if (!PowerUpFlg) {
 			return TRUE;
 		}
-		else {
-			Akabei.movenest = true;
-		}
+		return TRUE;
 	}
 	return FALSE;
 }
